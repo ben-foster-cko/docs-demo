@@ -1,0 +1,58 @@
+{
+    "id":"evt_az5sblvku4ge3dwpztvyizgcau",
+    "event_type": "charge.voided",
+    "created_on":"2018-01-19T11:38:43Z",
+    "message": {
+        "id": "charge_test_A208EBAE674P64D9AEA5",
+        "original_id": "charge_test_22F8EBAE674N64D9AEA0",
+        "live_mode": false,
+        "created": "2016-05-20T06:01:39Z",
+        "value": 100,
+        "currency": "AED",
+        "track_id": "10022",
+        "description": "Pariatur",
+        "charge_mode": 1,
+        "response_message": "Approved",
+        "response_advanced_info": "Approved",
+        "response_code": "10000",
+        "status": "Voided",
+        "metadata": {
+            "track_id": "value"
+        },
+        "products": [{
+            "name": "Qui",
+            "description": "Quis",
+            "sku": "In",
+            "price": 3377.0,
+            "quantity": 66,
+            "image": "http://www.test_Katlynn.com/54.jpg",
+            "shipping_cost": 398.0,
+            "tracking_url": "http://www.test_Deja.com"
+        }],
+        "udf1": "Earum",
+        "udf2": "Voluptatum",
+        "udf3": "Debitis",
+        "udf4": "Dolore",
+        "udf5": "Voluptatem"
+    },
+    "notifications":[
+       {
+          "id":"ntf_az5sblvku4ge3dwpztvyizgcau",
+          "endpoint":"https://example.com/webhooks",
+          "success":false,
+          "_links":{
+             "self":{
+                "href":"https://api.checkout.com/events/evt_az5sblvku4ge3dwpztvyizgcau/notifications/ntf_az5sblvku4ge3dwpztvyizgcau"
+             }
+          }
+       }
+    ],
+    "_links":{
+       "self":{
+          "href":"https://api.checkout.com/events/evt_az5sblvku4ge3dwpztvyizgcau"
+       },
+       "webhooks-retry":{
+          "href":"https://api.checkout.com/events/evt_az5sblvku4ge3dwpztvyizgcau/webhooks/retry"
+       }
+    }
+}

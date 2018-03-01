@@ -1,0 +1,48 @@
+{
+    "id": "evt_az5sblvku4ge3dwpztvyizgcau",
+    "event_type": "charge.refunded.failed",
+    "created_on":"2018-01-19T11:38:43Z",
+    "message": {
+        "id": "charge_A1CBABBE674O76B41992",
+        "original_id": "charge_D208E9FDF74L76B41805",
+        "live_mode": true,
+        "created": "2016-05-20T07:35:05Z",
+        "value": 999,
+        "currency": "USD",
+        "track_id": "Netflix007",
+        "description": "Recurring #1 for recurring customer plan id: cp_801BBADDF74N76BD78A9",
+        "charge_mode": 1,
+        "response_message": "Invalid Customer/User",
+        "response_advanced_info": "Invalid Customer/User",
+        "response_code": "20120",
+        "status": "Declined",
+        "has_chargeback": "N",
+        "metadata": null,
+        "products": [],
+        "udf1": null,
+        "udf2": null,
+        "udf3": null,
+        "udf4": null,
+        "udf5": null
+    },
+    "notifications":[
+       {
+          "id":"ntf_az5sblvku4ge3dwpztvyizgcau",
+          "endpoint":"https://example.com/webhooks",
+          "success":false,
+          "_links":{
+             "self":{
+                "href":"https://api.checkout.com/events/evt_az5sblvku4ge3dwpztvyizgcau/notifications/ntf_az5sblvku4ge3dwpztvyizgcau"
+             }
+          }
+       }
+    ],
+    "_links":{
+       "self":{
+          "href":"https://api.checkout.com/events/evt_az5sblvku4ge3dwpztvyizgcau"
+       },
+       "webhooks-retry":{
+          "href":"https://api.checkout.com/events/evt_az5sblvku4ge3dwpztvyizgcau/webhooks/retry"
+       }
+    }
+}

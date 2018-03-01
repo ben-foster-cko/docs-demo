@@ -1,0 +1,118 @@
+{
+    "id":"evt_az5sblvku4ge3dwpztvyizgcau",
+    "event_type": "charge.failed",
+    "created_on":"2018-01-19T11:38:43Z",
+    "message": {
+        "id": "charge_test_551AF7755E5P7A8810CF",
+        "live_mode": false,
+        "created": "2016-05-19T14:50:47Z",
+        "value": 111,
+        "currency": "USD",
+        "track_id": "TRKfullcard",
+        "description": "charge description",
+        "email": "newRomancheckwe1555@checkout.com",
+        "charge_mode": 1,
+        "transaction_indicator": 1,
+        "customer_ip": "192.168.1.93",
+        "response_message": "Gateway Reject - Card Number Blacklist",
+        "response_advanced_info": null,
+        "response_code": "40201",
+        "status": "Declined",
+        "auth_code": "00000",
+        "is_cascaded": false,
+        "auto_capture": "N",
+        "auto_cap_time": 0.0,
+        "card": {
+            "customer_id": "cust_1082AE61-C38B-433C-863B-23E8C0A126C5",
+            "expiry_month": "6",
+            "expiry_year": "2018",
+            "billing_details": {
+                "address_line1": "test_a",
+                "address_line2": "address line 2",
+                "postcode": "123456",
+                "country": "fr",
+                "city": "address city",
+                "state": "address state",
+                "phone": {
+                    "country_code": "2125288",
+                    "number": "(+5)1234-5678"
+                }
+            },
+            "id": "card_370A60CD-636E-4D28-8C9B-A4601E85F1F0",
+            "last4": "4242",
+            "payment_method": "Visa",
+            "fingerprint": "F639CAB2745BEE4140BF86DF6B6D6E255C5945AAC3788D923FA047EA4C208622",
+            "name": "cardholdername"
+        },
+        "risk_check": true,
+        "customer_payment_plans": null,
+        "metadata": {
+            "key1": "value1",
+            "key2": "value2",
+            "key3": "value3",
+            "key4": "value4",
+            "key5": "value5",
+            "key6": "value6",
+            "key7": "value7",
+            "key8": "value8",
+            "key9": "value9",
+            "key10": "value10"
+        },
+        "shipping_details": {
+            "address_line1": "333 Cormier Bypass",
+            "address_line2": "Rolfson Alley",
+            "postcode": "ue0 2ou",
+            "country": "US",
+            "city": "Schmittchester",
+            "state": "Jakubowskiton",
+            "phone": {
+                "country_code": "2125288",
+                "number": "(+5)1234-5678"
+            }
+        },
+        "products": [{
+            "name": "Tablet 1 gold limited",
+            "description": "Tablet 1 gold limited",
+            "sku": "1aab2aa",
+            "price": 100.0,
+            "quantity": 1,
+            "image": "https://www.tracker.com/2.jpg",
+            "shipping_cost": 10.0,
+            "tracking_url": "https://www.tracker.com"
+        }, {
+            "name": "Tablet 2 gold limited",
+            "description": "Tablet 2 gold limited",
+            "sku": "1aab2aa",
+            "price": 200.0,
+            "quantity": 2,
+            "image": "https://www.tracker.com/1.jpg",
+            "shipping_cost": 10.0,
+            "tracking_url": "https://www.tracker.com"
+        }],
+        "udf1": "udf 1 value",
+        "udf2": "udf 2 value",
+        "udf3": "udf 3 value",
+        "udf4": "udf 4 value",
+        "udf5": "udf 5 value"
+    },
+    "notifications":[
+       {
+          "id":"ntf_az5sblvku4ge3dwpztvyizgcau",
+          "endpoint":"https://example.com/webhooks",
+          "success":false,
+          "_links":{
+             "self":{
+                "href":"https://api.checkout.com/events/evt_az5sblvku4ge3dwpztvyizgcau/notifications/ntf_az5sblvku4ge3dwpztvyizgcau"
+             }
+          }
+       }
+    ],
+    "_links":{
+       "self":{
+          "href":"https://api.checkout.com/events/evt_az5sblvku4ge3dwpztvyizgcau"
+       },
+       "webhooks-retry":{
+          "href":"https://api.checkout.com/events/evt_az5sblvku4ge3dwpztvyizgcau/webhooks/retry"
+       }
+    }
+}

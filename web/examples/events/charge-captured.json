@@ -1,0 +1,68 @@
+{
+    "id":"evt_az5sblvku4ge3dwpztvyizgcau",
+    "event_type": "charge.captured",
+    "created_on":"2018-01-19T11:38:43Z",
+    "message": {
+        "id": "charge_test_A2B8CBAE674K64D9AF17",
+        "original_id": "charge_test_25B8DBAE674N64D9AF92",
+        "live_mode": false,
+        "created": "2016-05-20T06:03:32Z",
+        "value": 100,
+        "currency": "USD",
+        "track_id": "TRK12345",
+        "description": "YA1niDn500igpqqeoE9a0w",
+        "charge_mode": 1,
+        "response_message": "Approved",
+        "response_advanced_info": "Approved",
+        "response_code": "10000",
+        "status": "Captured",
+        "has_chargeback": "N",
+        "metadata": {
+            "track_id": "10026"
+        },
+        "products": [{
+            "name": "Maiores",
+            "description": "Dolor",
+            "sku": "Similique",
+            "price": 2573.0000,
+            "quantity": 2,
+            "image": "http://www.test_Jabari.com/http://www.test_Jabari.com.jpg",
+            "shipping_cost": 1052.0000,
+            "tracking_url": "http://www.test_Orlo.com"
+        }, {
+            "name": "Tablet 2 gold limited",
+            "description": "Tablet 2 gold limited",
+            "sku": "1aab2aa",
+            "price": 200.0000,
+            "quantity": 2,
+            "image": null,
+            "shipping_cost": 10.0000,
+            "tracking_url": "https://www.tracker.com"
+        }],
+        "udf1": "Perspiciatis",
+        "udf2": "Cupiditate",
+        "udf3": "Cumque",
+        "udf4": "Nam",
+        "udf5": "Veritatis"
+    },
+    "notifications":[
+       {
+          "id":"ntf_az5sblvku4ge3dwpztvyizgcau",
+          "endpoint":"https://example.com/webhooks",
+          "success":false,
+          "_links":{
+             "self":{
+                "href":"https://api.checkout.com/events/evt_az5sblvku4ge3dwpztvyizgcau/notifications/ntf_az5sblvku4ge3dwpztvyizgcau"
+             }
+          }
+       }
+    ],
+    "_links":{
+       "self":{
+          "href":"https://api.checkout.com/events/evt_az5sblvku4ge3dwpztvyizgcau"
+       },
+       "webhooks-retry":{
+          "href":"https://api.checkout.com/events/evt_az5sblvku4ge3dwpztvyizgcau/webhooks/retry"
+       }
+    }
+}

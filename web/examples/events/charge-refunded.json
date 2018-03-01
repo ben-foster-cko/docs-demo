@@ -1,0 +1,68 @@
+{
+    "id":"evt_az5sblvku4ge3dwpztvyizgcau",
+    "event_type": "charge.refunded",
+    "created_on":"2018-01-19T11:38:43Z",
+    "message": {
+        "id": "charge_test_E018DBAE674I64D9AEE9",
+        "original_id": "charge_test_C5C8EBAE674W64D9AED3",
+        "live_mode": false,
+        "created": "2016-05-20T06:02:18Z",
+        "value": 500000,
+        "currency": "AED",
+        "track_id": "Quia",
+        "description": "Necessitatibus",
+        "charge_mode": 1,
+        "response_message": "Approved",
+        "response_advanced_info": "Approved",
+        "response_code": "10000",
+        "status": "Refunded",
+        "has_chargeback": "N",
+        "metadata": {
+            "track_id": "10055"
+        },
+        "products": [{
+            "name": "Porro",
+            "description": "Possimus",
+            "sku": "Ea",
+            "price": 4602.0000,
+            "quantity": 9,
+            "image": "http://www.test_Fay.com/5.jpg",
+            "shipping_cost": 609.0000,
+            "tracking_url": "http://www.test_Orpha.com"
+        }, {
+            "name": "Tablet 2 gold limited",
+            "description": "Tablet 2 gold limited",
+            "sku": "1aab2aa",
+            "price": 200.0000,
+            "quantity": 2,
+            "image": null,
+            "shipping_cost": 10.0000,
+            "tracking_url": "https://www.tracker.com"
+        }],
+        "udf1": "Possimus",
+        "udf2": "Veritatis",
+        "udf3": "Vitae",
+        "udf4": "Consequatur",
+        "udf5": "Est"
+    },
+    "notifications":[
+       {
+          "id":"ntf_az5sblvku4ge3dwpztvyizgcau",
+          "endpoint":"https://example.com/webhooks",
+          "success":false,
+          "_links":{
+             "self":{
+                "href":"https://api.checkout.com/events/evt_az5sblvku4ge3dwpztvyizgcau/notifications/ntf_az5sblvku4ge3dwpztvyizgcau"
+             }
+          }
+       }
+    ],
+    "_links":{
+       "self":{
+          "href":"https://api.checkout.com/events/evt_az5sblvku4ge3dwpztvyizgcau"
+       },
+       "webhooks-retry":{
+          "href":"https://api.checkout.com/events/evt_az5sblvku4ge3dwpztvyizgcau/webhooks/retry"
+       }
+    }
+}

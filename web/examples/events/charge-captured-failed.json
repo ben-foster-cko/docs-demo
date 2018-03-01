@@ -1,0 +1,59 @@
+{
+    "id":"evt_az5sblvku4ge3dwpztvyizgcau",
+    "event_type": "charge.captured.failed",
+    "created_on":"2018-01-19T11:38:43Z",
+    "message": {
+        "id": "charge_E0CB9BBE674H76B41993",
+        "original_id": "charge_F1DBCADDF74N76B41AF8",
+        "live_mode": true,
+        "created": "2016-05-20T07:36:15Z",
+        "value": 100,
+        "currency": "QAR",
+        "track_id": "TRK12345",
+        "description": "Payment token",
+        "charge_mode": 1,
+        "response_message": "Invalid Customer/User",
+        "response_advanced_info": "Invalid Customer/User",
+        "response_code": "20120",
+        "status": "Declined",
+        "has_chargeback": "N",
+        "metadata": {
+            "keyname": "value"
+        },
+        "products": [{
+            "name": "Tablet 32gb cellular",
+            "description": "Tablet 2 gold limited",
+            "sku": "1aab",
+            "price": 2000.0000,
+            "quantity": 1,
+            "image": null,
+            "shipping_cost": 900.0000,
+            "tracking_url": "https://www.tracker.com"
+        }],
+        "udf1": "test data 1",
+        "udf2": "test data 2",
+        "udf3": "test data 3",
+        "udf4": "test data 4",
+        "udf5": "test data 5"
+    },
+    "notifications":[
+       {
+          "id":"ntf_az5sblvku4ge3dwpztvyizgcau",
+          "endpoint":"https://example.com/webhooks",
+          "success":false,
+          "_links":{
+             "self":{
+                "href":"https://api.checkout.com/events/evt_az5sblvku4ge3dwpztvyizgcau/notifications/ntf_az5sblvku4ge3dwpztvyizgcau"
+             }
+          }
+       }
+    ],
+    "_links":{
+       "self":{
+          "href":"https://api.checkout.com/events/evt_az5sblvku4ge3dwpztvyizgcau"
+       },
+       "webhooks-retry":{
+          "href":"https://api.checkout.com/events/evt_az5sblvku4ge3dwpztvyizgcau/webhooks/retry"
+       }
+    }
+}
