@@ -7,6 +7,11 @@ properties:
     description: Your webhook endpoint
     example: 'https://example.com/webhooks'
     format: url
+  api_version:
+    type: string
+    description: Your API version
+    default: The latest API version available
+    example: "4.0"
   active:
     type: boolean
     description: Whether the webhook is active

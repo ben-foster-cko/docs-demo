@@ -2,7 +2,7 @@ type: object
 properties:
   id:
     $ref: '#/definitions/NotificationId'
-  endpoint:
+  url:
     type: string
     description: The notification endpoint
     example: https://example.com/webhooks

@@ -2,16 +2,20 @@ type: object
 properties:
   id:
     $ref: '#/definitions/EventId'
-  event_type:
+  type:
     type: string
     description: The event type
-    example: charge.succeeded
+    example: payment_approved
   created_on:
     description: The date/time the event occurred
     allOf:
       - $ref: '#/definitions/ServerTimestamp'
-  message:
-    $ref: '#/definitions/Message'
+  api_version:
+    type: string
+    description: The event version
+    example: "4.0"
+  data:
+    $ref: '#/definitions/Data'
   notifications:
     type: array
     description: The notifications (e.g. webhooks) that have been sent for the event

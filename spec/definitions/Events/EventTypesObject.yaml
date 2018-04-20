@@ -5,11 +5,17 @@ properties:
     items:
       type: string
     example:
-      - charge.succeeded
-      - charge.failed
-      - charge.voided
-      - charge.voided.failed
-      - charge.captured
-      - charge.captured.failed
-      - charge.refunded
-      - charge.refunded.failed
+      - payment_approved
+      - payment_flagged
+      - payment_pending
+      - payment_declined
+      - payment_expired
+      - payment_cancelled
+      - payment_voided
+      - payment_void_declined
+      - payment_captured
+      - payment_capture_declined
+      - payment_capture_pending
+      - payment_refunded
+      - payment_refund_declined
+      - payment_refund_pending

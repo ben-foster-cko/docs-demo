@@ -6,13 +6,17 @@ properties:
     minLength: 30
     description: The event identifier
     example: evt_az5sblvku4ge3dwpztvyizgcau
-  event_type:
+  type:
     type: string
     description: The event type
-    example: charge.succeeded
+    example: payment_approved
   created_on:
     description: The date/time the event occurred
     allOf:
       - $ref: '#/definitions/ServerTimestamp'
+  api_version:
+    type: string
+    description: The event version
+    example: "4.0"
   _links:
     $ref: '#/definitions/EventLinks'
