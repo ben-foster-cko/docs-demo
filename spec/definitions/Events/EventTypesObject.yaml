@@ -1,6 +1,6 @@
 type: object
 properties:
-  events:
+  event_types:
     type: array
     items:
       type: string

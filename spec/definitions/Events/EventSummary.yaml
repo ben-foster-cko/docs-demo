@@ -14,9 +14,5 @@ properties:
     description: The date/time the event occurred
     allOf:
       - $ref: '#/definitions/ServerTimestamp'
-  api_version:
-    type: string
-    description: The event version
-    example: "4.0"
   _links:
     $ref: '#/definitions/EventLinks'

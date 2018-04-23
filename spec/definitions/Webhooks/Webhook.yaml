@@ -6,9 +6,6 @@ properties:
   url:
     type: string
     example: 'https://example.com/webhooks'
-  api_version:
-    type: string
-    example: "4.0"
   active:
     type: boolean
     example: true
@@ -22,7 +19,11 @@ properties:
       - json
       - xml
     example: json
-  events:
+  event_version:
+    type: string
+    description: Determines the version of the events sent
+    example: "2.0"
+  event_types:
     $ref: '#/definitions/WebhookEvents'
   _links:
     type: object

@@ -1,16 +1,5 @@
 type: object
 description: Event Data
-required:
-  - id
-  - action_id
-  - amount
-  - currency
-  - approved
-  - status
-  - response_code
-  - processed_on
-  - customer
-  - _links
 properties:
   id:
     description: Payment unique identifier

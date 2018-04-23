@@ -7,11 +7,6 @@ properties:
     description: Your webhook endpoint
     example: 'https://example.com/webhooks'
     format: url
-  api_version:
-    type: string
-    description: Your API version
-    default: The latest API version available
-    example: "4.0"
   active:
     type: boolean
     description: Whether the webhook is active
@@ -29,5 +24,10 @@ properties:
       - xml
     default: json
     example: json
-  events:
+  event_version:
+    type: string
+    description: Determines the version of the events sent
+    default: Defaults to the latest event version
+    example: "2.0"
+  event_types:
     $ref: '#/definitions/WebhookEvents'
