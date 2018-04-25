@@ -50,10 +50,8 @@ options:
         Allow:
           description: Allowed HTTP verbs
           type: string
-          example: GET
         Event-Versions-Supported:
           description: Event versions supported
           type: string
-          example: "1.0, 2.0"
     '401':
       description: Unauthorized
