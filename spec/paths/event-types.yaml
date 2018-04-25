@@ -3,15 +3,16 @@ get:
     - Events
   summary: Retrieve event types
   description: Retrieve a list of event types that you can be notified of using webhooks
+  parameters:
+    - in: query
+      name: version
+      type: string
+      required: true
+      description: The events version
   responses:
     '200':
       description: Event types retrieved successfully
       schema:
         $ref: '#/definitions/EventTypesObject'
-      headers:
-        Cko-Request-Id:
-          $ref: "#/headers/Cko-Request-Id"
-        Cko-Version:
-          $ref: "#/headers/Cko-Version"
     '401':
       description: Unauthorized

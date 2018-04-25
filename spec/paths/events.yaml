@@ -38,3 +38,22 @@ get:
       description: Unauthorized
     '422':
       $ref: '#/responses/InvalidDataError'
+options:
+  tags:
+    - Events
+  summary: Retrieve event versions
+  description: Retrieves event versions supported by Broadcast
+  responses:
+    '200':
+      description: Successful
+      headers:
+        Allow:
+          description: Allowed HTTP verbs
+          type: string
+          example: GET
+        Event-Versions-Supported:
+          description: Event versions supported
+          type: string
+          example: "1.0, 2.0"
+    '401':
+      description: Unauthorized

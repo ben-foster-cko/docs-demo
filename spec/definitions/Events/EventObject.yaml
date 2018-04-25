@@ -6,6 +6,10 @@ properties:
     type: string
     description: The event type
     example: payment_approved
+  version:
+    type: string
+    description: Determines the version of the event sent
+    example: "2.0"
   created_on:
     description: The date/time the event occurred
     allOf:
