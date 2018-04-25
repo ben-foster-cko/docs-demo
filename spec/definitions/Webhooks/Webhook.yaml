@@ -19,10 +19,6 @@ properties:
       - json
       - xml
     example: json
-  event_version:
-    type: string
-    description: Determines the version of the events sent
-    example: "2.0"
   event_types:
     $ref: '#/definitions/WebhookEvents'
   _links:

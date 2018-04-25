@@ -24,10 +24,5 @@ properties:
       - xml
     default: json
     example: json
-  event_version:
-    type: string
-    description: Determines the version of the events sent
-    default: Defaults to the latest event version
-    example: "2.0"
   event_types:
     $ref: '#/definitions/WebhookEvents'

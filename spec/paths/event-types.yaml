@@ -2,7 +2,7 @@ get:
   tags:
     - Events
   summary: Retrieve event types
-  description: Retrieve a list of event types that you can be notified of using webhooks
+  description: Retrieve a list of event types grouped by their respective version that you can configure on your webhooks
   parameters:
     - in: query
       name: version
@@ -13,6 +13,8 @@ get:
     '200':
       description: Event types retrieved successfully
       schema:
-        $ref: '#/definitions/EventTypesObject'
+        type: array
+        items:
+          $ref: '#/definitions/EventTypesObject'
     '401':
       description: Unauthorized

@@ -1,5 +1,8 @@
 type: object
 properties:
+  version:
+    type: string
+    example: "2.0"
   event_types:
     type: array
     items:
@@ -19,13 +22,3 @@ properties:
       - payment_refunded
       - payment_refund_declined
       - payment_refund_pending
-      - charge.succeeded
-      - charge.failed
-      - charge.voided
-      - charge.voided.failed
-      - charge.captured
-      - charge.captured.failed
-      - charge.refunded
-      - charge.refunded.failed
-      - invoice.cancelled
-      - charge.pending
