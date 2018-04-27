@@ -3,7 +3,7 @@ get:
     - Events
   summary: Retrieve event
   description: |
-    Retrieves the event with the specified identifier string. The event `message` includes the full event details, the schema of which will vary based on the `event_type`.
+    Retrieves the event with the specified identifier string. The event `data` includes the full event details, the schema of which will vary based on the `type`.
   parameters:
     - in: path
       name: eventId
@@ -16,6 +16,11 @@ get:
       description: Event retrieved successfully
       schema:
         $ref: '#/definitions/EventObject'
+      headers:
+        Cko-Request-Id:
+          $ref: "#/headers/Cko-Request-Id"
+        Cko-Version:
+          $ref: "#/headers/Cko-Version"
     '401':
       description: Unauthorized
     '404':

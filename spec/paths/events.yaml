@@ -32,6 +32,11 @@ get:
       description: Events retrieved successfully
       schema:
         $ref: '#/definitions/EventResult'
+      headers:
+        Cko-Request-Id:
+          $ref: "#/headers/Cko-Request-Id"
+        Cko-Version:
+          $ref: "#/headers/Cko-Version"
     '204':
       description: No events found
     '401':
