@@ -16,6 +16,11 @@ get:
       description: Event retrieved successfully
       schema:
         $ref: '#/definitions/EventObject'
+      headers:
+        Cko-Request-Id:
+          $ref: "#/headers/Cko-Request-Id"
+        Cko-Version:
+          $ref: "#/headers/Cko-Version"
     '401':
       description: Unauthorized
     '404':
