@@ -68,11 +68,15 @@ properties:
     example:
       downgraded: true
       enrolled: N
-  flagged:
-    type: boolean
-    description: Whether the payment was flagged by a risk check
-    default: false
-    example: true
+  risk:
+    type: object
+    description: Returns the payments risk assessment results
+    properties:
+      flagged:
+        type: boolean
+        description: Whether the payment was flagged by a risk check
+        default: false
+        example: true
   source:
     description: The source of the payment
     type: object
