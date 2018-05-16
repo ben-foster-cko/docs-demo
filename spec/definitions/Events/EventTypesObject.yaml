@@ -9,7 +9,7 @@ properties:
       type: string
     example:
       - payment_approved
-      - payment_flagged
+      - payment_risk_matched
       - payment_pending
       - payment_declined
       - payment_expired
@@ -22,3 +22,5 @@ properties:
       - payment_refunded
       - payment_refund_declined
       - payment_refund_pending
+      - payment_chargeback
+      - payment_retrieval
