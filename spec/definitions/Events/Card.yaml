@@ -14,7 +14,7 @@ properties:
   id:
     type: string
     example: card_D44D7F4CCC6348698717CD80072808B0
-  last_4:
+  last4:
     type: string
     example: 424242******4242
   payment_method:

@@ -33,7 +33,7 @@ allOf:
         type: string
         description: The card scheme
         example: "VISA"
-      last_4:
+      last4:
         type: string
         description: The last four digits of the card number
         example: "9996"
