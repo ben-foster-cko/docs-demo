@@ -1,0 +1,409 @@
+description: The payment approved webhook
+allOf:
+  - $ref: '#/definitions/Event'
+  - type: object
+    properties:
+      id:
+        "$id": "/properties/id"
+        type: string
+        title: 'The Id Schema '
+        default: ''
+        examples:
+        - evt_z5w4pkadoi3u5hu5lmlklwrxla
+      type:
+        "$id": "/properties/type"
+        type: string
+        title: 'The Type Schema '
+        default: ''
+        examples:
+        - payment_approved
+      created_on:
+        "$id": "/properties/created_on"
+        type: string
+        title: 'The Created_on Schema '
+        default: ''
+        examples:
+        - '2018-04-10T08:12:14Z'
+      data:
+        "$id": "/properties/data"
+        type: object
+        properties:
+          id:
+            "$id": "/properties/data/properties/id"
+            type: string
+            title: 'The Id Schema '
+            default: ''
+            examples:
+            - pay_y3oqhf46pyzuxjbcn2giaqnb44
+          action_id:
+            "$id": "/properties/data/properties/action_id"
+            type: string
+            title: 'The Action_id Schema '
+            default: ''
+            examples:
+            - act_y3oqhf46pyzuxjbcn2giaqnb44
+          amount:
+            "$id": "/properties/data/properties/amount"
+            type: integer
+            title: 'The Amount Schema '
+            default: 0
+            examples:
+            - 6540
+          currency:
+            "$id": "/properties/data/properties/currency"
+            type: string
+            title: 'The Currency Schema '
+            default: ''
+            examples:
+            - USD
+          approved:
+            "$id": "/properties/data/properties/approved"
+            type: boolean
+            title: 'The Approved Schema '
+            default: false
+            examples:
+            - true
+          status:
+            "$id": "/properties/data/properties/status"
+            type: string
+            title: 'The Status Schema '
+            default: ''
+            examples:
+            - Authorized
+          auth_code:
+            "$id": "/properties/data/properties/auth_code"
+            type: string
+            title: 'The Auth_code Schema '
+            default: ''
+            examples:
+            - '643381'
+          response_code:
+            "$id": "/properties/data/properties/response_code"
+            type: string
+            title: 'The Response_code Schema '
+            default: ''
+            examples:
+            - '10000'
+          response_summary:
+            "$id": "/properties/data/properties/response_summary"
+            type: string
+            title: 'The Response_summary Schema '
+            default: ''
+            examples:
+            - Approved
+          3ds:
+            "$id": "/properties/data/properties/3ds"
+            type: object
+            properties:
+              downgraded:
+                "$id": "/properties/data/properties/3ds/properties/downgraded"
+                type: boolean
+                title: 'The Downgraded Schema '
+                default: false
+                examples:
+                - true
+              enrolled:
+                "$id": "/properties/data/properties/3ds/properties/enrolled"
+                type: string
+                title: 'The Enrolled Schema '
+                default: ''
+                examples:
+                - N
+          flagged:
+            "$id": "/properties/data/properties/flagged"
+            type: boolean
+            title: 'The Flagged Schema '
+            default: false
+            examples:
+            - true
+          source:
+            "$id": "/properties/data/properties/source"
+            type: object
+            properties:
+              id:
+                "$id": "/properties/data/properties/source/properties/id"
+                type: string
+                title: 'The Id Schema '
+                default: ''
+                examples:
+                - src_wmlfc3zyhqzehihu7giusaaawu
+              type:
+                "$id": "/properties/data/properties/source/properties/type"
+                type: string
+                title: 'The Type Schema '
+                default: ''
+                examples:
+                - card
+              billing_address:
+                "$id": "/properties/data/properties/source/properties/billing_address"
+                type: object
+                properties:
+                  address_line1:
+                    "$id": "/properties/data/properties/source/properties/billing_address/properties/address_line1"
+                    type: string
+                    title: 'The Address_line1 Schema '
+                    default: ''
+                    examples:
+                    - Checkout.com
+                  address_line2:
+                    "$id": "/properties/data/properties/source/properties/billing_address/properties/address_line2"
+                    type: string
+                    title: 'The Address_line2 Schema '
+                    default: ''
+                    examples:
+                    - 90 Tottenham Court Road
+                  city:
+                    "$id": "/properties/data/properties/source/properties/billing_address/properties/city"
+                    type: string
+                    title: 'The City Schema '
+                    default: ''
+                    examples:
+                    - London
+                  state:
+                    "$id": "/properties/data/properties/source/properties/billing_address/properties/state"
+                    type: string
+                    title: 'The State Schema '
+                    default: ''
+                    examples:
+                    - London
+                  zip:
+                    "$id": "/properties/data/properties/source/properties/billing_address/properties/zip"
+                    type: string
+                    title: 'The Zip Schema '
+                    default: ''
+                    examples:
+                    - W1T 4TJ
+                  country:
+                    "$id": "/properties/data/properties/source/properties/billing_address/properties/country"
+                    type: string
+                    title: 'The Country Schema '
+                    default: ''
+                    examples:
+                    - GB
+              phone:
+                "$id": "/properties/data/properties/source/properties/phone"
+                type: object
+                properties:
+                  country_code:
+                    "$id": "/properties/data/properties/source/properties/phone/properties/country_code"
+                    type: string
+                    title: 'The Country_code Schema '
+                    default: ''
+                    examples:
+                    - "+1"
+                  number:
+                    "$id": "/properties/data/properties/source/properties/phone/properties/number"
+                    type: string
+                    title: 'The Number Schema '
+                    default: ''
+                    examples:
+                    - 415 555 2671
+              expiry_month:
+                "$id": "/properties/data/properties/source/properties/expiry_month"
+                type: integer
+                title: 'The Expiry_month Schema '
+                default: 0
+                examples:
+                - 6
+              expiry_year:
+                "$id": "/properties/data/properties/source/properties/expiry_year"
+                type: integer
+                title: 'The Expiry_year Schema '
+                default: 0
+                examples:
+                - 2025
+              name:
+                "$id": "/properties/data/properties/source/properties/name"
+                type: string
+                title: 'The Name Schema '
+                default: ''
+                examples:
+                - Bruce Wayne
+              scheme:
+                "$id": "/properties/data/properties/source/properties/scheme"
+                type: string
+                title: 'The Scheme Schema '
+                default: ''
+                examples:
+                - VISA
+              last_4:
+                "$id": "/properties/data/properties/source/properties/last_4"
+                type: string
+                title: 'The Last_4 Schema '
+                default: ''
+                examples:
+                - '9996'
+              fingerprint:
+                "$id": "/properties/data/properties/source/properties/fingerprint"
+                type: string
+                title: 'The Fingerprint Schema '
+                default: ''
+                examples:
+                - F639CAB2745BEE4140BF86DF6B6D6
+              bin:
+                "$id": "/properties/data/properties/source/properties/bin"
+                type: string
+                title: 'The Bin Schema '
+                default: ''
+                examples:
+                - '454347'
+              card_type:
+                "$id": "/properties/data/properties/source/properties/card_type"
+                type: string
+                title: 'The Card_type Schema '
+                default: ''
+                examples:
+                - Credit
+              card_category:
+                "$id": "/properties/data/properties/source/properties/card_category"
+                type: string
+                title: 'The Card_category Schema '
+                default: ''
+                examples:
+                - Consumer
+              issuer:
+                "$id": "/properties/data/properties/source/properties/issuer"
+                type: string
+                title: 'The Issuer Schema '
+                default: ''
+                examples:
+                - GOTHAM STATE BANK
+              issuer_country:
+                "$id": "/properties/data/properties/source/properties/issuer_country"
+                type: string
+                title: 'The Issuer_country Schema '
+                default: ''
+                examples:
+                - US
+              product_id:
+                "$id": "/properties/data/properties/source/properties/product_id"
+                type: string
+                title: 'The Product_id Schema '
+                default: ''
+                examples:
+                - F
+              product_type:
+                "$id": "/properties/data/properties/source/properties/product_type"
+                type: string
+                title: 'The Product_type Schema '
+                default: ''
+                examples:
+                - CLASSIC
+              avs_check:
+                "$id": "/properties/data/properties/source/properties/avs_check"
+                type: string
+                title: 'The Avs_check Schema '
+                default: ''
+                examples:
+                - S
+              cvv_check:
+                "$id": "/properties/data/properties/source/properties/cvv_check"
+                type: string
+                title: 'The Cvv_check Schema '
+                default: ''
+                examples:
+                - Y
+          customer:
+            "$id": "/properties/data/properties/customer"
+            type: object
+            properties:
+              id:
+                "$id": "/properties/data/properties/customer/properties/id"
+                type: string
+                title: 'The Id Schema '
+                default: ''
+                examples:
+                - cus_y3oqhf46pyzuxjbcn2giaqnb44
+              email:
+                "$id": "/properties/data/properties/customer/properties/email"
+                type: string
+                title: 'The Email Schema '
+                default: ''
+                examples:
+                - jokershere@gmail.com
+              name:
+                "$id": "/properties/data/properties/customer/properties/name"
+                type: string
+                title: 'The Name Schema '
+                default: ''
+                examples:
+                - Jack Napier
+          destinations:
+            "$id": "/properties/data/properties/destinations"
+            type: array
+            items:
+              "$id": "/properties/data/properties/destinations/items"
+              type: object
+              properties:
+                id:
+                  "$id": "/properties/data/properties/destinations/items/properties/id"
+                  type: string
+                  title: 'The Id Schema '
+                  default: ''
+                  examples:
+                  - vendor-123456
+                amount:
+                  "$id": "/properties/data/properties/destinations/items/properties/amount"
+                  type: number
+                  title: 'The Amount Schema '
+                  default: 0
+                  examples:
+                  - 10.5
+          metadata:
+            "$id": "/properties/data/properties/metadata"
+            type: object
+            properties:
+              coupon_code:
+                "$id": "/properties/data/properties/metadata/properties/coupon_code"
+                type: string
+                title: 'The Coupon_code Schema '
+                default: ''
+                examples:
+                - NY2018
+              partner_id:
+                "$id": "/properties/data/properties/metadata/properties/partner_id"
+                type: integer
+                title: 'The Partner_id Schema '
+                default: 0
+                examples:
+                - 123989
+          processed_on:
+            "$id": "/properties/data/properties/processed_on"
+            type: string
+            title: 'The Processed_on Schema '
+            default: ''
+            examples:
+            - '2018-04-19T15:56:59Z'
+          reference:
+            "$id": "/properties/data/properties/reference"
+            type: string
+            title: 'The Reference Schema '
+            default: ''
+            examples:
+            - ORD-5023-4E89
+      _links:
+        "$id": "/properties/_links"
+        type: object
+        properties:
+          self:
+            "$id": "/properties/_links/properties/self"
+            type: object
+            properties:
+              href:
+                "$id": "/properties/_links/properties/self/properties/href"
+                type: string
+                title: 'The Href Schema '
+                default: ''
+                examples:
+                - https://api.checkout.com/events/evt_z5w4pkadoi3u5hu5lmlklwrxla
+          payment:
+            "$id": "/properties/_links/properties/payment"
+            type: object
+            properties:
+              href:
+                "$id": "/properties/_links/properties/payment/properties/href"
+                type: string
+                title: 'The Href Schema '
+                default: ''
+                examples:
+                - https://api.checkout.com/payments/pay_y3oqhf46pyzuxjbcn2giaqnb44
