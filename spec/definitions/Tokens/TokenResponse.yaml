@@ -3,6 +3,8 @@ description: The source of the payment
 x-extendedDiscriminator: type
 required:
   - type
+  - token
+  - expires_on
 properties:
   type:
     type: string

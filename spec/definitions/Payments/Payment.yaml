@@ -20,7 +20,7 @@ properties:
     description: The source of the payment
     type: object
     allOf:
-      - $ref: '#/definitions/PaymentSource'
+      - $ref: '#/definitions/PaymentResponseSource'
   amount:
     type: integer
     description: The original payment amount 
@@ -54,6 +54,7 @@ properties:
     enum:
       - Pending
       - Authorized
+      - Card Verified
       - Voided
       - Partially Captured
       - Captured

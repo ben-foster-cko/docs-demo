@@ -1,8 +1,9 @@
 type: object
 x-extendedDiscriminator: type
 required:
-  - id
   - type
+  - customer
+  - response_code
 properties:
   id: 
     type: string

@@ -10,6 +10,7 @@ required:
   - response_code
   - processed_on
   - customer
+  - source
   - _links
 properties:
   id:
@@ -40,6 +41,7 @@ properties:
     enum:
       - Pending
       - Authorized
+      - Card Verified
       - Voided
       - Partially Captured
       - Captured
@@ -81,7 +83,7 @@ properties:
     description: The source of the payment
     type: object
     allOf:
-      - $ref: '#/definitions/PaymentSource' 
+      - $ref: '#/definitions/PaymentResponseSource' 
   customer:
     type: object
     description: The customer to which this payment is linked
