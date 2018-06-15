@@ -3,7 +3,7 @@ description: Card Token Response
 required:
   - expiry_month
   - expiry_year
-  - last_4
+  - last4
   - bin
 allOf:
   - $ref: '#/definitions/TokenResponse'
