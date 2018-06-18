@@ -1,4 +1,8 @@
 type: object
+required:
+  - id
+  - status
+  - _links
 properties:
   id: 
     type: string
