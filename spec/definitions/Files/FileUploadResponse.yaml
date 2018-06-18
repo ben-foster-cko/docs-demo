@@ -20,6 +20,6 @@ properties:
           - $ref: '#/definitions/Link'
         description: The URI of the file uploaded. Use this to retrieve detailed file information
         example:
-          href: "https://api.checkout.com/files/file_6lbss42ezvoufcb2beo76rvwly"
+          href: https://api.checkout.com/files/file_6lbss42ezvoufcb2beo76rvwly
     required:
       - self       

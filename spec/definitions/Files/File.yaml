@@ -10,7 +10,7 @@ required:
 properties:
   id:
     type: string
-    description: "The file identifier"
+    description: The file identifier
     example: file_6lbss42ezvoufcb2beo76rvwly
   filename:
     type: string

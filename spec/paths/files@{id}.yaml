@@ -16,9 +16,9 @@ get:
         $ref: '#/definitions/File'
       headers:
         Cko-Request-Id:
-          $ref: "#/headers/Cko-Request-Id"
+          $ref: '#/headers/Cko-Request-Id'
         Cko-Version:
-          $ref: "#/headers/Cko-Version"
+          $ref: '#/headers/Cko-Version'
     '401':
       description: Unauthorized
     '404':
