@@ -53,6 +53,10 @@ x-tagGroups:
       - Payments
       - Tokens
       - Sources
+      - Files
+      - Batch Processing
+  - name: Broadcast
+    tags: 
       - Events
       - Webhooks
 tags:
@@ -66,7 +70,12 @@ tags:
 
       They allow you to collect information about those events. Checkout.com can send
       these information via POST to an URL of your choice.
-
+  - name: Files
+    description: |
+      Upload files to be used as input to other APIs
+  - name: Batch Processing
+    description: |
+      Bulk upload batches of payment or data change requests
 securityDefinitions:
   ApiKey:
     description: >
