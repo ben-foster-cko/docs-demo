@@ -1,14 +1,15 @@
 get:
   tags:
     - Files
-  summary: Retrieve file information
-  description: Retrieves the information of the uploaded file by the specified file identifier.
+  summary: Get file information
+  description: Gets the information of file with the specified file identifier.
   parameters:
     - in: path
       name: id
       type: string
       required: true
       description: The file identifier
+      pattern: "^file_(\\w{26})$"
   responses:
     '200':
       description: File was retrieved successfully

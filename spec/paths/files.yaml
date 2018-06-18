@@ -3,7 +3,7 @@ post:
     - Files
   summary: Upload a file
   description: |
-    Upload a file so that it can be later used in a different endpoint, e.g. submit dispute evidence. 
+    Upload a file so that it can be used by other APIs, e.g. submit dispute evidence. 
     The file requirements (type/size) differ depending on the file `purpose`.
   
   consumes:
@@ -20,7 +20,7 @@ post:
       enum:
         - dispute_evidence
         - onboarding_document 
-        - batch
+        - batch_processing
       description: The purpose of the file upload
       required: true
   responses:
