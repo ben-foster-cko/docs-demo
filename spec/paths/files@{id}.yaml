@@ -6,9 +6,9 @@ get:
   parameters:
     - in: path
       name: id
+      type: string
       required: true
       description: The file identifier
-      example: file_6lbss42ezvoufcb2beo76rvwly
   responses:
     '200':
       description: File was retrieved successfully
