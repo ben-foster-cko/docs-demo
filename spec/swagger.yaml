@@ -55,6 +55,7 @@ x-tagGroups:
       - Sources
       - Events
       - Webhooks
+      - Files
 tags:
   - name: Payments
     description: |
