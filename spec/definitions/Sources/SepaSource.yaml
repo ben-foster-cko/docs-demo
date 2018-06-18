@@ -1,5 +1,7 @@
 type: object
 description: A SEPA payment source
+required:
+  - billing_address
 allOf:
   - $ref: '#/definitions/SourceRequest'
   - type: object
@@ -11,10 +13,30 @@ allOf:
       source_data:
         type: object
         description: Additional data required to create SEPA payment sources
-        properties:
-          iban:
-            type: string
-            description: The owner's IBAN
-            example: "GB29 RBOS 6016 1331 9268 19"
         required:
-          - iban
+          - given_name
+          - family_name
+          - account_iban
+          - bic
+          - soft_descriptor
+        properties:
+          given_name:
+            type: string
+            description: The account holder's first name
+            example: "Marcus"
+          family_name:
+            type: string
+            description: The account holder's last name
+            example: "Barrilius Maximus"
+          account_iban:
+            type: string
+            description: The account IBAN
+            example: "DE25100100101234567893"
+          bic:
+            type: string
+            description: The account BIC
+            example: "PBNKDEFFXXX"
+          soft_descriptor:
+            type: string
+            description: The billing descriptor
+            example: "ExampleCompany.com"

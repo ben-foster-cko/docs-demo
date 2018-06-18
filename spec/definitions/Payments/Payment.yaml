@@ -20,7 +20,7 @@ properties:
     description: The source of the payment
     type: object
     allOf:
-      - $ref: '#/definitions/PaymentSource'
+      - $ref: '#/definitions/PaymentResponseSource'
   amount:
     type: integer
     description: The original payment amount 
@@ -54,6 +54,7 @@ properties:
     enum:
       - Pending
       - Authorized
+      - Card Verified
       - Voided
       - Partially Captured
       - Captured
@@ -67,11 +68,15 @@ properties:
     description: Provides information relating to the processing of 3D-Secure payments
     allOf:
       - $ref: '#/definitions/3dsData'
-  flagged:
-    type: boolean
-    description: Whether the payment was flagged by a risk check
-    default: false
-    example: true
+  risk:
+    type: object
+    description: Returns the payments risk assessment results
+    properties:
+      flagged:
+        type: boolean
+        description: Whether the payment was flagged by a risk check
+        default: false
+        example: true
   customer:
     type: object
     description: The customer to which this payment is linked

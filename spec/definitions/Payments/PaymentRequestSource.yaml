@@ -6,6 +6,6 @@ required:
 properties:
   type:
     type: string
-    description: The payment source type. With the exception of some alternative payment methods, the `source_type` will be inferred automatically
+    description: The payment source type
     default: "card"
     example: "card"

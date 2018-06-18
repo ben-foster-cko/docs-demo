@@ -5,7 +5,7 @@ required:
 properties:
   id:
     type: string
-    description: The unique identifier of the customer. This can be passed as a source when making a payment
+    description: The unique identifier of the customer
     example: cus_y3oqhf46pyzuxjbcn2giaqnb44
   email:
     type: string

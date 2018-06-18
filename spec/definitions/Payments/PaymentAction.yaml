@@ -15,6 +15,7 @@ properties:
     description: The type of action
     enum:
       - Authorization
+      - Card Verification
       - Void
       - Capture
       - Refund
