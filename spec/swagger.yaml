@@ -69,7 +69,7 @@ tags:
       these information via POST to an URL of your choice.
   - name: Files
     description: |
-      Unified API for uploading files that could be used in different endpoints later.
+      Upload files to be used as input to other APIs
 securityDefinitions:
   ApiKey:
     description: >
