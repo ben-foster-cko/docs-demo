@@ -55,6 +55,7 @@ x-tagGroups:
       - Sources
       - Events
       - Webhooks
+      - Files
 tags:
   - name: Payments
     description: |
@@ -66,7 +67,9 @@ tags:
 
       They allow you to collect information about those events. Checkout.com can send
       these information via POST to an URL of your choice.
-
+  - name: Files
+    description: |
+      Unified API for uploading files that could be used in different endpoints later.
 securityDefinitions:
   ApiKey:
     description: >
