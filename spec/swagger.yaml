@@ -56,14 +56,15 @@ x-tagGroups:
       - Files
       - Batch Processing
   - name: Broadcast
-    tags: 
+    tags:
       - Events
+      - Webhook Management
       - Webhooks
 tags:
   - name: Payments
     description: |
       Unified payments API
-  - name: Webhooks
+  - name: Webhook Management
     description: >
       Webhooks are designed to notify your systems when certain/all registered
       events happen in near real-time.
@@ -90,7 +91,7 @@ securityDefinitions:
 
 security:
   - ApiKey: []
-  
+
 responses:
   AccessForbidden:
     description: 'Access forbidden, invalid API-KEY was used'

@@ -1,0 +1,13 @@
+post:
+  servers:
+    - url: //{webhookUrl}
+  tags:
+    - Webhooks
+  summary: Payment void declined webhook
+  description: |
+    Some description
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: '../schemas/webhooks/v2/payment_void_declined.json'

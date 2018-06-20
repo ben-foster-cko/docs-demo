@@ -7,6 +7,7 @@ set('-e');
 
 mkdir('-p', 'web_deploy')
 
+cp('-R', 'spec/components/*', 'web_deploy');
 cp('-R', 'web/*', 'web_deploy/');
 
 exec('npm run swagger bundle --        -o web_deploy/swagger.json');

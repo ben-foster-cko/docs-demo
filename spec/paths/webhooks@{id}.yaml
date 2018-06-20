@@ -1,6 +1,6 @@
 get:
   tags:
-    - Webhooks
+    - Webhook Management
   summary: Retrieve webhook
   description: |
     Retrieves the webhook with the specified identifier string
@@ -9,7 +9,7 @@ get:
       required: true
       type: string
       in: path
-      description: | 
+      description: |
         The webhook identifier, for example `wh_387ac7a83a054e37ae140105429d76b5`
   responses:
     '200':
@@ -27,7 +27,7 @@ get:
 
 put:
   tags:
-    - Webhooks
+    - Webhook Management
   summary: Update webhook
   description: |
     Updates an existing webhook
@@ -36,7 +36,7 @@ put:
       required: true
       type: string
       in: path
-      description: | 
+      description: |
         The webhook identifier, for example `wh_387ac7a83a054e37ae140105429d76b5`
     - name: request
       required: true
@@ -63,7 +63,7 @@ put:
 
 patch:
   tags:
-    - Webhooks
+    - Webhook Management
   summary: Partially update webhook
   description: Updates all or some of the registered webhook details
   parameters:
@@ -71,14 +71,14 @@ patch:
       required: true
       type: string
       in: path
-      description: | 
+      description: |
         The webhook identifier, for example `wh_387ac7a83a054e37ae140105429d76b5`
     - name: request
       required: true
       in: body
       schema:
         $ref: '#/definitions/WebhookRequest'
-        
+
   responses:
     '200':
       description: Updated webhook
@@ -95,14 +95,14 @@ patch:
 
 delete:
   tags:
-    - Webhooks
+    - Webhook Management
   summary: Removes a webhook
   parameters:
     - name: id
       required: true
       type: string
       in: path
-      description: | 
+      description: |
         The webhook identifier, for example `wh_387ac7a83a054e37ae140105429d76b5`
   responses:
     '204':

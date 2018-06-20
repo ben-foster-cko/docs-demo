@@ -1,0 +1,161 @@
+{
+    "$id": "http://docs.checkout.com/schemas/webhooks/payment_void_declined.json",
+    "type": "object",
+    "definitions": {},
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "properties": {
+        "id": {
+            "$id": "/properties/id",
+            "type": "string",
+            "title": "The Id Schema ",
+            "default": ""
+        },
+        "type": {
+            "$id": "/properties/type",
+            "type": "string",
+            "title": "The Type Schema ",
+            "default": ""
+        },
+        "created_on": {
+            "$id": "/properties/created_on",
+            "type": "string",
+            "title": "The Created_on Schema ",
+            "default": ""
+        },
+        "data": {
+            "$id": "/properties/data",
+            "type": "object",
+            "properties": {
+                "id": {
+                    "$id": "/properties/data/properties/id",
+                    "type": "string",
+                    "title": "The Id Schema ",
+                    "default": ""
+                },
+                "action_id": {
+                    "$id": "/properties/data/properties/action_id",
+                    "type": "string",
+                    "title": "The Action_id Schema ",
+                    "default": ""
+                },
+                "amount": {
+                    "$id": "/properties/data/properties/amount",
+                    "type": "integer",
+                    "title": "The Amount Schema ",
+                    "default": 0
+                },
+                "currency": {
+                    "$id": "/properties/data/properties/currency",
+                    "type": "string",
+                    "title": "The Currency Schema ",
+                    "default": ""
+                },
+                "status": {
+                    "$id": "/properties/data/properties/status",
+                    "type": "string",
+                    "title": "The Status Schema ",
+                    "default": ""
+                },
+                "response_code": {
+                    "$id": "/properties/data/properties/response_code",
+                    "type": "string",
+                    "title": "The Response_code Schema ",
+                    "default": ""
+                },
+                "response_summary": {
+                    "$id": "/properties/data/properties/response_summary",
+                    "type": "string",
+                    "title": "The Response_summary Schema ",
+                    "default": ""
+                },
+                "reference": {
+                    "$id": "/properties/data/properties/reference",
+                    "type": "string",
+                    "title": "The Reference Schema ",
+                    "default": ""
+                },
+                "metadata": {
+                    "$id": "/properties/data/properties/metadata",
+                    "type": "object",
+                    "properties": {
+                        "coupon_code": {
+                            "$id": "/properties/data/properties/metadata/properties/coupon_code",
+                            "type": "string",
+                            "title": "The Coupon_code Schema ",
+                            "default": ""
+                        },
+                        "partner_id": {
+                            "$id": "/properties/data/properties/metadata/properties/partner_id",
+                            "type": "integer",
+                            "title": "The Partner_id Schema ",
+                            "default": 0
+                        }
+                    }
+                },
+                "processed_on": {
+                    "$id": "/properties/data/properties/processed_on",
+                    "type": "string",
+                    "title": "The Processed_on Schema ",
+                    "default": ""
+                }
+            }
+        },
+        "_links": {
+            "$id": "/properties/_links",
+            "type": "object",
+            "properties": {
+                "self": {
+                    "$id": "/properties/_links/properties/self",
+                    "type": "object",
+                    "properties": {
+                        "href": {
+                            "$id": "/properties/_links/properties/self/properties/href",
+                            "type": "string",
+                            "title": "The Href Schema ",
+                            "default": ""
+                        }
+                    }
+                },
+                "payment": {
+                    "$id": "/properties/_links/properties/payment",
+                    "type": "object",
+                    "properties": {
+                        "href": {
+                            "$id": "/properties/_links/properties/payment/properties/href",
+                            "type": "string",
+                            "title": "The Href Schema ",
+                            "default": ""
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "example": {
+        "id": "evt_z5w4pkadoi3u5hu5lmlklwrxla",
+        "type": "payment_void_declined",
+        "created_on": "2018-04-10T08:12:14Z",
+        "data": {
+            "id": "pay_y3oqhf46pyzuxjbcn2giaqnb44",
+            "action_id": "",
+            "amount": 6540,
+            "currency": "USD",
+            "response_code": 20120,
+            "response_summary": "Invalid Customer/User",
+            "reference": "ORD-5023-4E89",
+            "metadata": {
+                "coupon_code": "NY2018",
+                "partner_id": 123989
+            },
+            "processed_on": "2018-04-10T08:12:14Z",
+            "_links": {
+                "self": {
+                    "href": "https://api.checkout.com/events/evt_z5w4pkadoi3u5hu5lmlklwrxla"
+                },
+                "payment": {
+                    "href": "https://api.checkout.com/payments/pay_y3oqhf46pyzuxjbcn2giaqnb44"
+                }
+            }
+        }
+    }
+}

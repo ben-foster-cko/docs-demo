@@ -1,8 +1,8 @@
 get:
   tags:
-    - Webhooks
+    - Webhook Management
   summary: Retrieve webhooks
-  description: | 
+  description: |
     Retrieves the webhooks configured for the channel identified by your API key
   parameters: []
   responses:
@@ -19,7 +19,7 @@ get:
 
 post:
   tags:
-    - Webhooks
+    - Webhook Management
   summary: Register webhook
   description: |
     Register a new webhook endpoint that Checkout.com will POST all or selected events to
