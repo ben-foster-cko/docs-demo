@@ -23,5 +23,6 @@ post:
     '401':
       description: Unauthorized
     '422':
-      $ref: '#/responses/InvalidDataError'
+      schema:
+        $ref: '#/responses/InvalidDataError'
 
