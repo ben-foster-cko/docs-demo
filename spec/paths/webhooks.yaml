@@ -43,7 +43,10 @@ post:
     '401':
       description: Unauthorized
     '422':
-      schema:
-        $ref: '#/responses/InvalidDataError'
+      description: Invalid data was sent
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/responses/InvalidDataError'
     '409':
       description: Url already registered for another webhook

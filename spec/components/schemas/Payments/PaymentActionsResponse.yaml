@@ -1,6 +1,6 @@
 type: array
 items:
-  - $ref: '#/components/schemas/PaymentAction'
+  $ref: '#/components/schemas/PaymentAction'
 minItems: 1
 description: |
   The payment actions

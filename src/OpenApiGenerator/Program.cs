@@ -18,6 +18,7 @@ namespace OpenApiGenerator
         {
             try
             {
+                // start building up the swagger file
                 using (StreamReader sr = File.OpenText($"{_specDir}/swagger.yaml"))
                 {
                     using (TextWriter writer = File.CreateText(_yamlOutputFile))
@@ -30,24 +31,24 @@ namespace OpenApiGenerator
                     }
                 }
 
+                // append paths and components
                 AddPaths();
-                AddComponentSchemas();
+                AddAllComponents();
 
-                // output a json file
+                // use openapi.net to read yaml file
                 var str = File.ReadAllText(_yamlOutputFile);
-
                 var openApiDocument = new OpenApiStringReader().Read(str, out var diagnostic);
 
+                // log any errors
                 foreach (var error in diagnostic.Errors)
                 {
                     Console.WriteLine(error.Message);
                     Console.WriteLine(error.Pointer);
                 }
 
+                // convert yaml file to json
                 using (TextWriter writer = File.CreateText(_jsonOutputFile))
-                {
                     openApiDocument.SerializeAsV3(new OpenApiJsonWriter(writer));
-                }
             }
             catch (Exception e)
             {
@@ -55,13 +56,29 @@ namespace OpenApiGenerator
             }
         }
 
-        static void AddComponentSchemas()
+        static void AddAllComponents()
         {
-            var yamlSchemaFiles = Directory.GetFiles($"{_specDir}/components/schemas/", "*.yaml", SearchOption.AllDirectories);
+            File.AppendAllText(_yamlOutputFile, "components:\n", Encoding.UTF8);
 
-            var text = "components:\n  schemas:\n";
+            foreach (var component in new List<string> { "schemas", "headers", "parameters", "responses", "securitySchemes" })
+            {
+                AddComponent(component);
+            }
+        }
 
-            foreach (var file in yamlSchemaFiles)
+        static void AddComponent(string component)
+        {
+            var yamlSchemaFiles = Directory.GetFiles($"{_specDir}/components/{component}/", "*.yaml", SearchOption.AllDirectories);
+            var text = $"  {component}:\n";
+            text += GetComponentsText(yamlSchemaFiles);
+            File.AppendAllText(_yamlOutputFile, text, Encoding.UTF8);
+        }
+
+        static string GetComponentsText(string[] yamlFiles)
+        {
+            var text = "";
+
+            foreach (var file in yamlFiles)
             {
                 var fileInfo = new FileInfo(file);
 
@@ -79,7 +96,8 @@ namespace OpenApiGenerator
                     }
                 }
             }
-            File.AppendAllText(_yamlOutputFile, text, Encoding.UTF8);
+
+            return text;
         }
 
         static void AddPaths()

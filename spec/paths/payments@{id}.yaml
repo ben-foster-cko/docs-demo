@@ -28,10 +28,10 @@ get:
       headers:
         Cko-Request-Id:
           schema:
-            $ref: "#/headers/Cko-Request-Id"
+            $ref: "#/components/headers/Cko-Request-Id"
         Cko-Version:
           schema:
-            $ref: "#/headers/Cko-Version"
+            $ref: "#/components/headers/Cko-Version"
     '401':
       description: Unauthorized
     '404':

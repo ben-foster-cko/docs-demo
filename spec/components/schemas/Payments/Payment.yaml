@@ -118,7 +118,7 @@ properties:
   destinations:
     type: array
     items:
-      - $ref: '#/components/schemas/PaymentDestination'
+      $ref: '#/components/schemas/PaymentDestination'
     minItems: 0
     description: |
       For OpenPay payments, destinations determine the proportion of the payment amount credited to other OpenPay accounts

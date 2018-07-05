@@ -10,11 +10,7 @@ post:
     content:
       application/json:
         schema:
-          properties:
-            body:
-              $ref: '#/components/schemas/TokenRequest'
-            required:
-              - body
+          $ref: '#/components/schemas/TokenRequest'
   responses:
     '201':
       description: Reference token created successfully
@@ -25,5 +21,8 @@ post:
     '401':
       description: Unauthorized
     '422':
-      schema:
-        $ref: '#/responses/InvalidDataError'
+      description: Invalid data was sent
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/responses/InvalidDataError'

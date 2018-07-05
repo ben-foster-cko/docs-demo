@@ -9,11 +9,14 @@ post:
     content:
       multipart/form-data:
         schema:
+          required:
+            - file
+            - purpose
           properties:
             file:
-              type: file
+              type: string
+              format: binary
               description: The file to upload
-              required: true
             purpose:
               type: string
               enum:
@@ -21,7 +24,6 @@ post:
                 - onboarding_document
                 - batch_processing
               description: The purpose of the file upload
-              required: true
   responses:
     '201':
       description: File uploaded successfully
@@ -32,12 +34,15 @@ post:
       headers:
         Cko-Request-Id:
           schema:
-            $ref: '#/headers/Cko-Request-Id'
+            $ref: '#/components/headers/Cko-Request-Id'
         Cko-Version:
           schema:
-            $ref: '#/headers/Cko-Version'
+            $ref: '#/components/headers/Cko-Version'
     '401':
       description: Unauthorized
     '422':
-      schema:
-        $ref: '#/responses/InvalidDataError'
+      description: Invalid data was sent
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/responses/InvalidDataError'
