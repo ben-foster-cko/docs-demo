@@ -1,4 +1,4 @@
-swagger: '2.0'
+openapi: '3.0.0'
 info:
   version: '1.0'
   title: Checkout.com API Reference
@@ -56,7 +56,7 @@ x-tagGroups:
       - Files
       - Batch Processing
   - name: Broadcast
-    tags: 
+    tags:
       - Events
       - Webhooks
 tags:
@@ -90,7 +90,7 @@ securityDefinitions:
 
 security:
   - ApiKey: []
-  
+
 responses:
   AccessForbidden:
     description: 'Access forbidden, invalid API-KEY was used'
