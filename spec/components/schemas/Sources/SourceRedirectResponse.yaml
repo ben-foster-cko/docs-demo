@@ -1,7 +1,7 @@
 type: object
 description: Source response with redirection
 allOf:
-  - $ref: '#/definitions/AddSourceResponse'
+  - $ref: '#/components/schemas/AddSourceResponse'
   - type: object
     properties:
       _links:
@@ -13,21 +13,21 @@ allOf:
           self:
             type: object
             allOf:
-              - $ref: '#/definitions/Link'
+              - $ref: '#/components/schemas/Link'
             description: The URI of the source
             example:
               href: "https://api.checkout.com/sources/src_y3oqhf46pyzuxjbcn2giaqnb44"
           redirect:
             type: object
             allOf:
-              - $ref: '#/definitions/Link'
+              - $ref: '#/components/schemas/Link'
             description: The URI that the customer should be redirected to, to complete the source creation
             example:
               href: "https://paypal.checkout.com/billing_agreement/src_y3oqhf46pyzuxjbcn2giaqnb44/manual-completion"
           response-code:
             type: object
             allOf:
-              - $ref: '#/definitions/Link'
+              - $ref: '#/components/schemas/Link'
             description: A link to the full response code details
             example:
               href: "https://api.checkout.com/refs/response-codes/10000"
@@ -35,5 +35,4 @@ allOf:
           - self
           - redirect
 
-            
-    
+

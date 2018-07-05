@@ -4,14 +4,14 @@ properties:
   self:
     type: object
     allOf:
-      - $ref: '#/definitions/Link'
+      - $ref: '#/components/schemas/Link'
     description: The URI of the event
     example:
       href: "https://api.checkout.com/events/evt_az5sblvku4ge3dwpztvyizgcau"
   webhooks-retry:
     type: object
     allOf:
-      - $ref: '#/definitions/Link'
+      - $ref: '#/components/schemas/Link'
     description: A link to retry all of the webhooks configured for the event
     example:
       href: "https://api.checkout.com/events/evt_az5sblvku4ge3dwpztvyizgcau/webhooks/retry"

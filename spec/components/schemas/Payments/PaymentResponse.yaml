@@ -16,14 +16,14 @@ properties:
   id:
     description: Payment unique identifier
     allOf:
-      - $ref: '#/definitions/PaymentId'
+      - $ref: '#/components/schemas/PaymentId'
   action_id:
     description: The unique identifier for the action performed against this payment
     allOf:
-      - $ref: '#/definitions/ActionId'
+      - $ref: '#/components/schemas/ActionId'
   amount:
     type: integer
-    description: The payment amount 
+    description: The payment amount
     example: 6540
   currency:
     type: string
@@ -66,7 +66,7 @@ properties:
     type: object
     description: Provides 3D-Secure enrollment status if the payment was downgraded to Non-3DS
     allOf:
-      - $ref: '#/definitions/3dsEnrollmentData'
+      - $ref: '#/components/schemas/3dsEnrollmentData'
     example:
       downgraded: true
       enrolled: N
@@ -83,16 +83,16 @@ properties:
     description: The source of the payment
     type: object
     allOf:
-      - $ref: '#/definitions/PaymentResponseSource' 
+      - $ref: '#/components/schemas/PaymentResponseSource'
   customer:
     type: object
     description: The customer to which this payment is linked
     allOf:
-      - $ref: '#/definitions/PaymentResponseCustomer'
+      - $ref: '#/components/schemas/PaymentResponseCustomer'
   processed_on:
     description: The date/time the payment was processed
     allOf:
-      - $ref: '#/definitions/ServerTimestamp'
+      - $ref: '#/components/schemas/ServerTimestamp'
   reference:
     type: string
     description: Your reference for the payment
@@ -108,37 +108,37 @@ properties:
       self:
         type: object
         allOf:
-          - $ref: '#/definitions/Link'
+          - $ref: '#/components/schemas/Link'
         description: The URI of the payment
       actions:
         type: object
         allOf:
-          - $ref: '#/definitions/Link'
+          - $ref: '#/components/schemas/Link'
         description: A link to the payment's associated actions
       void:
         type: object
         allOf:
-          - $ref: '#/definitions/Link'
+          - $ref: '#/components/schemas/Link'
         description: A link to void the payment, where applicable
       capture:
         type: object
         allOf:
-          - $ref: '#/definitions/Link'
+          - $ref: '#/components/schemas/Link'
         description: A link to capture the payment, where applicable
       refund:
         type: object
         allOf:
-          - $ref: '#/definitions/Link'
+          - $ref: '#/components/schemas/Link'
         description: A link to refund the payment, where applicable
       response-code:
         type: object
         allOf:
-          - $ref: '#/definitions/Link'
+          - $ref: '#/components/schemas/Link'
         description: A link to the full response code details
     example:
       self:
         href: "https://api.checkout.com/payments/pay_y3oqhf46pyzuxjbcn2giaqnb44"
-      actions: 
+      actions:
         href: "https://api.checkout.com/payments/pay_y3oqhf46pyzuxjbcn2giaqnb44/actions"
       void:
         href: "https://api.checkout.com/payments/pay_y3oqhf46pyzuxjbcn2giaqnb44/voids"

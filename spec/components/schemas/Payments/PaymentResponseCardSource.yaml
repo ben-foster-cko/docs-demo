@@ -1,7 +1,7 @@
 type: object
 description: A card payment source
 allOf:
-  - $ref: "#/definitions/PaymentResponseSource"
+  - $ref: "#/components/schemas/PaymentResponseSource"
   - type: object
     required:
       - expiry_month
@@ -24,11 +24,11 @@ allOf:
         type: integer
         description: The four-digit expiry year
         example: 2025
-      name: 
+      name:
         type: string
         description: The card-holder name
         example: "Bruce Wayne"
-      scheme: 
+      scheme:
         type: string
         description: The card scheme
         example: "VISA"
@@ -47,7 +47,7 @@ allOf:
       card_type:
         type: string
         description: The card type
-        enum: 
+        enum:
           - Credit
           - Debit
           - Prepaid

@@ -9,7 +9,7 @@ properties:
     description: Payment unique identifier
     readOnly: true
     allOf:
-      - $ref: '#/definitions/PaymentId'
+      - $ref: '#/components/schemas/PaymentId'
   status:
     type: string
     description: The status of the payment
@@ -23,12 +23,12 @@ properties:
     type: object
     description: The customer to which this payment is linked
     allOf:
-      - $ref: '#/definitions/PaymentResponseCustomer'
+      - $ref: '#/components/schemas/PaymentResponseCustomer'
   3ds:
     type: object
     description: Provides 3D-Secure enrollment status
     allOf:
-      - $ref: '#/definitions/3dsEnrollmentData'
+      - $ref: '#/components/schemas/3dsEnrollmentData'
   _links:
     type: object
     description: Payment links
@@ -38,18 +38,17 @@ properties:
       self:
         type: object
         allOf:
-          - $ref: '#/definitions/Link'
+          - $ref: '#/components/schemas/Link'
         description: The URI of the payment
         example:
           href: "https://api.checkout.com/payments/pay_y3oqhf46pyzuxjbcn2giaqnb44"
       redirect:
         type: object
         allOf:
-          - $ref: '#/definitions/Link'
+          - $ref: '#/components/schemas/Link'
         description: The URI that the customer should be redirected to, to complete the payment
         example:
           href: "https://api.checkout.com/3ds/pay_y3oqhf46pyzuxjbcn2giaqnb44"
     required:
-      - self          
-        
-    
+      - self
+

@@ -18,4 +18,4 @@ properties:
     type: string
     description: The date/time the attempt was made
     allOf:
-      - $ref: '#/definitions/ServerTimestamp'
+      - $ref: '#/components/schemas/ServerTimestamp'

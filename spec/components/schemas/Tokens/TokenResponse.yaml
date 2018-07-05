@@ -18,4 +18,4 @@ properties:
   expires_on:
     description: The date/time the token will expire
     allOf:
-      - $ref: '#/definitions/ServerTimestamp'
+      - $ref: '#/components/schemas/ServerTimestamp'

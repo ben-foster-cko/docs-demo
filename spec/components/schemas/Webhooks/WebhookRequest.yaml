@@ -25,4 +25,4 @@ properties:
     default: json
     example: json
   event_types:
-    $ref: '#/definitions/WebhookEvents'
+    $ref: '#/components/schemas/WebhookEvents'

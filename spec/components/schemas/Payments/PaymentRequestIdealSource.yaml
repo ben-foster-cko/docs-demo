@@ -3,7 +3,7 @@ description: iDEAL Source
 required:
   - issuer_id
 allOf:
-  - $ref: "#/definitions/PaymentRequestSource"
+  - $ref: "#/components/schemas/PaymentRequestSource"
   - type: object
     properties:
       type:

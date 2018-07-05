@@ -25,4 +25,4 @@ properties:
   data:
     type: array
     items:
-      $ref: '#/definitions/EventSummary'
+      $ref: '#/components/schemas/EventSummary'

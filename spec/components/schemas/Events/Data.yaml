@@ -4,11 +4,11 @@ properties:
   id:
     description: Payment unique identifier
     allOf:
-      - $ref: '#/definitions/PaymentId'
+      - $ref: '#/components/schemas/PaymentId'
   action_id:
     description: The unique identifier for the action performed against this payment
     allOf:
-      - $ref: '#/definitions/ActionId'
+      - $ref: '#/components/schemas/ActionId'
   amount:
     type: integer
     description: The payment amount
@@ -53,7 +53,7 @@ properties:
     type: object
     description: Provides 3D-Secure enrollment status if the payment was downgraded to Non-3DS
     allOf:
-      - $ref: '#/definitions/3dsEnrollmentData'
+      - $ref: '#/components/schemas/3dsEnrollmentData'
     example:
       downgraded: true
       enrolled: N
@@ -66,16 +66,16 @@ properties:
     description: The source of the payment
     type: object
     allOf:
-      - $ref: '#/definitions/PaymentResponseSource'
+      - $ref: '#/components/schemas/PaymentResponseSource'
   customer:
     type: object
     description: The customer to which this payment is linked
     allOf:
-      - $ref: '#/definitions/PaymentResponseCustomer'
+      - $ref: '#/components/schemas/PaymentResponseCustomer'
   processed_on:
     description: The date/time the payment was processed
     allOf:
-      - $ref: '#/definitions/ServerTimestamp'
+      - $ref: '#/components/schemas/ServerTimestamp'
   reference:
     type: string
     description: Your reference for the payment
@@ -83,7 +83,7 @@ properties:
   destinations:
     type: array
     items:
-      - $ref: '#/definitions/PaymentDestination'
+      - $ref: '#/components/schemas/PaymentDestination'
     minItems: 0
     description: |
       For OpenPay payments, destinations determine the proportion of the payment amount that should

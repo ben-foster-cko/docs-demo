@@ -19,4 +19,4 @@ properties:
     type: string
     example: Greater London
   phone:
-    $ref: '#/definitions/Phone'
+    $ref: '#/components/schemas/Phone'

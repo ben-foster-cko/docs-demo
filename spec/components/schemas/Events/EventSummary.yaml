@@ -13,6 +13,6 @@ properties:
   created_on:
     description: The date/time the event occurred
     allOf:
-      - $ref: '#/definitions/ServerTimestamp'
+      - $ref: '#/components/schemas/ServerTimestamp'
   _links:
-    $ref: '#/definitions/EventLinks'
+    $ref: '#/components/schemas/EventLinks'

@@ -1,8 +1,6 @@
 allOf:
-  -
-    $ref: "#/definitions/Error"
-  -
-    type: object
+  - $ref: "#/components/schemas/Error"
+  - type: object
     properties:
       details:
         type: array

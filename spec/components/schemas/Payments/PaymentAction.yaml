@@ -9,7 +9,7 @@ properties:
   id:
     description: The unique identifier of the payment action
     allOf:
-      - $ref: '#/definitions/ActionId'
+      - $ref: '#/components/schemas/ActionId'
   type:
     type: string
     description: The type of action
@@ -22,10 +22,10 @@ properties:
   processed_on:
     description: The date/time the action was processed
     allOf:
-      - $ref: '#/definitions/ServerTimestamp'
+      - $ref: '#/components/schemas/ServerTimestamp'
   amount:
     type: integer
-    description: The action amount 
+    description: The action amount
     example: 6540
   auth_code:
     type: string
@@ -54,10 +54,9 @@ properties:
       response-code:
         type: object
         allOf:
-          - $ref: '#/definitions/Link'
+          - $ref: '#/components/schemas/Link'
         description: A link to the full response code details
         example:
           href: "https://api.checkout.com/refs/response-codes/10000"
-          
-        
-    
+
+

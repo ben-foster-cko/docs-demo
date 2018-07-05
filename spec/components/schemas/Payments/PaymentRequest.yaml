@@ -4,7 +4,7 @@ required:
   - source
 properties:
   source:
-    $ref: '#/definitions/PaymentRequestSource'
+    $ref: '#/components/schemas/PaymentRequestSource'
   amount:
     type: integer
     description: |
@@ -43,18 +43,18 @@ properties:
     example: true
   capture_on:
     description: |
-      An ISO 8601 timestamp that determines when the payment should be captured. 
+      An ISO 8601 timestamp that determines when the payment should be captured.
       Providing this field will automatically set `capture` to true.
 
     allOf:
-      - $ref: '#/definitions/Timestamp'
+      - $ref: '#/components/schemas/Timestamp'
   customer:
     type: object
     description: Details of the customer associated with the payment
     properties:
       id:
         type: string
-        description: | 
+        description: |
           The identifier of an existing customer. If neither customer `id` or `email` is provided
           a new customer will be registered
         example: cus_y3oqhf46pyzuxjbcn2giaqnb44
@@ -68,7 +68,7 @@ properties:
         description: The customer's name. This will only set the name for *new* customers
         example: Jack Napier
   billing_descriptor:
-    $ref: '#/definitions/BillingDescriptor'
+    $ref: '#/components/schemas/BillingDescriptor'
   shipping:
     type: object
     description: The payment shipping details
@@ -76,29 +76,29 @@ properties:
       address:
         description: The shipping address
         allOf:
-          - $ref: '#/definitions/Address'
+          - $ref: '#/components/schemas/Address'
       phone:
         description: The phone number associated with the shipping address
         allOf:
-          - $ref: '#/definitions/PhoneNumber'
+          - $ref: '#/components/schemas/PhoneNumber'
   3ds:
     type: boolean
     description: Whether to process this payment as a 3D-Secure
     default: false
     example: true
-  attempt_n3d: 
+  attempt_n3d:
     type: boolean
     description: |
-      Determines whether to attempt a 3D-Secure payment as non-3DS 
+      Determines whether to attempt a 3D-Secure payment as non-3DS
       should the card issuer not be enrolled.
       [Read more](https://docs.checkout.com/getting-started/merchant-api/3d-secure-charges/attempt-non-3d-secure-charge).
     default: false
     example: true
   previous_payment_id:
     type: string
-    description: | 
+    description: |
       For payments that use stored card details such as recurring payments,
-      an existing payment identifier from the recurring series or the Scheme Transaction Id. [Read more](https://docs.checkout.com/docs/stored-card-details). 
+      an existing payment identifier from the recurring series or the Scheme Transaction Id. [Read more](https://docs.checkout.com/docs/stored-card-details).
     example: "pay_fun26akvvjjerahhctaq2uzhu4"
   skip_risk_check:
     type: boolean
@@ -118,16 +118,16 @@ properties:
   payment_ip:
     description: The IP address used to make the payment. Required for some risk checks.
     allOf:
-      - $ref: '#/definitions/IPAddress'
+      - $ref: '#/components/schemas/IPAddress'
   recipient:
-    $ref: '#/definitions/PaymentRecipient'
+    $ref: '#/components/schemas/PaymentRecipient'
   destinations:
     type: array
     items:
-      - $ref: '#/definitions/PaymentDestination'
+      - $ref: '#/components/schemas/PaymentDestination'
     minItems: 0
     description: |
-      For OpenPay payments, destinations determine the proportion of the payment amount that should 
+      For OpenPay payments, destinations determine the proportion of the payment amount that should
       be credited to other OpenPay accounts
   metadata:
     type: object
@@ -138,7 +138,7 @@ properties:
   # items:
   #   type: array
   #   items:
-  #     - $ref: '#/definitions/Item'
+  #     - $ref: '#/components/schemas/Item'
   #   minItems: 0
   #   description: |
   #     The items or products associated with the payment

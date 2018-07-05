@@ -38,14 +38,14 @@ properties:
       self:
         type: object
         allOf:
-          - $ref: '#/definitions/Link'
+          - $ref: '#/components/schemas/Link'
         description: The file information retrieval URL
         example:
           href: https://api.checkout.com/files/file_6lbss42ezvoufcb2beo76rvwly
       download:
         type: object
         allOf:
-          - $ref: '#/definitions/Link'
+          - $ref: '#/components/schemas/Link'
         description: The temporary file download URL. The URL expires after a certain time period
         example:
           href: https://checkout-file-upload.s3.eu-west-2.amazonaws.com/ucdac/ucdac/6lbss42ezvoufcb2beo76rvwly?X-Amz-Expires=3600&x-amz-security-token=FQoDYXdzENL%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEa

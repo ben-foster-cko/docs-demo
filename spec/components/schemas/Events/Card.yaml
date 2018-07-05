@@ -10,7 +10,7 @@ properties:
     type: string
     example: 2018
   billing_details:
-    $ref: '#/definitions/BillingDetails'
+    $ref: '#/components/schemas/BillingDetails'
   id:
     type: string
     example: card_D44D7F4CCC6348698717CD80072808B0

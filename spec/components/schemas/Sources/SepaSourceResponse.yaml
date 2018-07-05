@@ -1,7 +1,7 @@
 type: object
 description: The SEPA mandate details
 allOf:
-  - $ref: '#/definitions/AddSourceResponse'
+  - $ref: '#/components/schemas/AddSourceResponse'
   - type: object
     properties:
       type:
@@ -25,17 +25,17 @@ allOf:
           self:
             type: object
             allOf:
-              - $ref: '#/definitions/Link'
+              - $ref: '#/components/schemas/Link'
             description: The URI of the payment source
           cancel:
             type: object
             allOf:
-              - $ref: '#/definitions/Link'
+              - $ref: '#/components/schemas/Link'
             description: A link to Cancel the SEPA direct debit mandate
           response-code:
             type: object
             allOf:
-              - $ref: '#/definitions/Link'
+              - $ref: '#/components/schemas/Link'
             description: A link to the full response code details
             example:
               href: "https://api.checkout.com/refs/response-codes/10000"

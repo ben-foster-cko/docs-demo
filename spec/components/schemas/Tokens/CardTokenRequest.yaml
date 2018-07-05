@@ -1,7 +1,7 @@
 type: object
 description: Card Token Request
 allOf:
-  - $ref: '#/definitions/TokenRequest'
+  - $ref: '#/components/schemas/TokenRequest'
   - type: object
     required:
       - number
@@ -25,21 +25,21 @@ allOf:
         type: integer
         description: The four-digit expiry year of the card
         example: 2025
-      name: 
+      name:
         type: string
         description: The card-holder name
         example: "Bruce Wayne"
       cvv:
         type: string
-        description: The card verification value/code. 3 digits, except for Amex (4 digits).	
+        description: The card verification value/code. 3 digits, except for Amex (4 digits).
         example: "956"
         minLength: 3
         maxLength: 4
       billing_address:
         description: The payment source owner's billing address
         allOf:
-          - $ref: '#/definitions/Address'
+          - $ref: '#/components/schemas/Address'
       phone:
         description: The payment source owner's phone number
         allOf:
-          - $ref: '#/definitions/PhoneNumber'
+          - $ref: '#/components/schemas/PhoneNumber'

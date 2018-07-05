@@ -2,7 +2,7 @@ type: object
 required:
   - type
 properties:
-  id: 
+  id:
     type: string
     description: The unique identifier of the payment source that can be later used for payments
     example: src_y3oqhf46pyzuxjbcn2giaqnb44
@@ -21,7 +21,7 @@ properties:
       self:
         type: object
         allOf:
-          - $ref: '#/definitions/Link'
+          - $ref: '#/components/schemas/Link'
         description: The URI of the payment source
         example:
           href: https://api.checkout.com/sources/src_y3oqhf46pyzuxjbcn2giaqnb44

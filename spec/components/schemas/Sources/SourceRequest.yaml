@@ -14,18 +14,18 @@ properties:
   billing_address:
     description: The payment source owner's billing address
     allOf:
-      - $ref: '#/definitions/Address'
+      - $ref: '#/components/schemas/Address'
   phone:
     description: The payment source owner's phone number
     allOf:
-      - $ref: '#/definitions/PhoneNumber'
+      - $ref: '#/components/schemas/PhoneNumber'
   customer:
     type: object
     description: Details of the customer to associate with the source
     properties:
       id:
         type: string
-        description: | 
+        description: |
           The identifier of an existing customer. If neither customer `id` or `email` is provided
           a new customer will be registered
         example: cus_y3oqhf46pyzuxjbcn2giaqnb44

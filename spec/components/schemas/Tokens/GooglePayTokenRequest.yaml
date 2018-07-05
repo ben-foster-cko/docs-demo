@@ -1,7 +1,7 @@
 type: object
 description: Apple Pay Token Request
 allOf:
-  - $ref: '#/definitions/TokenRequest'
+  - $ref: '#/components/schemas/TokenRequest'
   - type: object
     properties:
       type:
@@ -12,7 +12,7 @@ allOf:
         type: object
         description: The Google Pay Payment Token
         properties:
-          signature: 
+          signature:
             type: string
             description: Verifies the message came from Google. The signature is created using ECDSA.
           protocolVersion:

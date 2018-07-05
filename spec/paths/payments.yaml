@@ -97,34 +97,45 @@ post:
     }
     ```
 
-  parameters:
-    - name: body
-      in: body
-      required: true
-      schema:
-        $ref: '#/components/schemas/PaymentRequest'
+  requestBody:
+    content:
+      application/json:
+        schema:
+          properties:
+            body:
+              required: true
+              $ref: '#/components/schemas/PaymentRequest'
   responses:
     '201':
       description: Payment processed successfully
-      schema:
-        $ref: '#/components/schemas/PaymentResponse'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/PaymentResponse'
       headers:
         Cko-Request-Id:
-          $ref: "#/headers/Cko-Request-Id"
+          schema:
+            $ref: "#/headers/Cko-Request-Id"
         Cko-Version:
-          $ref: "#/headers/Cko-Version"
+          schema:
+            $ref: "#/headers/Cko-Version"
     '202':
       description: Payment asynchronous or further action required
-      schema:
-        $ref: '#/components/schemas/PaymentAcceptedResponse'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/PaymentAcceptedResponse'
       headers:
         Cko-Request-Id:
-          $ref: "#/headers/Cko-Request-Id"
+          schema:
+            $ref: "#/headers/Cko-Request-Id"
         Cko-Version:
-          $ref: "#/headers/Cko-Version"
+          schema:
+            $ref: "#/headers/Cko-Version"
     '401':
       description: Unauthorized
     '422':
-      $ref: '#/responses/InvalidDataError'
+      schema:
+        $ref: '#/responses/InvalidDataError'
     '502':
       description: Bad gateway

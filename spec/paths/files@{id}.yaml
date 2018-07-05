@@ -6,20 +6,25 @@ get:
   parameters:
     - in: path
       name: id
-      type: string
+      schema:
+        type: string
+        pattern: "^file_(\\w{26})$"
       required: true
       description: The file identifier
-      pattern: "^file_(\\w{26})$"
   responses:
     '200':
       description: File was retrieved successfully
-      schema:
-        $ref: '#/components/schemas/File'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/File'
       headers:
         Cko-Request-Id:
-          $ref: '#/headers/Cko-Request-Id'
+          schema:
+            $ref: '#/headers/Cko-Request-Id'
         Cko-Version:
-          $ref: '#/headers/Cko-Version'
+          schema:
+            $ref: '#/headers/Cko-Version'
     '401':
       description: Unauthorized
     '404':
