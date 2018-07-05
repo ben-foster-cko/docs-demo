@@ -5,18 +5,20 @@ using System.Linq;
 using Microsoft.OpenApi.Readers;
 using Microsoft.OpenApi.Writers;
 using System.Net.Http;
+using System.Text;
 
 namespace OpenApiGenerator
 {
     class Program
     {
-        static string _yamlOutputFile = "output/swagger.yaml";
-        static string _jsonOutputFile = "output/swagger.json";
+        static string _yamlOutputFile = "../../output/swagger.yaml";
+        static string _jsonOutputFile = "../../output/swagger.json";
+        static string _specDir = "../../spec";
         static void Main(string[] args)
         {
             try
             {
-                using (StreamReader sr = File.OpenText(@"spec\swagger.yaml"))
+                using (StreamReader sr = File.OpenText($"{_specDir}/swagger.yaml"))
                 {
                     using (TextWriter writer = File.CreateText(_yamlOutputFile))
                     {
@@ -28,25 +30,23 @@ namespace OpenApiGenerator
                     }
                 }
 
-                AddComponentSchemas();
                 AddPaths();
+                AddComponentSchemas();
 
                 // output a json file
-                using (StreamReader sr = File.OpenText(@"output\swagger.yaml"))
+                var str = File.ReadAllText(_yamlOutputFile);
+
+                var openApiDocument = new OpenApiStringReader().Read(str, out var diagnostic);
+
+                foreach (var error in diagnostic.Errors)
                 {
-                    var httpClient = new HttpClient
-                    {
-                        BaseAddress = new Uri("https://raw.githubusercontent.com/OAI/OpenAPI-Specification/")
-                    };
+                    Console.WriteLine(error.Message);
+                    Console.WriteLine(error.Pointer);
+                }
 
-                    var stream = httpClient.GetStreamAsync("master/examples/v3.0/petstore.yaml").GetAwaiter().GetResult();
-
-                    var openApiDocument = new OpenApiStreamReader().Read(stream, out var diagnostic);
-
-                    using (TextWriter writer = File.CreateText(_jsonOutputFile))
-                    {
-                        openApiDocument.SerializeAsV3(new OpenApiJsonWriter(writer));
-                    }
+                using (TextWriter writer = File.CreateText(_jsonOutputFile))
+                {
+                    openApiDocument.SerializeAsV3(new OpenApiJsonWriter(writer));
                 }
             }
             catch (Exception e)
@@ -57,13 +57,9 @@ namespace OpenApiGenerator
 
         static void AddComponentSchemas()
         {
-            var yamlSchemaFiles = Directory.GetFiles(@"spec\components\schemas\", "*.yaml", SearchOption.AllDirectories);
+            var yamlSchemaFiles = Directory.GetFiles($"{_specDir}/components/schemas/", "*.yaml", SearchOption.AllDirectories);
 
-            using (TextWriter writer = File.AppendText(_yamlOutputFile))
-            {
-                writer.WriteLine("components:");
-                writer.WriteLine("\tschemas:");
-            }
+            var text = "components:\n  schemas:\n";
 
             foreach (var file in yamlSchemaFiles)
             {
@@ -71,30 +67,26 @@ namespace OpenApiGenerator
 
                 using (StreamReader sr = new StreamReader(file))
                 {
-                    using (TextWriter writer = File.AppendText(_yamlOutputFile))
+                    var path = fileInfo.Name.Substring(0, fileInfo.Name.IndexOf("."));
+                    text += ($"    {path}:\n");
+
+                    var tabs = "      ";
+                    var s = "";
+
+                    while ((s = sr.ReadLine()) != null)
                     {
-                        writer.WriteLine($"\t\t{fileInfo.Name.Substring(0, fileInfo.Name.IndexOf("."))}:");
-
-                        var tabs = "\t\t\t";
-                        var s = "";
-
-                        while ((s = sr.ReadLine()) != null)
-                        {
-                            writer.WriteLine($"{tabs}{s}");
-                        }
+                        text += $"{tabs}{s}\n";
                     }
                 }
             }
+            File.AppendAllText(_yamlOutputFile, text, Encoding.UTF8);
         }
 
         static void AddPaths()
         {
-            var yamlPathFiles = Directory.GetFiles(@"spec\paths\", "*.yaml", SearchOption.AllDirectories);
+            var yamlPathFiles = Directory.GetFiles($"{_specDir}/paths/", "*.yaml", SearchOption.AllDirectories);
 
-            using (TextWriter writer = File.AppendText(_yamlOutputFile))
-            {
-                writer.WriteLine("paths:");
-            }
+            var text = "paths:\n";
 
             foreach (var file in yamlPathFiles)
             {
@@ -102,21 +94,20 @@ namespace OpenApiGenerator
 
                 using (StreamReader sr = new StreamReader(file))
                 {
-                    using (TextWriter writer = File.AppendText(_yamlOutputFile))
+                    var path = fileInfo.Name.Substring(0, fileInfo.Name.IndexOf(".")).Replace("@", "/");
+                    text += ($"  /{path}:\n");
+
+                    var tabs = "    ";
+                    var s = "";
+
+                    while ((s = sr.ReadLine()) != null)
                     {
-                        var path = fileInfo.Name.Substring(0, fileInfo.Name.IndexOf(".")).Replace("@", "/");
-                        writer.WriteLine($"\t'/{path}':");
-
-                        var tabs = "\t\t";
-                        var s = "";
-
-                        while ((s = sr.ReadLine()) != null)
-                        {
-                            writer.WriteLine($"{tabs}{s}");
-                        }
+                        text += $"{tabs}{s}\n";
                     }
                 }
             }
+
+            File.AppendAllText(_yamlOutputFile, text, Encoding.UTF8);
         }
     }
 }
