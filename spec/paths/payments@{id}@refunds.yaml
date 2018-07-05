@@ -17,12 +17,12 @@ post:
       in: body
       required: true
       schema:
-        $ref: '#/definitions/RefundRequest'
+        $ref: '#/components/schemas/RefundRequest'
   responses:
     '202':
       description: Refund accepted
       schema:
-        $ref: '#/definitions/RefundAcceptedResponse'
+        $ref: '#/components/schemas/RefundAcceptedResponse'
       headers:
         Cko-Request-Id:
           $ref: "#/headers/Cko-Request-Id"

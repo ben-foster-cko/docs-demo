@@ -1,4 +1,4 @@
-openapi: '3.0.0'
+openapi: '3.0.1'
 info:
   version: '1.0'
   title: Checkout.com API Reference
@@ -95,19 +95,19 @@ responses:
   AccessForbidden:
     description: 'Access forbidden, invalid API-KEY was used'
     schema:
-      $ref: '#/definitions/Error'
+      $ref: '#/components/schemas/Error'
   NotFound:
     description: Resource was not found
     schema:
-      $ref: '#/definitions/Error'
+      $ref: '#/components/schemas/Error'
   Conflict:
     description: Conflict
     schema:
-      $ref: '#/definitions/Error'
+      $ref: '#/components/schemas/Error'
   InvalidDataError:
     description: Invalid data was sent
     schema:
-      $ref: '#/definitions/ValidationError'
+      $ref: '#/components/schemas/ValidationError'
 
 parameters:
   resourceId:

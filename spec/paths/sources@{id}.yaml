@@ -18,7 +18,7 @@ get:
     '200':
       description: Payment source was retrieved successfully
       schema:
-        $ref: '#/definitions/Source'
+        $ref: '#/components/schemas/Source'
       headers:
         Cko-Request-Id:
           $ref: "#/headers/Cko-Request-Id"

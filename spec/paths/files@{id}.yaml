@@ -14,7 +14,7 @@ get:
     '200':
       description: File was retrieved successfully
       schema:
-        $ref: '#/definitions/File'
+        $ref: '#/components/schemas/File'
       headers:
         Cko-Request-Id:
           $ref: '#/headers/Cko-Request-Id'

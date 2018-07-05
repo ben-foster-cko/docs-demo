@@ -2,7 +2,7 @@ get:
   tags:
     - Webhooks
   summary: Retrieve webhooks
-  description: | 
+  description: |
     Retrieves the webhooks configured for the channel identified by your API key
   parameters: []
   responses:
@@ -11,7 +11,7 @@ get:
       schema:
         type: array
         items:
-          $ref: '#/definitions/Webhook'
+          $ref: '#/components/schemas/Webhook'
     '204':
       description: No webhooks configured
     '401':
@@ -28,12 +28,12 @@ post:
       required: true
       in: body
       schema:
-        $ref: '#/definitions/WebhookRequest'
+        $ref: '#/components/schemas/WebhookRequest'
   responses:
     '201':
       description: Webhook registered successfully
       schema:
-        $ref: '#/definitions/Webhook'
+        $ref: '#/components/schemas/Webhook'
     '401':
       description: Unauthorized
     '422':

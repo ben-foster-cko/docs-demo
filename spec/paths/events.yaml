@@ -31,7 +31,7 @@ get:
     '200':
       description: Events retrieved successfully
       schema:
-        $ref: '#/definitions/EventResult'
+        $ref: '#/components/schemas/EventResult'
       headers:
         Cko-Request-Id:
           $ref: "#/headers/Cko-Request-Id"

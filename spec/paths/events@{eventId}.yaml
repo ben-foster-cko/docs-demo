@@ -15,7 +15,7 @@ get:
     '200':
       description: Event retrieved successfully
       schema:
-        $ref: '#/definitions/EventObject'
+        $ref: '#/components/schemas/EventObject'
       headers:
         Cko-Request-Id:
           $ref: "#/headers/Cko-Request-Id"

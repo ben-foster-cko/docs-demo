@@ -14,7 +14,7 @@ get:
     '200':
       description: Batch was retrieved successfully
       schema:
-        $ref: '#/definitions/Batch'
+        $ref: '#/components/schemas/Batch'
       headers:
         Cko-Request-Id:
           $ref: '#/headers/Cko-Request-Id'

@@ -15,7 +15,7 @@ get:
     '200':
       description: Payment actions retrieved successfully
       schema:
-        $ref: '#/definitions/PaymentActionsResponse'
+        $ref: '#/components/schemas/PaymentActionsResponse'
       headers:
         Cko-Request-Id:
           $ref: "#/headers/Cko-Request-Id"

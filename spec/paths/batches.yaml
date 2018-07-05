@@ -9,12 +9,12 @@ post:
       in: body
       required: true
       schema:
-        $ref: '#/definitions/SubmitBatchRequest'
+        $ref: '#/components/schemas/SubmitBatchRequest'
   responses:
     '202':
       description: Batch submitted for processing
       schema:
-        $ref: '#/definitions/SubmitBatchResponse'
+        $ref: '#/components/schemas/SubmitBatchResponse'
       headers:
         Cko-Request-Id:
           $ref: "#/headers/Cko-Request-Id"

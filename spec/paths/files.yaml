@@ -3,9 +3,9 @@ post:
     - Files
   summary: Upload a file
   description: |
-    Upload a file so that it can be used by other APIs, e.g. submit dispute evidence. 
+    Upload a file so that it can be used by other APIs, e.g. submit dispute evidence.
     The file requirements (type/size) differ depending on the file `purpose`.
-  
+
   consumes:
     - multipart/form-data
   parameters:
@@ -19,7 +19,7 @@ post:
       type: string
       enum:
         - dispute_evidence
-        - onboarding_document 
+        - onboarding_document
         - batch_processing
       description: The purpose of the file upload
       required: true
@@ -27,7 +27,7 @@ post:
     '201':
       description: File uploaded successfully
       schema:
-        $ref: '#/definitions/FileUploadResponse'
+        $ref: '#/components/schemas/FileUploadResponse'
       headers:
         Cko-Request-Id:
           $ref: '#/headers/Cko-Request-Id'
@@ -37,4 +37,3 @@ post:
       description: Unauthorized
     '422':
       $ref: '#/responses/InvalidDataError'
-      

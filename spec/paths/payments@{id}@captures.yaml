@@ -3,8 +3,8 @@ post:
     - Payments
   summary: Capture a payment
   description: |
-    Captures a payment if supported by the payment method. 
-    
+    Captures a payment if supported by the payment method.
+
     For card payments, capture requests are processed asynchronously. You can use [webhooks](#tag/Webhooks) to be notified if the capture is successful.
   parameters:
     - in: path
@@ -17,12 +17,12 @@ post:
       in: body
       required: true
       schema:
-        $ref: '#/definitions/CaptureRequest'
+        $ref: '#/components/schemas/CaptureRequest'
   responses:
     '202':
       description: Capture accepted
       schema:
-        $ref: '#/definitions/CaptureAcceptedResponse'
+        $ref: '#/components/schemas/CaptureAcceptedResponse'
       headers:
         Cko-Request-Id:
           $ref: "#/headers/Cko-Request-Id"

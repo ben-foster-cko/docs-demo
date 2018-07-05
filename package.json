@@ -21,6 +21,8 @@
     "swagger": "swagger-repo",
     "test": "swagger-repo validate",
     "start": "gulp serve",
-    "deploy-branch": "node ./scripts/deploy-branch.js"
+    "deploy-branch": "node ./scripts/deploy-branch.js",
+    "build_open_api_generator": "dotnet build src/OpenApiGenerator/OpenApiGenerator.csproj",
+    "run_open_api_generator": "dotnet run -p src/OpenApiGenerator/OpenApiGenerator.csproj"
   }
 }

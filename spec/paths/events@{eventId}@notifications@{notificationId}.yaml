@@ -20,7 +20,7 @@ get:
     '200':
       description: Notification retrieved successfully
       schema:
-        $ref: '#/definitions/Notification'
+        $ref: '#/components/schemas/Notification'
       headers:
         Cko-Request-Id:
           $ref: "#/headers/Cko-Request-Id"

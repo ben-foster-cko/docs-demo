@@ -5,10 +5,10 @@ get:
   description: |
     Returns the details of the payment with the specified identifier string.
 
-    If the payment method requires a redirection to a third party (e.g. 3D-Secure), 
-    the redirect URL back to your site will include a `cko-session-id` query parameter 
+    If the payment method requires a redirection to a third party (e.g. 3D-Secure),
+    the redirect URL back to your site will include a `cko-session-id` query parameter
     containing a payment session ID that can be used to obtain the details of the payment, for example:
-    
+
     http://example.com/success?cko-session-id=sid_ubfj2q76miwundwlk72vxt2i7q.
   parameters:
     - in: path
@@ -21,7 +21,7 @@ get:
     '200':
       description: Payment retrieved successfully
       schema:
-        $ref: '#/definitions/Payment'
+        $ref: '#/components/schemas/Payment'
       headers:
         Cko-Request-Id:
           $ref: "#/headers/Cko-Request-Id"
