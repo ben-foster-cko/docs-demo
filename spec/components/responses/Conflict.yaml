@@ -2,4 +2,4 @@ description: Conflict
 content:
   application/json:
     schema:
-      $ref: '#/components/responses/Error'
+      $ref: '#/components/schemas/Error'
