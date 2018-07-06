@@ -1,15 +1,25 @@
-language: node_js
-node_js:
-  - "node"
-deploy:
-  - skip_cleanup: true
-    provider: script
-    script: npm run deploy
-    on:
-      branch: master
-  - skip_cleanup: true
-    provider: script
-    script: npm run deploy-branch
-    on:
-      all_branches: true
-      condition: '"$TRAVIS_BRANCH" != "master" && "$TRAVIS_BRANCH" != "gh-pages"'
+matrix:
+  include:
+    - language: csharp
+      mono: none
+      dotnet: 2.1
+      script:
+        - dotnet build src/OpenApiGenerator/OpenApiGenerator.csproj
+        - dotnet run -p src/OpenApiGenerator/OpenApiGenerator.csproj
+
+    - language: node_js
+      node_js:
+        - "node"
+      deploy:
+        - skip_cleanup: true
+          provider: script
+          script: npm run deploy
+          on:
+            branch: master
+        - skip_cleanup: true
+          provider: script
+          script: npm run deploy-branch
+          on:
+            all_branches: true
+            condition: '"$TRAVIS_BRANCH" != "master" && "$TRAVIS_BRANCH" != "gh-pages"'
+
