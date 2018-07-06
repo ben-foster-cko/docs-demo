@@ -4,8 +4,10 @@ dotnet: 2.1
 script:
   - dotnet build src/OpenApiGenerator/OpenApiGenerator.csproj
   - dotnet run -p src/OpenApiGenerator/OpenApiGenerator.csproj
+  - npm install
+  - npm test
 node_js:
-  - "node"
+  - "8.11.3"
 deploy:
   - skip_cleanup: true
     provider: script
