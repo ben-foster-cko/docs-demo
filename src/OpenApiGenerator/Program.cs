@@ -20,7 +20,7 @@ namespace OpenApiGenerator
         {
             try
             {
-                RefreshDirectory();
+                RefreshOutputDirectory();
 
                 // start building up the yaml file
                 using (StreamReader sr = File.OpenText($"{_specDir}/swagger.yaml"))
@@ -51,10 +51,10 @@ namespace OpenApiGenerator
                 }
 
                 // convert yaml file to json
-                // using (TextWriter writer = File.CreateText(_jsonOutputFile))
-                // {
-                //     openApiDocument.SerializeAsV3(new OpenApiJsonWriter(writer));
-                // }
+                using (TextWriter writer = File.CreateText(_jsonOutputFile))
+                {
+                    openApiDocument.SerializeAsV3(new OpenApiJsonWriter(writer));
+                }
             }
             catch (Exception e)
             {
@@ -63,7 +63,13 @@ namespace OpenApiGenerator
             }
         }
 
-        static void RefreshDirectory()
+        static void RefreshOutputDirectory()
+        {
+            ClearOutputDirectory();
+            Directory.CreateDirectory(_outputDir);
+        }
+
+        static void ClearOutputDirectory()
         {
             if (Directory.Exists(_outputDir))
             {
@@ -74,8 +80,6 @@ namespace OpenApiGenerator
 
                 Directory.Delete(_outputDir);
             }
-
-            Directory.CreateDirectory(_outputDir);
         }
 
         static void AddAllComponents()

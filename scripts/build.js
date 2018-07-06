@@ -13,6 +13,7 @@ exec('npm run build_open_api_generator');
 exec('npm run run_open_api_generator');
 
 cp('-R', 'output/*', 'web_deploy/');
+rm('-rf', 'output')
 
 var SWAGGER_UI_DIST = Path.dirname(require.resolve('swagger-ui'));
 rm('-rf', 'web_deploy/swagger-ui/')
