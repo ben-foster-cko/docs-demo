@@ -11,10 +11,12 @@ namespace OpenApiGenerator
 {
     class Program
     {
-        static string _outputDir = "output";
+        static string _outputDirectory = "output";
+        static string _specDirectory = "spec";
         static string _yamlOutputFile = "output/swagger.yaml";
         static string _jsonOutputFile = "output/swagger.json";
-        static string _specDir = "spec";
+        static List<CodeSample> _codeSamples = new List<CodeSample>();
+        static string[] httpVerbs = new[] { "get", "put", "post", "delete", "options", "head", "patch", "trace" };
 
         static void Main(string[] args)
         {
@@ -23,7 +25,7 @@ namespace OpenApiGenerator
                 RefreshOutputDirectory();
 
                 // start building up the yaml file
-                using (StreamReader sr = File.OpenText($"{_specDir}/swagger.yaml"))
+                using (StreamReader sr = File.OpenText($"{_specDirectory}/swagger.yaml"))
                 {
                     using (TextWriter writer = File.CreateText(_yamlOutputFile))
                     {
@@ -66,19 +68,19 @@ namespace OpenApiGenerator
         static void RefreshOutputDirectory()
         {
             ClearOutputDirectory();
-            Directory.CreateDirectory(_outputDir);
+            Directory.CreateDirectory(_outputDirectory);
         }
 
         static void ClearOutputDirectory()
         {
-            if (Directory.Exists(_outputDir))
+            if (Directory.Exists(_outputDirectory))
             {
-                foreach (var file in Directory.GetFiles(_outputDir))
+                foreach (var file in Directory.GetFiles(_outputDirectory))
                 {
                     File.Delete(file);
                 }
 
-                Directory.Delete(_outputDir);
+                Directory.Delete(_outputDirectory);
             }
         }
 
@@ -94,7 +96,10 @@ namespace OpenApiGenerator
 
         static void AddComponent(string component)
         {
-            var yamlSchemaFiles = Directory.GetFiles($"{_specDir}/components/{component}/", "*.yaml", SearchOption.AllDirectories);
+            if (!Directory.Exists($"{_specDirectory}/components/{component}"))
+                return;
+
+            var yamlSchemaFiles = Directory.GetFiles($"{_specDirectory}/components/{component}/", "*.yaml", SearchOption.AllDirectories);
             var text = $"  {component}:\n";
             text += GetComponentsText(yamlSchemaFiles);
             File.AppendAllText(_yamlOutputFile, text, Encoding.UTF8);
@@ -112,13 +117,10 @@ namespace OpenApiGenerator
                 {
                     var path = fileInfo.Name.Substring(0, fileInfo.Name.IndexOf("."));
                     text += ($"    {path}:\n");
-
-                    var tabs = "      ";
                     var s = "";
-
                     while ((s = sr.ReadLine()) != null)
                     {
-                        text += $"{tabs}{s}\n";
+                        text += $"      {s}\n";
                     }
                 }
             }
@@ -128,30 +130,80 @@ namespace OpenApiGenerator
 
         static void AddPaths()
         {
-            var yamlPathFiles = Directory.GetFiles($"{_specDir}/paths/", "*.yaml", SearchOption.AllDirectories);
+            LoadCodeSamples();
 
+            var yamlPathFiles = Directory.GetFiles($"{_specDirectory}/paths/", "*.yaml", SearchOption.AllDirectories);
             var text = "paths:\n";
 
             foreach (var file in yamlPathFiles)
             {
                 var fileInfo = new FileInfo(file);
+                var path = "";
 
                 using (StreamReader sr = new StreamReader(file))
                 {
-                    var path = fileInfo.Name.Substring(0, fileInfo.Name.IndexOf(".")).Replace("@", "/");
+                    path = fileInfo.Name.Substring(0, fileInfo.Name.IndexOf(".")).Replace("@", "/");
                     text += ($"  /{path}:\n");
 
-                    var tabs = "    ";
                     var s = "";
-
+                    var currentVerb = "";
                     while ((s = sr.ReadLine()) != null)
                     {
-                        text += $"{tabs}{s}\n";
+                        if (httpVerbs.Contains($"{s.TrimEnd(':')}"))
+                        {
+                            if (!string.IsNullOrEmpty(currentVerb))
+                            {
+                                text += GetCodeSampleText(path, currentVerb);
+                            }
+                            currentVerb = s.Trim(':');
+                        }
+                        text += $"    {s}\n";
                     }
+                    text += GetCodeSampleText(path, currentVerb);
                 }
             }
 
             File.AppendAllText(_yamlOutputFile, text, Encoding.UTF8);
+        }
+
+        static string GetCodeSampleText(string path, string verb)
+        {
+            var text = "";
+            var codeSample = GetCodeSample(path, verb);
+
+            if (codeSample == null)
+                return text;
+
+            text += $"      x-code-samples:\n";
+            text += $"        - lang: {codeSample.Language}\n";
+            text += $"          source: {codeSample.SampleString}\n";
+            return text;
+        }
+
+        static CodeSample GetCodeSample(string path, string verb)
+        {
+            return _codeSamples.FirstOrDefault(x => string.Equals(x.Path, path, StringComparison.InvariantCultureIgnoreCase) && string.Equals(x.HttpVerb, verb, StringComparison.InvariantCultureIgnoreCase));
+        }
+
+        static void LoadCodeSamples()
+        {
+            var codeSampleFiles = Directory.GetFiles($"{_specDirectory}/code_samples/", "*.*", SearchOption.AllDirectories);
+
+            foreach (var file in codeSampleFiles)
+            {
+                var fileInfo = new FileInfo(file);
+                var filename = fileInfo.Name.Substring(0, fileInfo.Name.IndexOf("."));
+                if (filename.ToLowerInvariant() == "readme")
+                    continue;
+
+                _codeSamples.Add(new CodeSample
+                {
+                    Language = new DirectoryInfo(fileInfo.FullName).Parent.Parent.Name,
+                    SampleString = $"\"{string.Join("\\n", File.ReadAllLines(fileInfo.FullName).Select(x => x.Replace("\"", "\\\"")))}\"",
+                    Path = new DirectoryInfo(fileInfo.FullName).Parent.Name.Replace("@", "/"),
+                    HttpVerb = filename
+                });
+            }
         }
     }
 }

@@ -42,7 +42,7 @@ post:
       content:
         application/json:
           schema:
-            $ref: '#/components/responses/InvalidDataError'
+            $ref: '#/components/schemas/ValidationError'
     '404':
       description: Payment not found
     '502':

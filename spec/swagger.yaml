@@ -33,9 +33,9 @@ info:
 
     Never share your secret keys. Keep them guarded and secure.
 servers:
-  - url: api.checkout.com
+  - url: https://api.checkout.com
     description: Live API
-  - url: sandbox.checkout.com
+  - url: https://sandbox.checkout.com
     description: Sandbox API
 tags:
   - name: Payments

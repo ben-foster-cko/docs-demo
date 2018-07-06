@@ -68,7 +68,7 @@ put:
       content:
         application/json:
           schema:
-            $ref: '#/components/responses/InvalidDataError'
+            $ref: '#/components/schemas/ValidationError'
     '404':
       description: Webhook not found
     '409':
@@ -109,7 +109,7 @@ patch:
       content:
         application/json:
           schema:
-            $ref: '#/components/responses/InvalidDataError'
+            $ref: '#/components/schemas/ValidationError'
     '404':
       description: Webhook not found
     '409':
