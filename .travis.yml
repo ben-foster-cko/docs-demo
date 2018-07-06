@@ -2,9 +2,8 @@ language: csharp
 mono: none
 dotnet: 2.1
 script:
-  - dotnet build src/OpenApiGenerator/OpenApiGenerator.csproj
-  - dotnet run -p src/OpenApiGenerator/OpenApiGenerator.csproj
   - npm install
+  - npm build
   - npm test
 node_js:
   - "8.11.3"
