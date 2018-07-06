@@ -11,14 +11,18 @@ namespace OpenApiGenerator
 {
     class Program
     {
-        static string _yamlOutputFile = "../../output/swagger.yaml";
-        static string _jsonOutputFile = "../../output/swagger.json";
-        static string _specDir = "../../spec";
+        static string _outputDir = "output";
+        static string _yamlOutputFile = "output/swagger.yaml";
+        static string _jsonOutputFile = "output/swagger.json";
+        static string _specDir = "spec";
+
         static void Main(string[] args)
         {
             try
             {
-                // start building up the swagger file
+                RefreshDirectory();
+
+                // start building up the yaml file
                 using (StreamReader sr = File.OpenText($"{_specDir}/swagger.yaml"))
                 {
                     using (TextWriter writer = File.CreateText(_yamlOutputFile))
@@ -31,7 +35,7 @@ namespace OpenApiGenerator
                     }
                 }
 
-                // append paths and components
+                // append paths and components to yaml file
                 AddPaths();
                 AddAllComponents();
 
@@ -47,13 +51,31 @@ namespace OpenApiGenerator
                 }
 
                 // convert yaml file to json
-                using (TextWriter writer = File.CreateText(_jsonOutputFile))
-                    openApiDocument.SerializeAsV3(new OpenApiJsonWriter(writer));
+                // using (TextWriter writer = File.CreateText(_jsonOutputFile))
+                // {
+                //     openApiDocument.SerializeAsV3(new OpenApiJsonWriter(writer));
+                // }
             }
             catch (Exception e)
             {
                 Console.WriteLine(e);
+                throw;
             }
+        }
+
+        static void RefreshDirectory()
+        {
+            if (Directory.Exists(_outputDir))
+            {
+                foreach (var file in Directory.GetFiles(_outputDir))
+                {
+                    File.Delete(file);
+                }
+
+                Directory.Delete(_outputDir);
+            }
+
+            Directory.CreateDirectory(_outputDir);
         }
 
         static void AddAllComponents()
