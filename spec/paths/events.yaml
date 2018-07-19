@@ -57,3 +57,5 @@ get:
       description: No events found
     '401':
       description: Unauthorized
+    '422':
+      $ref: '#/responses/InvalidDataError'
