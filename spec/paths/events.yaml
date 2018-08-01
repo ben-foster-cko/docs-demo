@@ -27,6 +27,22 @@ get:
       description: The number of events to skip
       default: 0
       minimum: 0
+    - name: charge_id
+      type: string
+      in: query
+      description: Search for an event by Charge ID (v1)
+    - name: payment_id
+      type: string
+      in: query
+      description: Search for an event by Payment ID (v2)
+    - name: track_id
+      type: string
+      in: query
+      description: Search for an event by Track ID (v1)
+    - name: reference
+      type: string
+      in: query
+      description: Search for an event by Reference (v2)
   responses:
     '200':
       description: Events retrieved successfully
