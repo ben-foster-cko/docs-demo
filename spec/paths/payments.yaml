@@ -101,10 +101,7 @@ post:
     content:
       application/json:
         schema:
-          properties:
-            body:
-              required: true
-              $ref: '#/components/schemas/PaymentRequest'
+          $ref: '#/components/schemas/PaymentRequest'
   responses:
     '201':
       description: Payment processed successfully

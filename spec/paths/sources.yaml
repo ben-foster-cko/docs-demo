@@ -10,11 +10,7 @@ post:
     content:
       application/json:
         schema:
-          properties:
-            body:
-              $ref: '#/components/schemas/SourceRequest'
-          required:
-            - body
+          $ref: '#/components/schemas/SourceRequest'
   responses:
     '201':
       description: Payment source added successfully
