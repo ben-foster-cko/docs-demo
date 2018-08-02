@@ -31,6 +31,26 @@ get:
         type: integer
         default: 0
         minimum: 0
+    - name: charge_id
+      in: query
+      description: Search for an event by Charge ID (v1)
+      schema:
+        type: string
+    - name: payment_id
+      in: query
+      description: Search for an event by Payment ID (v2)
+      schema:
+        type: string
+    - name: track_id
+      in: query
+      description: Search for an event by Track ID (v1)
+      schema:
+        type: string
+    - name: reference
+      in: query
+      description: Search for an event by Reference (v2)
+      schema:
+        type: string
   responses:
     '200':
       description: Events retrieved successfully
