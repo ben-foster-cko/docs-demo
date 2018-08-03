@@ -1,6 +1,7 @@
 type: object
 description: Payment source
-x-extendedDiscriminator: type
+discriminator:
+  propertyName: type
 required:
   - type
 

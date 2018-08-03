@@ -1,6 +1,7 @@
 type: object
 description: The source of the payment
-x-extendedDiscriminator: type
+discriminator:
+  propertyName: type
 required:
   - type
 properties:

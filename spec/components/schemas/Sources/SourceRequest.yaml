@@ -1,7 +1,8 @@
 type: object
 required:
   - type
-x-extendedDiscriminator: type
+discriminator:
+  propertyName: type
 properties:
   type:
     type: string

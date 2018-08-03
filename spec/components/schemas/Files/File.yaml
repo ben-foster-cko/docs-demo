@@ -1,5 +1,6 @@
 type: object
-x-extendedDiscriminator: type
+discriminator:
+  propertyName: type
 required:
   - id
   - filename
