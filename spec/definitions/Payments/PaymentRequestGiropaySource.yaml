@@ -24,7 +24,7 @@ allOf:
         type: string
         maxLength: 34
         description: IBAN without whitespaces. This parameter is optional. 
-      infos: 
+      info_fields: 
         type: array
         maxItems: 5
         items:
