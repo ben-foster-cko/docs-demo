@@ -14,17 +14,17 @@ allOf:
         type: object
         description: Additional data required to create SEPA payment sources
         required:
-          - given_name
-          - family_name
+          - first_name
+          - last_name
           - account_iban
           - bic
-          - soft_descriptor
+          - billing_descriptor
         properties:
-          given_name:
+          first_name:
             type: string
             description: The account holder's first name
             example: "Marcus"
-          family_name:
+          last_name:
             type: string
             description: The account holder's last name
             example: "Barrilius Maximus"
@@ -36,7 +36,7 @@ allOf:
             type: string
             description: The account BIC
             example: "PBNKDEFFXXX"
-          soft_descriptor:
+          billing_descriptor:
             type: string
             description: The billing descriptor
             example: "ExampleCompany.com"
