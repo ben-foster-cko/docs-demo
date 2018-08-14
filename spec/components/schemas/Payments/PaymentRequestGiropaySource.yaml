@@ -1,11 +1,11 @@
 type: object
 description: Giropay Source
-required:
-  - purpose
-  - bic
 allOf:
-  - $ref: "#/definitions/PaymentRequestSource"
+  - $ref: "#/components/schemas/PaymentRequestSource"
   - type: object
+    required:
+      - purpose
+      - bic
     properties:
       type:
         type: string
@@ -20,12 +20,12 @@ allOf:
         type: string
         maxLength: 11
         description: BIC (8 or 11-digits)
-      iban: 
+      iban:
         type: string
         maxLength: 34
-        description: IBAN without whitespaces. This parameter is optional. 
-      info_fields: 
+        description: IBAN without whitespaces. This parameter is optional.
+      info_fields:
         type: array
         maxItems: 5
         items:
-          $ref: "#/definitions/GiropayPaymentInfo"
+          $ref: "#/components/schemas/GiropayPaymentInfo"
