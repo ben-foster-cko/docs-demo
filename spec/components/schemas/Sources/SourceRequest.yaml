@@ -3,11 +3,13 @@ required:
   - type
 discriminator:
   propertyName: type
+  mapping:
+    sepa: '#/components/schemas/SepaSource'
 properties:
   type:
     type: string
     description: The payment source type
-    example: "sepa"
+    example: sepa
   reference:
     type: string
     description: A reference you can later use to identify the source

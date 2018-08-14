@@ -1,6 +1,4 @@
 type: object
-discriminator:
-  propertyName: type
 required:
   - id
   - filename

@@ -45,15 +45,7 @@ put:
     content:
       application/json:
         schema:
-          properties:
-            request:
-              type: object
-              allOf:
-                - $ref: '#/components/schemas/WebhookRequest'
-              required:
-                - url
-          required:
-            - request
+          $ref: '#/components/schemas/WebhookRequest'
   responses:
     '200':
       description: Updated webhook
@@ -90,11 +82,7 @@ patch:
     content:
       application/json:
         schema:
-          properties:
-            request:
-              $ref: '#/components/schemas/WebhookRequest'
-          required:
-            - request
+          $ref: '#/components/schemas/WebhookRequest'
   responses:
     '200':
       description: Updated webhook

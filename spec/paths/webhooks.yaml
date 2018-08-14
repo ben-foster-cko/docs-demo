@@ -28,11 +28,7 @@ post:
     content:
       application/json:
         schema:
-          properties:
-            request:
-              $ref: '#/components/schemas/WebhookRequest'
-          required:
-            - request
+          $ref: '#/components/schemas/WebhookRequest'
   responses:
     '201':
       description: Webhook registered successfully
