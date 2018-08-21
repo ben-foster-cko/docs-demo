@@ -23,6 +23,11 @@ allOf:
         properties:
           account_type:
             type: string
+            enum:
+              - checking
+              - savings
+              - corporate
+              - corporatesavings
             description: The type of the account
             example: checking
           account_number:
@@ -39,7 +44,7 @@ allOf:
             example: Tom Black
           company_name:
             type: string
-            description: The company name
+            description: The company name (required for corporate account types only)
             example: Checkout.com
           billing_descriptor:
             type: string
