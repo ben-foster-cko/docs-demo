@@ -1,7 +1,6 @@
 description: >
-      When you sign up for an account, you are given a secret and public API key
-      pair. Only public keys should be used in JavaScript or native applications. Any endpoints that
-      allow public key authentication will be documented accordingly.
+      Unless explicitly stated, all endpoints require authentication using your secret key. 
+      Public keys should only be used in JavaScript or native applications. 
 
       You can generate new API keys within the Checkout Hub.
 name: Authorization
