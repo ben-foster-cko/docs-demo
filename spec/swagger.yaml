@@ -54,7 +54,6 @@ x-tagGroups:
       - Tokens
       - Sources
       - Files
-      - Batch Processing
   - name: Broadcast
     tags: 
       - Events

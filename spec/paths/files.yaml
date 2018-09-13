@@ -19,8 +19,6 @@ post:
       type: string
       enum:
         - dispute_evidence
-        - onboarding_document 
-        - batch_processing
       description: The purpose of the file upload
       required: true
   responses:

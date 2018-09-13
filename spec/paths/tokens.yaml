@@ -5,7 +5,7 @@ post:
   description: |
     Exchange card details or a digital wallet payment token for a reference token that can be later used to request a card payment. 
 
-    **To create tokens please authenticate using your public key**
+    **To request tokens please authenticate using your public key**
   parameters:
     - name: body
       in: body
