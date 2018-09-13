@@ -72,9 +72,6 @@ tags:
   - name: Files
     description: |
       Upload files to be used as input to other APIs
-  - name: Batch Processing
-    description: |
-      Bulk upload batches of payment or data change requests
 securityDefinitions:
   ApiKey:
     description: >
