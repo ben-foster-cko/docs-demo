@@ -51,9 +51,6 @@ tags:
   - name: Files
     description: |
       Upload files to be used as input to other APIs
-  - name: Batch Processing
-    description: |
-      Bulk upload batches of payment or data change requests
 x-tagGroups:
   - name: Gateway
     tags:
@@ -61,7 +58,6 @@ x-tagGroups:
       - Tokens
       - Sources
       - Files
-      - Batch Processing
   - name: Broadcast
     tags:
       - Events
