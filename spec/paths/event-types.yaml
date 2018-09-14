@@ -6,20 +6,25 @@ get:
   parameters:
     - in: query
       name: version
-      type: string
-      required: true
+      schema:
+        type: string
       description: The events version
+      required: true
   responses:
     '200':
       description: Event types retrieved successfully
-      schema:
-        type: array
-        items:
-          $ref: '#/definitions/EventTypesObject'
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/EventTypesObject'
       headers:
         Cko-Request-Id:
-          $ref: "#/headers/Cko-Request-Id"
+          schema:
+            $ref: "#/components/headers/Cko-Request-Id"
         Cko-Version:
-          $ref: "#/headers/Cko-Version"
+          schema:
+            $ref: "#/components/headers/Cko-Version"
     '401':
       description: Unauthorized

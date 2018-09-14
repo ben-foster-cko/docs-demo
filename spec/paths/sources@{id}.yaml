@@ -1,0 +1,35 @@
+get:
+  tags:
+    - Sources
+  summary: Retrieve a payment source
+  description: |
+    Retrieves the payment source with the specified identifier string.
+
+    Some alternative payment sources such as SEPA may include additional links that provide
+    access to AP specific data and/or functionality.
+  parameters:
+    - in: path
+      name: id
+      schema:
+        type: string
+        pattern: "^(src)_(\\w{26})$"
+      required: true
+      description: The payment identifier
+  responses:
+    '200':
+      description: Payment source was retrieved successfully
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Source'
+      headers:
+        Cko-Request-Id:
+          schema:
+            $ref: "#/components/headers/Cko-Request-Id"
+        Cko-Version:
+          schema:
+            $ref: "#/components/headers/Cko-Version"
+    '401':
+      description: Unauthorized
+    '404':
+      description: Payment source not found

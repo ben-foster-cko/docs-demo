@@ -1,13 +1,31 @@
-var paymentRequest = new PaymentRequest<TokenSource>
+var tokenSource = new TokenSource("tok_ubfj2q76miwundwlk72vxt2i7q");
+var paymentRequest = new PaymentRequest<TokenSource>(tokenSource, Currency.USD, 5600)
 {
-    Source = new TokenSource
-    {
-        Token = "tok_ubfj2q76miwundwlk72vxt2i7q",
-        BillingAddress = new Address { },
-        Phone = new Phone { }
-    }
-    Amount = 5600,
-    Currency = Currencies.GBP
-}
+    Reference = "ORD-090857",
+    Capture = false,
+    ThreeDs = true
+};
 
-var response = await api.Payments.RequestAsync(request);
+try
+{
+    var response = await Api.Payments.RequestAsync(paymentRequest);
+
+    if (response.IsPending && response.Pending.RequiresRedirect())
+    {
+        return Redirect(response.Pending.GetRedirectLink().Href);
+    }
+
+    if (response.Payment.Approved)
+        return PaymentSucessful(response.Payment);
+
+    return PaymentDeclined(response.Payment);
+}
+catch (CheckoutValidationException validationEx)
+{
+    return ValidationError(validationEx.Error);
+}
+catch (CheckoutApiException apiEx)
+{
+    Log.Error("Payment request failed with status code {HttpStatusCode}", apiEx.HttpStatusCode);
+    throw;
+}

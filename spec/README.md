@@ -20,5 +20,5 @@ paths:
           description: A list of api keys was retrieved successfully
           headers:
             Rate-Limit-Limit:
-              $ref: "#/headers/Rate-Limit-Limit"
+              $ref: "#/components/schemas/Rate-Limit-Limit"
 ```

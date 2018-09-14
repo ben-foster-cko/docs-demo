@@ -1,6 +1,12 @@
-language: node_js
+language: csharp
+mono: none
+dotnet: 2.1
+script:
+  - npm install
+  - npm run build
+  - npm test
 node_js:
-  - "node"
+  - "8.11.3"
 deploy:
   - skip_cleanup: true
     provider: script
@@ -13,3 +19,4 @@ deploy:
     on:
       all_branches: true
       condition: '"$TRAVIS_BRANCH" != "master" && "$TRAVIS_BRANCH" != "gh-pages"'
+

@@ -3,21 +3,26 @@ post:
     - Tokens
   summary: Request a token
   description: |
-    Exchange card details or a digital wallet payment token for a reference token that can be later used to request a card payment. 
+    Exchange card details or a digital wallet payment token for a reference token that can be later used to request a card payment.
 
-    **To request tokens please authenticate using your public key**
-  parameters:
-    - name: body
-      in: body
-      required: true
-      schema:
-        $ref: '#/definitions/TokenRequest'
+    **To create tokens please authenticate using your public key**
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/TokenRequest'
   responses:
     '201':
       description: Reference token created successfully
-      schema:
-        $ref: '#/definitions/TokenResponse'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/TokenResponse'
     '401':
       description: Unauthorized
     '422':
-      $ref: '#/responses/InvalidDataError'
+      description: Invalid data was sent
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ValidationError'

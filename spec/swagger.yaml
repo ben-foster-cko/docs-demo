@@ -1,6 +1,6 @@
-swagger: '2.0'
+openapi: '3.0.1'
 info:
-  version: '1.0'
+  version: '1.0.0'
   title: Checkout.com API Reference
   contact:
     name: Checkout Support
@@ -32,32 +32,11 @@ info:
 
 
     Never share your secret keys. Keep them guarded and secure.
-
-    <!-- ReDoc-Inject: <security-definitions> -->
-host: api.checkout.com
-basePath: /
-schemes:
-  - https
-x-servers:
-  - url: //api.checkout.com
+servers:
+  - url: https://api.checkout.com
     description: Live API
-  - url: //sandbox.checkout.com
+  - url: https://api.sandbox.checkout.com
     description: Sandbox API
-produces:
-  - application/json
-consumes:
-  - application/json
-x-tagGroups:
-  - name: Gateway
-    tags:
-      - Payments
-      - Tokens
-      - Sources
-      - Files
-  - name: Broadcast
-    tags: 
-      - Events
-      - Webhooks
 tags:
   - name: Payments
     description: |
@@ -72,138 +51,14 @@ tags:
   - name: Files
     description: |
       Upload files to be used as input to other APIs
-  - name: Batch Processing
-    description: |
-      Bulk upload batches of payment or data change requests
-securityDefinitions:
-  ApiKey:
-    description: >
-      When you sign up for an account, you are given a secret and public API key
-      pair. Only public keys should be used in JavaScript or native applications. Any endpoints that
-      allow public key authentication will be documented accordingly.
-
-      You can generate new API keys within the Checkout Hub.
-    name: Authorization
-    type: apiKey
-    in: header
-
-security:
-  - ApiKey: []
-  
-responses:
-  AccessForbidden:
-    description: 'Access forbidden, invalid API-KEY was used'
-    schema:
-      $ref: '#/definitions/Error'
-  NotFound:
-    description: Resource was not found
-    schema:
-      $ref: '#/definitions/Error'
-  Conflict:
-    description: Conflict
-    schema:
-      $ref: '#/definitions/Error'
-  InvalidDataError:
-    description: Invalid data was sent
-    schema:
-      $ref: '#/definitions/ValidationError'
-
-parameters:
-  resourceId:
-    name: id
-    in: path
-    description: The resource identifier string
-    type: string
-    required: true
-  collectionLimit:
-    name: limit
-    in: query
-    description: The collection items limit
-    type: integer
-    minimum: 0
-    maximum: 1000
-  collectionOffset:
-    name: offset
-    in: query
-    description: The collection items offset
-    type: integer
-    minimum: 0
-  collectionFilter:
-    name: filter
-    in: query
-    type: string
-    description: |
-      The collection items filter requires a special format.
-      Use "," for multiple allowed values.  Use ";" for multiple fields.
-      See the filter guide for more options and examples about this format.
-  collectionQuery:
-    name: q
-    in: query
-    type: string
-    description: The partial search of the text fields.
-  collectionCriteria:
-    name: criteria
-    in: query
-    type: string
-    description: The json criteria for collection
-  collectionSort:
-    name: sort
-    in: query
-    type: array
-    collectionFormat: csv
-    description: >-
-      The collection items sort field and order (prefix with "-" for descending
-      sort).
-    items:
-      type: string
-  collectionFields:
-    name: fields
-    in: query
-    type: string
-    description: >-
-      Limit the returned fields to the list specified, separated by comma.  Note
-      that id is always returned.
-  collectionExpand:
-    name: expand
-    in: query
-    type: string
-    description: >-
-      Expand response to get full related object intead of ID.  See the expand
-      guide for more info.
-  systemEventType:
-    name: eventType
-    in: path
-    description: The event type
-    type: string
-    required: true
-  rulesVersion:
-    name: version
-    in: path
-    type: integer
-    required: true
-    minimum: 1
-    description: >-
-      The rule set version. Expand response to get full related object instead
-      of ID.  See the expand guide for more info.
-  hash:
-    name: hash
-    in: path
-    description: The token identifier string
-    type: string
-    required: true
-  mediaType:
-    name: Accept
-    in: header
-    type: string
-    enum:
-      - application/json
-    default: application/json
-    description: The response media type
-
-headers:
-  Cko-Request-Id:
-    description: Unique identifer of the request
-    type: string
-  Cko-Version:
-    description: Version of the API
-    type: string
+x-tagGroups:
+  - name: Gateway
+    tags:
+      - Payments
+      - Tokens
+      - Sources
+      - Files
+  - name: Broadcast
+    tags:
+      - Events
+      - Webhooks

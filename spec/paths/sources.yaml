@@ -3,27 +3,34 @@ post:
     - Sources
   summary: Add a payment source
   description: |
-    Add a reusable payment sources that can be later used to make one or more payments. 
+    Add a reusable payment sources that can be later used to make one or more payments.
     Payment sources are linked to a specific customer and cannot be shared between customers.
-    
-  parameters:
-    - name: body
-      in: body
-      required: true
-      schema:
-        $ref: '#/definitions/SourceRequest'
+
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/SourceRequest'
   responses:
     '201':
       description: Payment source added successfully
-      schema:
-        $ref: '#/definitions/AddSourceResponse'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/AddSourceResponse'
     '202':
       description: Payment source asynchronous or further action required
-      schema:
-        $ref: '#/definitions/SourceRedirectResponse'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/SourceRedirectResponse'
     '401':
       description: Unauthorized
     '422':
-      $ref: '#/responses/InvalidDataError'
+      description: Invalid data was sent
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ValidationError'
     '502':
       description: Bad gateway
