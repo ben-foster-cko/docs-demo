@@ -61,7 +61,10 @@ post:
         "cvv" "843"
       },
       "amount": 5600,
-      "currency": "GBP"
+      "currency": "GBP",
+      "customer": {
+        "id": "cus_yhn5qqcar3velcwqq47dmxjy4m"
+      }
     }
     ```
 
