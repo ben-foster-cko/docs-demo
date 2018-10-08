@@ -19,6 +19,11 @@ properties:
       - json
       - xml
     example: json
+  emails:
+    type: array
+    items:
+      type: string
+      example: admin.override@domina.com
   event_types:
     $ref: '#/components/schemas/WebhookEvents'
   _links:

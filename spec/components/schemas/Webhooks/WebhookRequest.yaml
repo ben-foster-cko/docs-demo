@@ -24,5 +24,11 @@ properties:
       - xml
     default: json
     example: json
+  emails:
+    type: array
+    description: List of addresses to send emails to if notifications fail for this webhook endpoint.
+    items:
+      type: string
+      example: admin.override@domain.com
   event_types:
     $ref: '#/components/schemas/WebhookEvents'
