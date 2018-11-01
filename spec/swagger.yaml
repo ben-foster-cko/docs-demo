@@ -47,7 +47,7 @@ tags:
       events happen in near real-time.
 
       They allow you to collect information about those events. Checkout.com can send
-      these information via POST to an URL of your choice.
+      this information via POST to an URL of your choice.
   - name: Files
     description: |
       Upload files to be used as input to other APIs
