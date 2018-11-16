@@ -1,0 +1,33 @@
+type: object
+description: The ACH Payment source details
+allOf:
+  - $ref: '#/definitions/AddSourceResponse'
+  - type: object
+    properties:
+      type:
+        type: string
+        enum:
+          - ach
+      _links:
+        type: object
+        description: The links related to the ACH payment source
+        readOnly: true
+        minItems: 1
+        properties:
+          self:
+            type: object
+            allOf:
+              - $ref: '#/definitions/Link'
+            description: The URI of the payment source
+          pay:
+            type: object
+            allOf:
+              - $ref: '#/definitions/Link'
+            description: A link to pay with the ACH payment source
+          response-code:
+            type: object
+            allOf:
+              - $ref: '#/definitions/Link'
+            description: A link to the full response code details
+            example:
+              href: 'https://api.checkout.com/refs/response-codes/10000'
