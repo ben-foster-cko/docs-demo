@@ -1,0 +1,4251 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0",
+    "title": "Checkout REST API",
+    "contact": {
+      "name": "Checkout Support",
+      "url": "https://checkout.com",
+      "email": "support@checkout.com"
+    },
+    "license": {
+      "name": "Checkout.com",
+      "url": "https://checkout.com/api/license/"
+    },
+    "termsOfService": "https://checkout.com/terms/",
+    "description": "# Introduction\nThe Checkout API is built on HTTP.  Our API is RESTful.  It has predictable resource URLs.  It returns HTTP response codes to indicate errors.  It also accepts and returns JSON in the HTTP body.\n\nYou can use your favorite HTTP/REST library for your programming language to use Checkout's API, or you can use one of our SDKs (currently available in [PHP](https://github.com/checkout/checkout-php-library), [.NET](https://github.com/checkout/checkout-net-library) and [Java](https://github.com/checkout/checkout-java-library)).\n# Authentication\nWhen you sign up for an account, you are given a secret and public API key pair. You authenticate with the Checkout API by providing the appropriate key in the request Authorization header.\n\nNever share your secret keys. Keep them guarded and secure.\n<!-- ReDoc-Inject: <security-definitions> -->\n"
+  },
+  "host": "api.checkout.com",
+  "basePath": "/",
+  "schemes": [
+    "https"
+  ],
+  "x-servers": [
+    {
+      "url": "//api.checkout.com",
+      "description": "Live API"
+    },
+    {
+      "url": "//sandbox.checkout.com",
+      "description": "Sandbox API"
+    }
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "x-tagGroups": [
+    {
+      "name": "Gateway",
+      "tags": [
+        "Payments",
+        "Tokens",
+        "Sources"
+      ]
+    },
+    {
+      "name": "Broadcast",
+      "tags": [
+        "Events",
+        "Webhooks"
+      ]
+    }
+  ],
+  "tags": [
+    {
+      "name": "Payments",
+      "description": "Resources related to payments\n"
+    },
+    {
+      "name": "Webhooks",
+      "description": "Webhooks are designed to notify your systems when certain/all registered events happen in near real-time.\nThey allow you to collect information about those events. Checkout.com can send these information via POST to an URL of your choice.\n"
+    }
+  ],
+  "securityDefinitions": {
+    "ApiKey": {
+      "description": "When you sign up for an account, you are given a secret and public API key pair. Only public keys should be used in JavaScript or native applications. Any endpoints that allow public key authentication will be documented accordingly.\nYou can generate new API keys within the Checkout Hub.\n",
+      "name": "Authorization",
+      "type": "apiKey",
+      "in": "header"
+    }
+  },
+  "security": [
+    {
+      "ApiKey": []
+    }
+  ],
+  "responses": {
+    "AccessForbidden": {
+      "description": "Access forbidden, invalid API-KEY was used",
+      "schema": {
+        "$ref": "#/definitions/Error"
+      }
+    },
+    "NotFound": {
+      "description": "Resource was not found",
+      "schema": {
+        "$ref": "#/definitions/Error"
+      }
+    },
+    "Conflict": {
+      "description": "Conflict",
+      "schema": {
+        "$ref": "#/definitions/Error"
+      }
+    },
+    "InvalidDataError": {
+      "description": "Invalid data was sent",
+      "schema": {
+        "$ref": "#/definitions/ValidationError"
+      }
+    }
+  },
+  "parameters": {
+    "resourceId": {
+      "name": "id",
+      "in": "path",
+      "description": "The resource identifier string",
+      "type": "string",
+      "required": true
+    },
+    "collectionLimit": {
+      "name": "limit",
+      "in": "query",
+      "description": "The collection items limit",
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 1000
+    },
+    "collectionOffset": {
+      "name": "offset",
+      "in": "query",
+      "description": "The collection items offset",
+      "type": "integer",
+      "minimum": 0
+    },
+    "collectionFilter": {
+      "name": "filter",
+      "in": "query",
+      "type": "string",
+      "description": "The collection items filter requires a special format.\nUse \",\" for multiple allowed values.  Use \";\" for multiple fields.\nSee the filter guide for more options and examples about this format.\n"
+    },
+    "collectionQuery": {
+      "name": "q",
+      "in": "query",
+      "type": "string",
+      "description": "The partial search of the text fields."
+    },
+    "collectionCriteria": {
+      "name": "criteria",
+      "in": "query",
+      "type": "string",
+      "description": "The json criteria for collection"
+    },
+    "collectionSort": {
+      "name": "sort",
+      "in": "query",
+      "type": "array",
+      "collectionFormat": "csv",
+      "description": "The collection items sort field and order (prefix with \"-\" for descending sort).",
+      "items": {
+        "type": "string"
+      }
+    },
+    "collectionFields": {
+      "name": "fields",
+      "in": "query",
+      "type": "string",
+      "description": "Limit the returned fields to the list specified, separated by comma.  Note that id is always returned."
+    },
+    "collectionExpand": {
+      "name": "expand",
+      "in": "query",
+      "type": "string",
+      "description": "Expand response to get full related object intead of ID.  See the expand guide for more info."
+    },
+    "systemEventType": {
+      "name": "eventType",
+      "in": "path",
+      "description": "The event type",
+      "type": "string",
+      "required": true
+    },
+    "rulesVersion": {
+      "name": "version",
+      "in": "path",
+      "type": "integer",
+      "required": true,
+      "minimum": 1,
+      "description": "The rule set version. Expand response to get full related object instead of ID.  See the expand guide for more info."
+    },
+    "hash": {
+      "name": "hash",
+      "in": "path",
+      "description": "The token identifier string",
+      "type": "string",
+      "required": true
+    },
+    "mediaType": {
+      "name": "Accept",
+      "in": "header",
+      "type": "string",
+      "enum": [
+        "application/json"
+      ],
+      "default": "application/json",
+      "description": "The response media type"
+    }
+  },
+  "paths": {
+    "/event-types": {
+      "get": {
+        "tags": [
+          "Events"
+        ],
+        "summary": "Retrieve event types",
+        "description": "Retrieve a list of event types that you can be notified of using webhooks",
+        "responses": {
+          "200": {
+            "description": "Event types retrieved successfully",
+            "schema": {
+              "$ref": "#/definitions/EventTypesObject"
+            },
+            "headers": {
+              "Cko-Request-Id": {
+                "description": "Unique identifer of the request",
+                "type": "string"
+              },
+              "Cko-Version": {
+                "description": "Version of the API",
+                "type": "string"
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/events": {
+      "get": {
+        "tags": [
+          "Events"
+        ],
+        "summary": "Retrieve events",
+        "description": "Retrieves events ordered by the event date in descending order (latest first). Results can be paged by specifying the `skip` and `limit` query parameters.",
+        "parameters": [
+          {
+            "name": "from",
+            "in": "query",
+            "type": "string",
+            "format": "date-time",
+            "description": "An ISO8601 formatted date and time to search from (default = last 6 months)"
+          },
+          {
+            "name": "to",
+            "in": "query",
+            "type": "string",
+            "format": "date-time",
+            "description": "An ISO8601 formatted date and time to search to (default = now)"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "type": "integer",
+            "description": "The number of events to return per page",
+            "default": 10,
+            "minimum": 1,
+            "maximum": 100
+          },
+          {
+            "name": "skip",
+            "in": "query",
+            "type": "integer",
+            "description": "The number of events to skip",
+            "default": 0,
+            "minimum": 0
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Events retrieved successfully",
+            "schema": {
+              "$ref": "#/definitions/EventResult"
+            }
+          },
+          "204": {
+            "description": "No events found"
+          },
+          "401": {
+            "description": "Unauthorised"
+          },
+          "422": {
+            "$ref": "#/responses/InvalidDataError"
+          }
+        }
+      }
+    },
+    "/events/{eventId}": {
+      "get": {
+        "tags": [
+          "Events"
+        ],
+        "summary": "Retrieve event",
+        "description": "Retrieves the event with the specified identifier string. The event `message` includes the full event details, the schema of which will vary based on the `event_type`.\n\nThe event message will resemble one of the following examples&#58;\n* <a href=\"examples/events/charge-succeeded.json\" target=\"_blank\">charge.succeeded</a>\n* <a href=\"examples/events/charge-failed.json\" target=\"_blank\">charge.failed</a>\n* <a href=\"examples/events/charge-captured.json\" target=\"_blank\">charge.captured</a>\n* <a href=\"examples/events/charge-captured-failed.json\" target=\"_blank\">charge.captured.failed</a>\n* <a href=\"examples/events/charge-refunded.json\" target=\"_blank\">charge.refunded</a>\n* <a href=\"examples/events/charge-refunded-failed.json\" target=\"_blank\">charge.refunded.failed</a>\n* <a href=\"examples/events/charge-voided.json\" target=\"_blank\">charge.voided</a>\n* <a href=\"examples/events/charge-voided-failed.json\" target=\"_blank\">charge.voided.failed</a>\n",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "eventId",
+            "type": "string",
+            "required": true,
+            "description": "The event identifier",
+            "pattern": "^(evt)_(\\w{26})$"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Event retrieved successfully",
+            "schema": {
+              "$ref": "#/definitions/EventObject"
+            }
+          },
+          "401": {
+            "description": "Unauthorised"
+          },
+          "404": {
+            "description": "Event not found"
+          }
+        }
+      }
+    },
+    "/events/{eventId}/notifications/{notificationId}": {
+      "get": {
+        "tags": [
+          "Events"
+        ],
+        "summary": "Retrieve event notification",
+        "description": "Retrieves the attempts for a specific event notification",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "eventId",
+            "type": "string",
+            "required": true,
+            "description": "The event identifier",
+            "pattern": "^(evt)_(\\w{26})$"
+          },
+          {
+            "in": "path",
+            "name": "notificationId",
+            "type": "string",
+            "required": true,
+            "description": "The notification identifier",
+            "pattern": "^(ntf)_(\\w{26})$"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Notification retrieved successfully",
+            "schema": {
+              "$ref": "#/definitions/Notification"
+            }
+          },
+          "401": {
+            "description": "Unauthorised"
+          },
+          "404": {
+            "description": "Event or notification not found"
+          }
+        }
+      }
+    },
+    "/events/{eventId}/webhooks/{webhookId}/retry": {
+      "post": {
+        "tags": [
+          "Events"
+        ],
+        "summary": "Retry webhook",
+        "description": "Retries a specific webhook notification for the given event",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "eventId",
+            "type": "string",
+            "required": true,
+            "description": "The event identifier",
+            "pattern": "^(evt)_(\\w{26})$"
+          },
+          {
+            "in": "path",
+            "name": "webhookId",
+            "type": "string",
+            "required": true,
+            "description": "The webhook identifier",
+            "pattern": "^(wh)_(\\w{26})$"
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "Retry accepted"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Event or webhook not found"
+          }
+        }
+      }
+    },
+    "/events/{eventId}/webhooks/retry": {
+      "post": {
+        "tags": [
+          "Events"
+        ],
+        "summary": "Retry all webhooks",
+        "description": "Retries all webhook notifications configured for the specified event",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "eventId",
+            "type": "string",
+            "required": true,
+            "description": "The event identifier",
+            "pattern": "^(evt)_(\\w{26})$"
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "Retry accepted"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Event or webhook not found"
+          }
+        }
+      }
+    },
+    "/payments": {
+      "post": {
+        "tags": [
+          "Payments"
+        ],
+        "summary": "Request a payment",
+        "description": "Checkout.com supports payments from a variety of sources, from synchronous card payments to \nasynchronous SEPA direct debits. The source of payment can be specified using the `source.type` field. \nSource fields vary per source type, as detailed below.\n\n### Reference Tokens\n\nThe most common way of making card payments is using a token generated by [Checkout Frames](#). \nThis is mandatory for non-PCI compliant merchants as no card details are transferred to your server. \nDuring the tokenisation process that can then be used to request a payment. This integration method also applies to digital wallets \nsuch as Apple Pay and Google Pay.\n\nNote: Reference tokens expire after 15 minutes.\n\n```json\n{\n  \"source\": {\n    \"type\": \"token\",\n    \"token\": \"tok_ubfj2q76miwundwlk72vxt2i7q\",\n    \"billing_address\": { ... },\n    \"phone\": { ... }\n  },\n  \"amount\": 5600,\n  \"currency\": \"GBP\"\n}\n```\n\n#### Full Card Details\n\nTo make a card payment specify the source type card.\n\nNote that full card payments should only be requested by PCI compliant merchants.\n\n```json\n{\n  \"source\": {\n    \"type\": \"card\",\n    \"number\": \"4242424242424242\",\n    \"expiry_month\": 6,\n    \"expiry_year\": 2018\n  },\n  \"amount\": 5600,\n  \"currency\": \"GBP\"\n}\n```\n\n### Existing Source\n\nWhen a card payment is processed you will be returned a source identifier that can later be used to make payments. \nYou can also add payment sources for Alternative Payments via the [Sources API](#tag/Sources).\n\n```json\n{\n  \"source\": {\n    \"type\": \"id\",\n    \"id\": \"src_wmlfc3zyhqzehihu7giusaaawu\",\n    \"cvv\" \"843\"\n  },\n  \"amount\": 5600,\n  \"currency\": \"GBP\"\n}\n```\n\n### Customer\n\nIn addition to a source identifier you can also provide the details of an existing customer. This can be useful if you do not track the individual payment sources of your customers and instead only have a customer identifier or email.\n\n```json\n{\n  \"source\": {\n    \"type\": \"customer\",\n    \"id\": \"cus_y3oqhf46pyzuxjbcn2giaqnb44\",\n  },\n  \"amount\": 5600,\n  \"currency\": \"GBP\"\n}\n```\n\n### Alternative Payments\n\nCheckout.com supports a number of alternative payment methods. Reusable payment sources such as SEPA Direct Debits must be first created via the [Sources API](#tag/Sources).\n\nFor non-reusable payment methods such as those that use a redirect flow (e.g. iDEAL), provide the name of the payment method as the source.type.\n\n```json\n{\n  \"source\": {\n    \"type\": \"ideal\",\n    \"issuer_id\": \"TESTISSUER01\"\n  },\n  \"amount\": 5600,\n  \"currency\": \"GBP\"\n}\n```\n",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/PaymentRequest"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Payment processed successfully",
+            "schema": {
+              "$ref": "#/definitions/PaymentResponse"
+            },
+            "headers": {
+              "Cko-Request-Id": {
+                "description": "Unique identifer of the request",
+                "type": "string"
+              },
+              "Cko-Version": {
+                "description": "Version of the API",
+                "type": "string"
+              }
+            }
+          },
+          "202": {
+            "description": "Payment asynchronous or further action required",
+            "schema": {
+              "$ref": "#/definitions/PaymentAcceptedResponse"
+            },
+            "headers": {
+              "Cko-Request-Id": {
+                "description": "Unique identifer of the request",
+                "type": "string"
+              },
+              "Cko-Version": {
+                "description": "Version of the API",
+                "type": "string"
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "422": {
+            "$ref": "#/responses/InvalidDataError"
+          }
+        },
+        "x-code-samples": [
+          {
+            "lang": "C#",
+            "source": "var paymentRequest = new PaymentRequest<TokenSource>\n{\n    Source = new TokenSource\n    {\n        Token = \"tok_ubfj2q76miwundwlk72vxt2i7q\",\n        BillingAddress = new Address { },\n        Phone = new Phone { }\n    }\n    Amount = 5600,\n    Currency = Currencies.GBP\n}\n\nvar response = await api.Payments.RequestAsync(request);"
+          }
+        ]
+      }
+    },
+    "/payments/{id}": {
+      "get": {
+        "tags": [
+          "Payments"
+        ],
+        "summary": "Get payment details",
+        "description": "Returns the details of the payment with the specified identifier string\n",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "type": "string",
+            "required": true,
+            "description": "The payment identifier",
+            "pattern": "^(pay)_(\\w{26})$"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Payment retrieved successfully",
+            "schema": {
+              "$ref": "#/definitions/Payment"
+            },
+            "headers": {
+              "Cko-Request-Id": {
+                "description": "Unique identifer of the request",
+                "type": "string"
+              },
+              "Cko-Version": {
+                "description": "Version of the API",
+                "type": "string"
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Payment not found"
+          }
+        }
+      }
+    },
+    "/payments/{id}/actions": {
+      "get": {
+        "tags": [
+          "Payments"
+        ],
+        "summary": "Get payment actions",
+        "description": "Returns all the actions associated with a payment ordered by processing date in descending order (latest first).\n",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "type": "string",
+            "required": true,
+            "description": "The payment identifier",
+            "pattern": "^(pay)_(\\w{26})$"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Payment actions retrieved successfully",
+            "schema": {
+              "$ref": "#/definitions/PaymentActionsResponse"
+            },
+            "headers": {
+              "Cko-Request-Id": {
+                "description": "Unique identifer of the request",
+                "type": "string"
+              },
+              "Cko-Version": {
+                "description": "Version of the API",
+                "type": "string"
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Payment not found"
+          }
+        }
+      }
+    },
+    "/payments/{id}/captures": {
+      "post": {
+        "tags": [
+          "Payments"
+        ],
+        "summary": "Capture a payment",
+        "description": "Captures a payment if supported by the payment method. \n\nFor card payments, capture requests are processed asynchronously. You can use [webhooks](#tag/Webhooks) to be notified if the capture is successful.\n",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "type": "string",
+            "required": true,
+            "description": "The payment identifier",
+            "pattern": "^(pay)_(\\w{26})$"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/CaptureRequest"
+            }
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "Capture accepted",
+            "schema": {
+              "$ref": "#/definitions/CaptureAcceptedResponse"
+            },
+            "headers": {
+              "Cko-Request-Id": {
+                "description": "Unique identifer of the request",
+                "type": "string"
+              },
+              "Cko-Version": {
+                "description": "Version of the API",
+                "type": "string"
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Capture not allowed"
+          },
+          "404": {
+            "description": "Payment not found"
+          },
+          "422": {
+            "$ref": "#/responses/InvalidDataError"
+          }
+        }
+      }
+    },
+    "/payments/{id}/refunds": {
+      "post": {
+        "tags": [
+          "Payments"
+        ],
+        "summary": "Refund a payment",
+        "description": "Refunds a payment if supported by the payment method.\n\nFor card payments, refund requests are processed asynchronously. You can use [webhooks](#tag/Webhooks) to be notified if the refund is successful.\n",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "type": "string",
+            "required": true,
+            "description": "The payment identifier",
+            "pattern": "^(pay)_(\\w{26})$"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/RefundRequest"
+            }
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "Refund accepted",
+            "schema": {
+              "$ref": "#/definitions/RefundAcceptedResponse"
+            },
+            "headers": {
+              "Cko-Request-Id": {
+                "description": "Unique identifer of the request",
+                "type": "string"
+              },
+              "Cko-Version": {
+                "description": "Version of the API",
+                "type": "string"
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Refund not allowed"
+          },
+          "404": {
+            "description": "Payment not found"
+          },
+          "422": {
+            "$ref": "#/responses/InvalidDataError"
+          }
+        }
+      }
+    },
+    "/payments/{id}/voids": {
+      "post": {
+        "tags": [
+          "Payments"
+        ],
+        "summary": "Void a payment",
+        "description": "Voids a payment if supported by the payment method. \n\nFor card payments, void requests are processed asynchronously. You can use [webhooks](#tag/Webhooks) to be notified if the void is successful.\n",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "type": "string",
+            "required": true,
+            "description": "The payment identifier",
+            "pattern": "^(pay)_(\\w{26})$"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/VoidRequest"
+            }
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "Void accepted",
+            "schema": {
+              "$ref": "#/definitions/VoidAcceptedResponse"
+            },
+            "headers": {
+              "Cko-Request-Id": {
+                "description": "Unique identifer of the request",
+                "type": "string"
+              },
+              "Cko-Version": {
+                "description": "Version of the API",
+                "type": "string"
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Void not allowed"
+          },
+          "404": {
+            "description": "Payment not found"
+          },
+          "422": {
+            "$ref": "#/responses/InvalidDataError"
+          }
+        }
+      }
+    },
+    "/sources": {
+      "post": {
+        "tags": [
+          "Sources"
+        ],
+        "summary": "Add a payment source",
+        "description": "Add a reusable payment sources that can be later used to make one or more payments. \nPayment sources are linked to a specific customer and cannot be shared between customers.\n",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/SourceRequest"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Payment source added successfully",
+            "schema": {
+              "$ref": "#/definitions/AddSourceResponse"
+            }
+          },
+          "202": {
+            "description": "Payment source asynchronous or further action required",
+            "schema": {
+              "$ref": "#/definitions/SourceRedirectResponse"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "422": {
+            "$ref": "#/responses/InvalidDataError"
+          }
+        },
+        "x-code-samples": [
+          {
+            "lang": "C#",
+            "source": "var sourceRequest = new AddSourceRequest(SourceTypes.Sepa)\n{\n    Reference = \"X-080957-N34\",\n    BillingAddress = new Address { ... },\n    Phone = new Phone { ... },\n    CustomerId = \"cus_y3oqhf46pyzuxjbcn2giaqnb44\"\n}\n\nsourceRequest.SourceData.Add(\"iban\", \"DE89 3704 0044 0532 0130 00\");\n\nvar response = await api.Sources.AddAsync(sourceRequest);"
+          }
+        ]
+      }
+    },
+    "/sources/{id}": {
+      "get": {
+        "tags": [
+          "Sources"
+        ],
+        "summary": "Retrieve a payment source",
+        "description": "Retrieves the payment source with the specified identifier string.\n\nSome alternative payment sources such as SEPA may include additional links that provide\naccess to AP specific data and/or functionality.\n",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "type": "string",
+            "required": true,
+            "description": "The payment identifier",
+            "pattern": "^(src)_(\\w{26})$"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Payment source was retrieved successfully",
+            "schema": {
+              "$ref": "#/definitions/Source"
+            },
+            "headers": {
+              "Cko-Request-Id": {
+                "description": "Unique identifer of the request",
+                "type": "string"
+              },
+              "Cko-Version": {
+                "description": "Version of the API",
+                "type": "string"
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Payment source not found"
+          }
+        }
+      }
+    },
+    "/tokens": {
+      "post": {
+        "tags": [
+          "Tokens"
+        ],
+        "summary": "Request a token",
+        "description": "Exchange card details or a digital wallet payment token for a reference token that can be later used to request a card payment. \n\n**To create tokens please authenticate using your public key**\n",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/TokenRequest"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Reference token created successfully",
+            "schema": {
+              "$ref": "#/definitions/TokenResponse"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "422": {
+            "$ref": "#/responses/InvalidDataError"
+          }
+        }
+      }
+    },
+    "/webhooks": {
+      "get": {
+        "tags": [
+          "Webhooks"
+        ],
+        "summary": "Retrieve webhooks",
+        "description": "Retrieves the webhooks configured for the channel identified by your API key\n",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Configured webhooks",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Webhook"
+              }
+            }
+          },
+          "204": {
+            "description": "No webhooks configured"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Webhooks"
+        ],
+        "summary": "Register webhook",
+        "description": "Register a new webhook endpoint that Checkout.com will POST all or selected events to\n",
+        "parameters": [
+          {
+            "name": "request",
+            "required": true,
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/WebhookRequest"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Webhook registered successfully",
+            "schema": {
+              "$ref": "#/definitions/Webhook"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "409": {
+            "description": "Url already registered for another webhook"
+          },
+          "422": {
+            "$ref": "#/responses/InvalidDataError"
+          }
+        }
+      }
+    },
+    "/webhooks/{id}": {
+      "get": {
+        "tags": [
+          "Webhooks"
+        ],
+        "summary": "Retrieve webhook",
+        "description": "Retrieves the webhook with the specified identifier string\n",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "type": "string",
+            "in": "path",
+            "description": "The webhook identifier, for example `wh_387ac7a83a054e37ae140105429d76b5`\n"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Webhook was retrieved successfully",
+            "schema": {
+              "type": "object",
+              "allOf": [
+                {
+                  "$ref": "#/definitions/WebhookRequest"
+                }
+              ],
+              "required": [
+                "url"
+              ]
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Webhook not found"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Webhooks"
+        ],
+        "summary": "Update webhook",
+        "description": "Updates an existing webhook\n",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "type": "string",
+            "in": "path",
+            "description": "The webhook identifier, for example `wh_387ac7a83a054e37ae140105429d76b5`\n"
+          },
+          {
+            "name": "request",
+            "required": true,
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "allOf": [
+                {
+                  "$ref": "#/definitions/WebhookRequest"
+                }
+              ],
+              "required": [
+                "url"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Updated webhook",
+            "schema": {
+              "$ref": "#/definitions/Webhook"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Webhook not found"
+          },
+          "409": {
+            "description": "Url already registered for another webhook"
+          },
+          "422": {
+            "$ref": "#/responses/InvalidDataError"
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "Webhooks"
+        ],
+        "summary": "Partially update webhook",
+        "description": "Updates all or some of the registered webhook details",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "type": "string",
+            "in": "path",
+            "description": "The webhook identifier, for example `wh_387ac7a83a054e37ae140105429d76b5`\n"
+          },
+          {
+            "name": "request",
+            "required": true,
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/WebhookRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Updated webhook",
+            "schema": {
+              "$ref": "#/definitions/Webhook"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Webhook not found"
+          },
+          "409": {
+            "description": "Url already exists in another webhook configuration"
+          },
+          "422": {
+            "$ref": "#/responses/InvalidDataError"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Webhooks"
+        ],
+        "summary": "Removes a webhook",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "type": "string",
+            "in": "path",
+            "description": "The webhook identifier, for example `wh_387ac7a83a054e37ae140105429d76b5`\n"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Webhook removed successfully"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Webhook not found"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Address": {
+      "type": "object",
+      "properties": {
+        "address_line1": {
+          "type": "string",
+          "description": "Line 1 of the address",
+          "example": "Checkout.com"
+        },
+        "address_line2": {
+          "type": "string",
+          "description": "Line 2 of the address",
+          "example": "90 Tottenham Court Road"
+        },
+        "city": {
+          "type": "string",
+          "description": "The address city",
+          "example": "London"
+        },
+        "state": {
+          "type": "string",
+          "description": "The address state",
+          "example": "London"
+        },
+        "zip": {
+          "type": "string",
+          "description": "The address zip/postal code",
+          "example": "W1T 4TJ"
+        },
+        "country": {
+          "type": "string",
+          "description": "The two-letter ISO code of the address country",
+          "example": "GB"
+        }
+      }
+    },
+    "Error": {
+      "type": "object",
+      "properties": {
+        "request_id": {
+          "type": "string",
+          "example": "0HL80RJLS76I7"
+        },
+        "error_type": {
+          "type": "string",
+          "example": "request_malformed"
+        }
+      }
+    },
+    "BillingDetails": {
+      "type": "object",
+      "properties": {
+        "address_line_1": {
+          "type": "string",
+          "example": "372 Weimann Lane"
+        },
+        "address_line_2": {
+          "type": "string",
+          "example": "Rolfson Alley"
+        },
+        "post_code": {
+          "type": "string",
+          "example": "ew1 7zb"
+        },
+        "country": {
+          "type": "string",
+          "example": "SJ"
+        },
+        "city": {
+          "type": "string",
+          "example": "North Benedicthaven"
+        },
+        "state": {
+          "type": "string",
+          "example": "Georgia"
+        },
+        "phone": {
+          "$ref": "#/definitions/Phone"
+        }
+      }
+    },
+    "Card": {
+      "type": "object",
+      "properties": {
+        "customer_id": {
+          "type": "string",
+          "example": "cust_7508EA38E86A4569AF12E483519E332D"
+        },
+        "expiry_month": {
+          "type": "string",
+          "example": "06"
+        },
+        "expiry_year": {
+          "type": "string",
+          "example": 2018
+        },
+        "billing_details": {
+          "$ref": "#/definitions/BillingDetails"
+        },
+        "id": {
+          "type": "string",
+          "example": "card_D44D7F4CCC6348698717CD80072808B0"
+        },
+        "last_4": {
+          "type": "string",
+          "example": "424242******4242"
+        },
+        "payment_method": {
+          "type": "string",
+          "example": "VISA"
+        },
+        "fingerprint": {
+          "type": "string",
+          "example": "f639cab2745bee4140bf86df6b6d6e255c5945aac3788d923fa047ea4c208622"
+        },
+        "name": {
+          "type": "string",
+          "example": "Test Customer"
+        },
+        "cvv_check": {
+          "type": "string",
+          "example": "Y"
+        },
+        "avs_check": {
+          "type": "string",
+          "example": "S"
+        }
+      }
+    },
+    "CustomerPaymentPlan": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "customer_plan_id": {
+          "type": "string"
+        },
+        "card_id": {
+          "type": "string"
+        },
+        "customer_id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "plan_track_id": {
+          "type": "string"
+        },
+        "auto_cap_time": {
+          "type": "string"
+        },
+        "value": {
+          "type": "integer"
+        },
+        "currency": {
+          "type": "string"
+        },
+        "cycle": {
+          "type": "string"
+        },
+        "recurring_count": {
+          "type": "integer"
+        },
+        "recurring_count_left": {
+          "type": "integer"
+        },
+        "total_collected_value": {
+          "type": "integer"
+        },
+        "total_collected_count": {
+          "type": "integer"
+        },
+        "current_recurring_status": {
+          "type": "integer"
+        },
+        "start_date": {
+          "type": "string"
+        },
+        "previous_recurring_date": {
+          "type": "string"
+        },
+        "next_recurring_date": {
+          "type": "string"
+        }
+      }
+    },
+    "EventId": {
+      "type": "string",
+      "description": "The unique event identifier",
+      "maxLength": 30,
+      "minLength": 30,
+      "example": "evt_az5sblvku4ge3dwpztvyizgcau"
+    },
+    "EventLinks": {
+      "type": "object",
+      "description": "The links related to the event",
+      "properties": {
+        "self": {
+          "type": "object",
+          "allOf": [
+            {
+              "$ref": "#/definitions/Link"
+            }
+          ],
+          "description": "The URI of the event",
+          "example": {
+            "href": "https://api.checkout.com/events/evt_az5sblvku4ge3dwpztvyizgcau"
+          }
+        },
+        "webhooks-retry": {
+          "type": "object",
+          "allOf": [
+            {
+              "$ref": "#/definitions/Link"
+            }
+          ],
+          "description": "A link to retry all of the webhooks configured for the event",
+          "example": {
+            "href": "https://api.checkout.com/events/evt_az5sblvku4ge3dwpztvyizgcau/webhooks/retry"
+          }
+        }
+      }
+    },
+    "EventObject": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "$ref": "#/definitions/EventId"
+        },
+        "event_type": {
+          "type": "string",
+          "description": "The event type",
+          "example": "charge.succeeded"
+        },
+        "created_on": {
+          "description": "The date/time the event occurred",
+          "allOf": [
+            {
+              "$ref": "#/definitions/ServerTimestamp"
+            }
+          ]
+        },
+        "message": {
+          "$ref": "#/definitions/Message"
+        },
+        "notifications": {
+          "type": "array",
+          "description": "The notifications (e.g. webhooks) that have been sent for the event",
+          "items": {
+            "$ref": "#/definitions/NotificationSummary"
+          }
+        },
+        "_links": {
+          "$ref": "#/definitions/EventLinks"
+        }
+      }
+    },
+    "EventResult": {
+      "type": "object",
+      "properties": {
+        "total_count": {
+          "type": "integer",
+          "example": 100,
+          "description": "The total number of events"
+        },
+        "limit": {
+          "type": "integer",
+          "description": "The `limit` query parameter",
+          "example": 10
+        },
+        "skip": {
+          "type": "integer",
+          "example": 10,
+          "description": "The `skip` query parameter"
+        },
+        "from": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The `from` query parameter",
+          "example": "2018-01-01T00:00:00Z"
+        },
+        "to": {
+          "type": "string",
+          "format": "date-time",
+          "example": "2018-01-15T12:00:00Z",
+          "description": "The `to` query parameter"
+        },
+        "data": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/EventSummary"
+          }
+        }
+      }
+    },
+    "EventSummary": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "maxLength": 30,
+          "minLength": 30,
+          "description": "The event identifier",
+          "example": "evt_az5sblvku4ge3dwpztvyizgcau"
+        },
+        "event_type": {
+          "type": "string",
+          "description": "The event type",
+          "example": "charge.succeeded"
+        },
+        "created_on": {
+          "description": "The date/time the event occurred",
+          "allOf": [
+            {
+              "$ref": "#/definitions/ServerTimestamp"
+            }
+          ]
+        },
+        "_links": {
+          "$ref": "#/definitions/EventLinks"
+        }
+      }
+    },
+    "EventTypesObject": {
+      "type": "object",
+      "properties": {
+        "events": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "example": [
+            "charge.succeeded",
+            "charge.failed",
+            "charge.voided",
+            "charge.voided.failed",
+            "charge.captured",
+            "charge.captured.failed",
+            "charge.refunded",
+            "charge.refunded.failed"
+          ]
+        }
+      }
+    },
+    "Message": {
+      "type": "object",
+      "description": "The event message",
+      "example": {
+        "email": "custtest@cko.com",
+        "transaction_indicator": 0,
+        "customer_ip": "46.33.135.97",
+        "auth_code": "042645",
+        "is_cascaded": false,
+        "auto_capture": "N",
+        "auto_action_time": 0,
+        "risk_check": false,
+        "id": "charge_test_25B8DBAE674N64D9AF92",
+        "live_mode": false,
+        "charge_mode": 1,
+        "response_code": "10000'",
+        "created": "2017-07-12T13:22:47.209144Z",
+        "value": 1234,
+        "currency": "GBP",
+        "track_id": "TRK12345",
+        "description": "charge description",
+        "response_message": "Approved",
+        "response_advanced_info": "Approved",
+        "status": "Authorised",
+        "udf_1": "udf1",
+        "udf_2": "udf2",
+        "udf_3": "udf3",
+        "udf_4": "udf4",
+        "udf_5": "udf5"
+      }
+    },
+    "Notification": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "$ref": "#/definitions/NotificationId"
+        },
+        "endpoint": {
+          "type": "string",
+          "description": "The notification endpoint",
+          "example": "https://example.com/webhooks"
+        },
+        "success": {
+          "type": "boolean",
+          "description": "Whether the notification eventually succeeded",
+          "example": false
+        },
+        "content_type": {
+          "type": "string",
+          "description": "The content type of the data sent to the endpoint",
+          "example": "json"
+        },
+        "attempts": {
+          "type": "array",
+          "description": "The notification events ordered by timestamp in descending order (latest first)",
+          "items": {
+            "$ref": "#/definitions/NotificationAttempt"
+          }
+        },
+        "_links": {
+          "type": "object",
+          "description": "The links related to the notification",
+          "properties": {
+            "self": {
+              "type": "object",
+              "description": "The URI of the notification",
+              "allOf": [
+                {
+                  "$ref": "#/definitions/Link"
+                }
+              ],
+              "example": {
+                "href": "https://api.checkout.com/events/evt_az5sblvku4ge3dwpztvyizgcau/notifications/ntf_az5sblvku4ge3dwpztvyizgcau"
+              }
+            },
+            "retry": {
+              "type": "object",
+              "description": "A link to retry the notification to the configured webhook",
+              "allOf": [
+                {
+                  "$ref": "#/definitions/Link"
+                }
+              ],
+              "example": {
+                "href": "https://api.checkout.com/events/evt_az5sblvku4ge3dwpztvyizgcau/webhooks/wh_5nuzkt62ddxuho5rwsvt6pyesi/retry"
+              }
+            }
+          }
+        }
+      }
+    },
+    "NotificationAttempt": {
+      "type": "object",
+      "properties": {
+        "status_code": {
+          "type": "integer",
+          "description": "The HTTP status code returned from the target server",
+          "example": 400
+        },
+        "response_body": {
+          "type": "string",
+          "description": "The response body returned from the target server",
+          "example": "Bad Request"
+        },
+        "retry_mode": {
+          "type": "string",
+          "description": "Whether the notification was sent automatically or requested manually",
+          "enum": [
+            "Automatic",
+            "Manual"
+          ]
+        },
+        "timestamp": {
+          "type": "string",
+          "description": "The date/time the attempt was made",
+          "allOf": [
+            {
+              "$ref": "#/definitions/ServerTimestamp"
+            }
+          ]
+        }
+      }
+    },
+    "NotificationId": {
+      "type": "string",
+      "description": "The unique notification identifier",
+      "maxLength": 30,
+      "minLength": 30,
+      "example": "ntf_az5sblvku4ge3dwpztvyizgcau"
+    },
+    "NotificationSummary": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "$ref": "#/definitions/NotificationId"
+        },
+        "endpoint": {
+          "type": "string",
+          "description": "The notification endpoint",
+          "example": "https://example.com/webhooks"
+        },
+        "success": {
+          "type": "boolean",
+          "description": "Whether the notification eventually succeeded",
+          "example": false
+        },
+        "_links": {
+          "type": "object",
+          "description": "The links related to the notification",
+          "properties": {
+            "self": {
+              "type": "string",
+              "example": {
+                "href": "https://api.checkout.com/events/evt_az5sblvku4ge3dwpztvyizgcau/notifications/ntf_az5sblvku4ge3dwpztvyizgcau"
+              }
+            }
+          }
+        }
+      }
+    },
+    "Phone": {
+      "type": "object",
+      "properties": {
+        "country_code": {
+          "type": "string",
+          "example": "975"
+        },
+        "number": {
+          "type": "string",
+          "example": "174217187"
+        }
+      }
+    },
+    "Product": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "example": "Tablet 1 gold limited"
+        },
+        "description": {
+          "type": "string",
+          "example": "Nokia Lumia"
+        },
+        "sku": {
+          "type": "string",
+          "example": "1aab2aa"
+        },
+        "price": {
+          "type": "integer",
+          "example": 100
+        },
+        "quantity": {
+          "type": "integer",
+          "example": 1
+        },
+        "image": {
+          "type": "string",
+          "example": "http://www.test_Jabari.com/"
+        },
+        "shipping_cost": {
+          "type": "integer",
+          "example": 10
+        },
+        "tracking_url": {
+          "type": "string",
+          "example": "https://www.tracker.com"
+        }
+      }
+    },
+    "ShippingDetails": {
+      "type": "object",
+      "properties": {
+        "address_line_1": {
+          "type": "string",
+          "example": "333 Cormier Bypass"
+        },
+        "address_line_2": {
+          "type": "string",
+          "example": "Rolfson Alley"
+        },
+        "post_code": {
+          "type": "string",
+          "example": "BR3 6TK"
+        },
+        "country": {
+          "type": "string",
+          "example": "GB"
+        },
+        "city": {
+          "type": "string",
+          "example": "Bromley"
+        },
+        "state": {
+          "type": "string",
+          "example": "Greater London"
+        },
+        "phone": {
+          "$ref": "#/definitions/Phone"
+        }
+      }
+    },
+    "InvalidError": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/Error"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "details": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "IPAddress": {
+      "type": "string",
+      "format": "ipv4",
+      "example": "90.197.169.245"
+    },
+    "Link": {
+      "type": "object",
+      "properties": {
+        "href": {
+          "description": "The link URL",
+          "type": "string"
+        }
+      },
+      "required": [
+        "href"
+      ]
+    },
+    "SelfLink": {
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/Link"
+        }
+      ],
+      "properties": {
+        "rel": {
+          "description": "The link type",
+          "type": "string",
+          "enum": [
+            "self"
+          ]
+        }
+      },
+      "required": [
+        "rel"
+      ]
+    },
+    "ActionId": {
+      "type": "string",
+      "description": "The action identifier",
+      "maxLength": 30,
+      "minLength": 30,
+      "example": "act_y3oqhf46pyzuxjbcn2giaqnb44"
+    },
+    "BillingDescriptor": {
+      "type": "object",
+      "description": "An optional dynamic billing descriptor displayed on the account owner's statement. [Read more](https://docs.checkout.com/reference/merchant-api-reference/complex-request-objects/dynamic-descriptor)\n",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Dynamic description of the charge",
+          "example": "SUPERHEROES.COM",
+          "maxLength": 25
+        },
+        "city": {
+          "type": "string",
+          "description": "City where the charge originated",
+          "minimum": 1,
+          "example": "GOTHAM",
+          "maxLength": 13
+        }
+      },
+      "required": [
+        "name",
+        "city"
+      ]
+    },
+    "CaptureAcceptedResponse": {
+      "type": "object",
+      "description": "Capture response",
+      "required": [
+        "action_id"
+      ],
+      "properties": {
+        "action_id": {
+          "description": "The unique identifier for the capture action",
+          "allOf": [
+            {
+              "$ref": "#/definitions/ActionId"
+            }
+          ]
+        },
+        "reference": {
+          "type": "string",
+          "description": "Your reference for the capture request",
+          "example": "ORD-5023-4E89"
+        },
+        "_links": {
+          "type": "object",
+          "description": "Capture links",
+          "readOnly": true,
+          "minItems": 2,
+          "properties": {
+            "payment": {
+              "type": "object",
+              "allOf": [
+                {
+                  "$ref": "#/definitions/Link"
+                }
+              ],
+              "description": "The URI of the payment to be captured. Use this to check the status of the payment",
+              "example": {
+                "href": "https://api.checkout.com/payments/pay_y3oqhf46pyzuxjbcn2giaqnb44"
+              }
+            },
+            "redirect": {
+              "type": "object",
+              "allOf": [
+                {
+                  "$ref": "#/definitions/Link"
+                }
+              ],
+              "description": "For some alternative payments, the URI that the customer should be redirected to, to complete the capture",
+              "example": {
+                "href": "https://api.checkout.com/redirect/act_y3oqhf46pyzuxjbcn2giaqnb44"
+              }
+            }
+          },
+          "required": [
+            "payment"
+          ]
+        }
+      }
+    },
+    "CaptureRequest": {
+      "type": "object",
+      "properties": {
+        "amount": {
+          "type": "integer",
+          "description": "The amount to capture in the major currency. If not specified, the full payment amount will be captured\n",
+          "minimum": 0,
+          "example": 6540
+        },
+        "reference": {
+          "type": "string",
+          "description": "A reference you can later use to identify this capture request",
+          "example": "ORD-5023-4E89"
+        },
+        "metadata": {
+          "type": "object",
+          "description": "Set of key/value pairs that you can attach to the capture request. It can be useful for storing additional information in a structured format",
+          "example": {
+            "coupon_code": "NY2018",
+            "partner_id": 123989
+          }
+        }
+      }
+    },
+    "Item": {
+      "type": "object",
+      "description": "The order line item or product that is being purchased",
+      "properties": {
+        "sku": {
+          "type": "string",
+          "description": "The stock-keeping unit identifier of the item",
+          "example": "858818ac"
+        },
+        "name": {
+          "type": "string",
+          "description": "The name of the item or product",
+          "example": "Kevlar batterang"
+        },
+        "description": {
+          "type": "string",
+          "description": "A description of the item or product",
+          "example": "The fastest, hardest batterang known to man"
+        },
+        "image_url": {
+          "type": "string",
+          "format": "uri",
+          "description": "The URL of an image of the item or product",
+          "example": "http://example.com/batterang.jpg"
+        },
+        "price": {
+          "type": "number",
+          "description": "The unit price of the item or product in the minor currency unit",
+          "example": 34.5
+        },
+        "quantity": {
+          "type": "number",
+          "description": "The number of the items purchased",
+          "example": 2
+        },
+        "shipping_cost": {
+          "type": "number",
+          "description": "The shipping cost of the item",
+          "example": 2.99
+        },
+        "shipping_tracking_url": {
+          "type": "string",
+          "format": "uri",
+          "description": "A URL to track the shipping status of the item",
+          "example": "http://www.dhl.co.uk/en/express/tracking.html?AWB=41f280bbe12cd787b47c&brand=DHL"
+        }
+      }
+    },
+    "Payment": {
+      "type": "object",
+      "description": "Payment response",
+      "required": [
+        "id",
+        "requested_on",
+        "amount",
+        "currency",
+        "status",
+        "_links"
+      ],
+      "properties": {
+        "id": {
+          "description": "Payment unique identifier",
+          "allOf": [
+            {
+              "$ref": "#/definitions/PaymentId"
+            }
+          ]
+        },
+        "requested_on": {
+          "description": "The date/time the payment was requested",
+          "allOf": [
+            {
+              "$ref": "#/definitions/ServerTimestamp"
+            }
+          ]
+        },
+        "source": {
+          "description": "The source of the payment",
+          "type": "object",
+          "allOf": [
+            {
+              "$ref": "#/definitions/PaymentSource"
+            }
+          ]
+        },
+        "amount": {
+          "type": "integer",
+          "description": "The original payment amount",
+          "example": 6540
+        },
+        "currency": {
+          "type": "string",
+          "description": "The three-letter ISO currency code of the payment",
+          "example": "USD",
+          "maxLength": 3,
+          "minLength": 3
+        },
+        "payment_type": {
+          "type": "string",
+          "description": "Must be specified for card payments where the cardholder is not present (recurring or Merchant Offline Telephone Order)",
+          "enum": [
+            "Regular",
+            "Recurring",
+            "MOTO"
+          ],
+          "default": "Regular",
+          "example": "Recurring"
+        },
+        "reference": {
+          "type": "string",
+          "description": "Your reference for the payment",
+          "example": "ORD-5023-4E89"
+        },
+        "description": {
+          "type": "string",
+          "description": "A description of the payment",
+          "example": "Set of 3 masks"
+        },
+        "status": {
+          "allOf": [
+            {
+              "$ref": "#/definitions/PaymentStatus"
+            }
+          ]
+        },
+        "3ds": {
+          "type": "boolean",
+          "description": "Whether this payment was processed with 3D-Secure",
+          "default": false,
+          "example": true
+        },
+        "3ds_downgraded": {
+          "type": "boolean",
+          "description": "Whether this was a 3DS transaction, downgraded to Non-3DS (when `attempt_n3d` is specified)",
+          "example": false
+        },
+        "flagged": {
+          "type": "boolean",
+          "description": "Whether the payment was flagged by a risk check",
+          "default": false,
+          "example": true
+        },
+        "customer": {
+          "type": "object",
+          "description": "The customer to which this payment is linked",
+          "properties": {
+            "id": {
+              "type": "string",
+              "description": "The unique identifier of the customer. This can be passed as a source when making a payment",
+              "example": "cus_y3oqhf46pyzuxjbcn2giaqnb44"
+            },
+            "email": {
+              "type": "string",
+              "description": "The customer email address",
+              "example": "jokershere@gmail.com"
+            },
+            "name": {
+              "type": "string",
+              "description": "The customer name",
+              "example": "Jack Napier"
+            }
+          },
+          "required": [
+            "id"
+          ]
+        },
+        "billing_descriptor": {
+          "$ref": "#/definitions/BillingDescriptor"
+        },
+        "shipping": {
+          "type": "object",
+          "description": "The payment shipping details",
+          "properties": {
+            "address": {
+              "description": "The shipping address",
+              "allOf": [
+                {
+                  "$ref": "#/definitions/Address"
+                }
+              ]
+            },
+            "phone": {
+              "description": "The phone number associated with the shipping address",
+              "allOf": [
+                {
+                  "$ref": "#/definitions/PhoneNumber"
+                }
+              ]
+            }
+          }
+        },
+        "payment_ip": {
+          "description": "The IP address used to make the payment",
+          "allOf": [
+            {
+              "$ref": "#/definitions/IPAddress"
+            }
+          ]
+        },
+        "recipient": {
+          "$ref": "#/definitions/PaymentRecipient"
+        },
+        "destinations": {
+          "type": "array",
+          "items": [
+            {
+              "$ref": "#/definitions/PaymentDestination"
+            }
+          ],
+          "minItems": 0,
+          "description": "For OpenPay payments, destinations determine the proportion of the payment amount credited to other OpenPay accounts\n"
+        },
+        "metadata": {
+          "type": "object",
+          "description": "Set of key/value pairs that you can attach to a payment. It can be useful for storing additional information in a structured format",
+          "example": {
+            "coupon_code": "NY2018",
+            "partner_id": 123989
+          }
+        },
+        "_links": {
+          "type": "object",
+          "description": "The links related to the payment",
+          "minItems": 2,
+          "required": [
+            "self",
+            "actions"
+          ],
+          "properties": {
+            "self": {
+              "type": "object",
+              "allOf": [
+                {
+                  "$ref": "#/definitions/Link"
+                }
+              ],
+              "description": "The URI of the payment"
+            },
+            "actions": {
+              "type": "object",
+              "allOf": [
+                {
+                  "$ref": "#/definitions/Link"
+                }
+              ],
+              "description": "A link to the payment's associated actions"
+            },
+            "void": {
+              "type": "object",
+              "allOf": [
+                {
+                  "$ref": "#/definitions/Link"
+                }
+              ],
+              "description": "A link to void the payment, where applicable"
+            },
+            "capture": {
+              "type": "object",
+              "allOf": [
+                {
+                  "$ref": "#/definitions/Link"
+                }
+              ],
+              "description": "A link to capture the payment, where applicable"
+            },
+            "refund": {
+              "type": "object",
+              "allOf": [
+                {
+                  "$ref": "#/definitions/Link"
+                }
+              ],
+              "description": "A link to refund the payment, where applicable"
+            }
+          },
+          "example": {
+            "self": {
+              "href": "https://api.checkout.com/payments/pay_y3oqhf46pyzuxjbcn2giaqnb44"
+            },
+            "actions": {
+              "href": "https://api.checkout.com/payments/pay_y3oqhf46pyzuxjbcn2giaqnb44/actions"
+            },
+            "refund": {
+              "href": "https://api.checkout.com/payments/pay_y3oqhf46pyzuxjbcn2giaqnb44/refund"
+            }
+          }
+        }
+      }
+    },
+    "PaymentAcceptedResponse": {
+      "type": "object",
+      "description": "Payment response",
+      "required": [
+        "id",
+        "status",
+        "customer"
+      ],
+      "properties": {
+        "id": {
+          "description": "Payment unique identifier",
+          "readOnly": true,
+          "allOf": [
+            {
+              "$ref": "#/definitions/PaymentId"
+            }
+          ]
+        },
+        "status": {
+          "type": "string",
+          "description": "The status of the payment",
+          "enum": [
+            "Pending"
+          ]
+        },
+        "reference": {
+          "type": "string",
+          "description": "Your reference for the payment request",
+          "example": "ORD-5023-4E89"
+        },
+        "customer": {
+          "type": "object",
+          "description": "The customer to which this payment is linked",
+          "allOf": [
+            {
+              "$ref": "#/definitions/PaymentResponseCustomer"
+            }
+          ]
+        },
+        "_links": {
+          "type": "object",
+          "description": "Payment links",
+          "readOnly": true,
+          "minItems": 2,
+          "properties": {
+            "self": {
+              "type": "object",
+              "allOf": [
+                {
+                  "$ref": "#/definitions/Link"
+                }
+              ],
+              "description": "The URI of the payment",
+              "example": {
+                "href": "https://api.checkout.com/payments/pay_y3oqhf46pyzuxjbcn2giaqnb44"
+              }
+            },
+            "redirect": {
+              "type": "object",
+              "allOf": [
+                {
+                  "$ref": "#/definitions/Link"
+                }
+              ],
+              "description": "The URI that the customer should be redirected to, to complete the payment",
+              "example": {
+                "href": "https://api.checkout.com/3ds/pay_y3oqhf46pyzuxjbcn2giaqnb44"
+              }
+            }
+          },
+          "required": [
+            "self"
+          ]
+        }
+      }
+    },
+    "PaymentAction": {
+      "type": "object",
+      "required": [
+        "id",
+        "type",
+        "amount",
+        "response_code",
+        "processed_on"
+      ],
+      "properties": {
+        "id": {
+          "description": "The unique identifier of the payment action",
+          "allOf": [
+            {
+              "$ref": "#/definitions/ActionId"
+            }
+          ]
+        },
+        "type": {
+          "type": "string",
+          "description": "The type of action",
+          "enum": [
+            "Authorisation",
+            "Void",
+            "Capture",
+            "Partial Refund",
+            "Refund"
+          ]
+        },
+        "processed_on": {
+          "description": "The date/time the action was processed",
+          "allOf": [
+            {
+              "$ref": "#/definitions/ServerTimestamp"
+            }
+          ]
+        },
+        "amount": {
+          "type": "integer",
+          "description": "The action amount",
+          "example": 6540
+        },
+        "auth_code": {
+          "type": "string",
+          "description": "The acquirer authorisation code for card authorisations",
+          "example": "643381"
+        },
+        "response_code": {
+          "type": "string",
+          "description": "Gateway response code",
+          "example": "10000"
+        },
+        "response_summary": {
+          "type": "string",
+          "description": "The Gateway response summary",
+          "example": "Approved"
+        },
+        "reference": {
+          "type": "string",
+          "description": "Your reference for the action",
+          "example": "ORD-5023-4E89"
+        },
+        "metadata": {
+          "type": "object",
+          "description": "Set of key/value pairs that you can attach to an action"
+        },
+        "_links": {
+          "type": "object",
+          "description": "The links related to the action",
+          "minItems": 1,
+          "properties": {
+            "response-code": {
+              "type": "object",
+              "allOf": [
+                {
+                  "$ref": "#/definitions/Link"
+                }
+              ],
+              "description": "A link to the full response code details",
+              "example": {
+                "href": "https://api.checkout.com/refs/response-codes/10000"
+              }
+            }
+          }
+        }
+      }
+    },
+    "PaymentActionsResponse": {
+      "type": "array",
+      "items": [
+        {
+          "$ref": "#/definitions/PaymentAction"
+        }
+      ],
+      "minItems": 1,
+      "description": "The payment actions\n",
+      "example": [
+        {
+          "id": "act_gefycn3jcvuupboxfmqrhk2aym",
+          "type": "Partial Refund",
+          "processed_on": "2018-01-20T10:30:48Z",
+          "amount": 1000,
+          "response_code": "10000",
+          "response_summary": "Approved",
+          "_links": {
+            "response-code": {
+              "href": "https://api.checkout.com/refs/response-codes/10000"
+            }
+          }
+        },
+        {
+          "id": "act_gefycn3jcvuupboxfmqrhk2aym",
+          "type": "Capture",
+          "processed_on": "2018-01-17T10:30:48Z",
+          "amount": 6540,
+          "response_code": "10000",
+          "response_summary": "Approved",
+          "metadata": {
+            "shipping_ref": "MQIBN2"
+          },
+          "_links": {
+            "response-code": {
+              "href": "https://api.checkout.com/refs/response-codes/10000"
+            }
+          }
+        },
+        {
+          "id": "act_y3oqhf46pyzuxjbcn2giaqnb44",
+          "type": "Authorisation",
+          "processed_on": "2018-01-17T09:30:48Z",
+          "amount": 6540,
+          "auth_code": "643381",
+          "response_code": "10000",
+          "response_summary": "Approved",
+          "reference": "ORD-5023-4E89",
+          "_links": {
+            "response-code": {
+              "href": "https://api.checkout.com/refs/response-codes/10000"
+            }
+          }
+        }
+      ]
+    },
+    "PaymentDestination": {
+      "type": "object",
+      "description": "A destination for OpenPay payments \n",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "The OpenPay account identifier",
+          "example": "vendor-123456"
+        },
+        "amount": {
+          "type": "integer",
+          "description": "The amount to be credited to the destination in the major currency unit",
+          "example": 10.5
+        }
+      },
+      "required": [
+        "id",
+        "amount"
+      ]
+    },
+    "PaymentId": {
+      "type": "string",
+      "description": "The payment identifier",
+      "maxLength": 30,
+      "minLength": 30,
+      "example": "pay_y3oqhf46pyzuxjbcn2giaqnb44"
+    },
+    "PaymentRecipient": {
+      "type": "object",
+      "description": "Required by VISA for domestic UK transactions processed by Financial Institutions. [Read more](https://docs.checkout.com/reference/merchant-api-reference/complex-request-objects/visa-requirements-for-financial-institutions)",
+      "properties": {
+        "dob": {
+          "type": "string",
+          "format": "date",
+          "description": "The recipient's date of birth in yyyy-mm-dd format",
+          "example": "1985-05-15"
+        },
+        "account_number": {
+          "type": "string",
+          "description": "The first six digits and the last four digits of the primary recipient's card, without spaces, or, up to ten characters of the primary recipient's account number",
+          "minLength": 10,
+          "maxLength": 10,
+          "example": "5555554444"
+        },
+        "zip": {
+          "type": "string",
+          "description": "The first part of the UK postcode for example W1T 4TJ would be W1T",
+          "example": "W1T"
+        },
+        "last_name": {
+          "type": "string",
+          "description": "The last name of the recipient",
+          "example": "Jones"
+        }
+      },
+      "required": [
+        "dob",
+        "account_number",
+        "zip",
+        "last_name"
+      ]
+    },
+    "PaymentRequest": {
+      "type": "object",
+      "required": [
+        "currency",
+        "source"
+      ],
+      "properties": {
+        "source": {
+          "$ref": "#/definitions/PaymentRequestSource"
+        },
+        "amount": {
+          "type": "integer",
+          "description": "The payment amount in the major currency.\nOmitting the amount or providing 0 will perform a card verification.\n",
+          "minimum": 0,
+          "example": 6540
+        },
+        "currency": {
+          "type": "string",
+          "description": "The three-letter ISO currency code\n",
+          "example": "USD",
+          "maxLength": 3,
+          "minLength": 3
+        },
+        "payment_type": {
+          "type": "string",
+          "description": "Must be specified for card payments where the cardholder is not present (recurring or Merchant Offline Telephone Order)",
+          "enum": [
+            "Regular",
+            "Recurring",
+            "MOTO"
+          ],
+          "default": "Regular",
+          "example": "Recurring"
+        },
+        "reference": {
+          "type": "string",
+          "description": "A reference you can later use to identify this payment such as an order number",
+          "example": "ORD-5023-4E89"
+        },
+        "description": {
+          "type": "string",
+          "description": "A description of the payment",
+          "example": "Set of 3 masks"
+        },
+        "capture": {
+          "type": "boolean",
+          "description": "Whether to capture the payment (if applicable)",
+          "default": true,
+          "example": true
+        },
+        "capture_on": {
+          "description": "An ISO 8601 timestamp that determines when the payment should be captured. \nProviding this field will automatically set `capture` to true.\n",
+          "allOf": [
+            {
+              "$ref": "#/definitions/Timestamp"
+            }
+          ]
+        },
+        "customer": {
+          "type": "object",
+          "description": "Details of the customer associated with the payment",
+          "properties": {
+            "id": {
+              "type": "string",
+              "description": "The identifier of an existing customer. If neither customer `id` or `email` is provided\na new customer will be registered\n",
+              "example": "cus_y3oqhf46pyzuxjbcn2giaqnb44"
+            },
+            "email": {
+              "type": "string",
+              "format": "email",
+              "description": "An optional email address to associate with the customer",
+              "example": "jokershere@gmail.com"
+            },
+            "name": {
+              "type": "string",
+              "description": "The customer's name. This will only set the name for *new* customers",
+              "example": "Jack Napier"
+            }
+          }
+        },
+        "billing_descriptor": {
+          "$ref": "#/definitions/BillingDescriptor"
+        },
+        "shipping": {
+          "type": "object",
+          "description": "The payment shipping details",
+          "properties": {
+            "address": {
+              "description": "The shipping address",
+              "allOf": [
+                {
+                  "$ref": "#/definitions/Address"
+                }
+              ]
+            },
+            "phone": {
+              "description": "The phone number associated with the shipping address",
+              "allOf": [
+                {
+                  "$ref": "#/definitions/PhoneNumber"
+                }
+              ]
+            }
+          }
+        },
+        "3ds": {
+          "type": "boolean",
+          "description": "Whether to process this payment as a 3D-Secure",
+          "default": false,
+          "example": true
+        },
+        "attempt_n3d": {
+          "type": "boolean",
+          "description": "Determines whether to attempt a 3D-Secure payment as non-3DS \nshould the card issuer not be enrolled.\n[Read more](https://docs.checkout.com/getting-started/merchant-api/3d-secure-charges/attempt-non-3d-secure-charge) for more information.\n",
+          "default": false,
+          "example": true
+        },
+        "skip_risk_check": {
+          "type": "boolean",
+          "description": "Indicates whether risk checks for the requested payment should be skipped",
+          "default": false,
+          "example": true
+        },
+        "success_url": {
+          "type": "string",
+          "format": "uri",
+          "description": "For redirect payment methods, overrides the default success redirect URL configured on your account",
+          "example": "http://example.com/payments/success"
+        },
+        "failure_url": {
+          "type": "string",
+          "format": "uri",
+          "description": "For redirect payment methods, overrides the default failure redirect URL configured on your account",
+          "example": "http://example.com/payments/fail"
+        },
+        "payment_ip": {
+          "description": "The IP address used to make the payment. Required for some risk checks.",
+          "allOf": [
+            {
+              "$ref": "#/definitions/IPAddress"
+            }
+          ]
+        },
+        "recipient": {
+          "$ref": "#/definitions/PaymentRecipient"
+        },
+        "destinations": {
+          "type": "array",
+          "items": [
+            {
+              "$ref": "#/definitions/PaymentDestination"
+            }
+          ],
+          "minItems": 0,
+          "description": "For OpenPay payments, destinations determine the proportion of the payment amount that should \nbe credited to other OpenPay accounts\n"
+        },
+        "metadata": {
+          "type": "object",
+          "description": "Set of key/value pairs that you can attach to a payment. It can be useful for storing additional information in a structured format",
+          "example": {
+            "coupon_code": "NY2018",
+            "partner_id": 123989
+          }
+        }
+      }
+    },
+    "PaymentRequestCardSource": {
+      "type": "object",
+      "description": "A card payment source",
+      "allOf": [
+        {
+          "$ref": "#/definitions/PaymentRequestSource"
+        },
+        {
+          "type": "object",
+          "required": [
+            "type",
+            "number",
+            "expiry_month",
+            "expiry_year"
+          ],
+          "properties": {
+            "type": {
+              "type": "string",
+              "description": "The payment source type. With the exception of some alternative payment methods, this is inferred automatically",
+              "enum": [
+                "card"
+              ]
+            },
+            "number": {
+              "type": "string",
+              "description": "The card number",
+              "example": "4543474002249996"
+            },
+            "expiry_month": {
+              "type": "integer",
+              "description": "The two-digit expiry month of the card",
+              "minimum": 1,
+              "example": 6
+            },
+            "expiry_year": {
+              "type": "integer",
+              "description": "The four-digit expiry year of the card",
+              "example": 2025
+            },
+            "name": {
+              "type": "string",
+              "description": "The card-holder name",
+              "example": "Bruce Wayne"
+            },
+            "cvv": {
+              "type": "string",
+              "description": "The card verification value/code. 3 digits, except for Amex (4 digits).",
+              "example": "956",
+              "minLength": 3,
+              "maxLength": 4
+            },
+            "billing_address": {
+              "description": "The payment source owner's billing address",
+              "allOf": [
+                {
+                  "$ref": "#/definitions/Address"
+                }
+              ]
+            },
+            "phone": {
+              "description": "The payment source owner's phone number",
+              "allOf": [
+                {
+                  "$ref": "#/definitions/PhoneNumber"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "PaymentRequestCustomerSource": {
+      "type": "object",
+      "description": "A customer source",
+      "allOf": [
+        {
+          "$ref": "#/definitions/PaymentRequestSource"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "description": "The payment source type. With the exception of some alternative payment methods, this is inferred automatically",
+              "enum": [
+                "customer"
+              ]
+            },
+            "id": {
+              "type": "string",
+              "description": "The customer identifier, required if `email` is not provided",
+              "example": "cus_y3oqhf46pyzuxjbcn2giaqnb44"
+            },
+            "email": {
+              "type": "string",
+              "format": "email",
+              "description": "The customer email address, required if `id` is not provided",
+              "example": "jokershere@gmail.com"
+            }
+          }
+        }
+      ]
+    },
+    "PaymentRequestIdealSource": {
+      "type": "object",
+      "description": "iDEAL Source",
+      "required": [
+        "issuer_id"
+      ],
+      "allOf": [
+        {
+          "$ref": "#/definitions/PaymentRequestSource"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "description": "The payment source type. With the exception of some alternative payment methods, this is inferred automatically",
+              "enum": [
+                "ideal"
+              ]
+            },
+            "issuer_id": {
+              "type": "string",
+              "description": "The issuer identifer",
+              "example": "ABNANL2A"
+            }
+          }
+        }
+      ]
+    },
+    "PaymentRequestIdSource": {
+      "type": "object",
+      "description": "An existing payment source",
+      "required": [
+        "id"
+      ],
+      "allOf": [
+        {
+          "$ref": "#/definitions/PaymentRequestSource"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "description": "The payment source type. With the exception of some alternative payment methods, this is inferred automatically",
+              "enum": [
+                "id"
+              ]
+            },
+            "id": {
+              "type": "string",
+              "description": "The payment source identifer for example, a card source identifier",
+              "example": "src_wmlfc3zyhqzehihu7giusaaawu"
+            },
+            "cvv": {
+              "type": "string",
+              "description": "The card verification value/code (for card sources). 3 digits, except for Amex (4 digits).",
+              "example": "956",
+              "minLength": 3,
+              "maxLength": 4
+            }
+          }
+        }
+      ]
+    },
+    "PaymentRequestSource": {
+      "type": "object",
+      "description": "The source of the payment",
+      "x-extendedDiscriminator": "type",
+      "required": [
+        "type"
+      ],
+      "properties": {
+        "type": {
+          "type": "string",
+          "description": "The payment source type. With the exception of some alternative payment methods, the `source_type` will be inferred automatically",
+          "default": "card",
+          "example": "card"
+        }
+      }
+    },
+    "PaymentRequestTokenSource": {
+      "type": "object",
+      "description": "A token payment source",
+      "required": [
+        "token"
+      ],
+      "allOf": [
+        {
+          "$ref": "#/definitions/PaymentRequestSource"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "description": "The payment source type. With the exception of some alternative payment methods, this is inferred automatically",
+              "enum": [
+                "token"
+              ]
+            },
+            "token": {
+              "type": "string",
+              "description": "The Checkout token for example a card, wallet or alternative payment token",
+              "example": "tok_ubfj2q76miwundwlk72vxt2i7q"
+            },
+            "billing_address": {
+              "description": "The payment source owner's billing address. This will override the billing address specified during tokenisation",
+              "allOf": [
+                {
+                  "$ref": "#/definitions/Address"
+                }
+              ]
+            },
+            "phone": {
+              "description": "The payment source owner's phone number. This will override the phone number specified during tokenisation",
+              "allOf": [
+                {
+                  "$ref": "#/definitions/PhoneNumber"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "PaymentResponse": {
+      "type": "object",
+      "description": "Payment Response",
+      "required": [
+        "id",
+        "action_id",
+        "amount",
+        "currency",
+        "status",
+        "response_code",
+        "processed_on",
+        "customer",
+        "_links"
+      ],
+      "properties": {
+        "id": {
+          "description": "Payment unique identifier",
+          "allOf": [
+            {
+              "$ref": "#/definitions/PaymentId"
+            }
+          ]
+        },
+        "action_id": {
+          "description": "The unique identifier for the action performed against this payment",
+          "allOf": [
+            {
+              "$ref": "#/definitions/ActionId"
+            }
+          ]
+        },
+        "amount": {
+          "type": "integer",
+          "description": "The payment amount",
+          "example": 6540
+        },
+        "currency": {
+          "type": "string",
+          "description": "The three-letter ISO currency code of the payment",
+          "example": "USD",
+          "maxLength": 3,
+          "minLength": 3
+        },
+        "status": {
+          "allOf": [
+            {
+              "$ref": "#/definitions/PaymentStatus"
+            }
+          ]
+        },
+        "auth_code": {
+          "type": "string",
+          "description": "The acquirer authorisation code if the payment was Authorised",
+          "example": "643381"
+        },
+        "response_code": {
+          "type": "string",
+          "description": "Gateway response code",
+          "example": "10000"
+        },
+        "response_summary": {
+          "type": "string",
+          "description": "The Gateway response summary",
+          "example": "Approved"
+        },
+        "flagged": {
+          "type": "boolean",
+          "description": "Whether the payment was flagged by a risk check",
+          "default": false,
+          "example": true
+        },
+        "3ds_downgraded": {
+          "type": "boolean",
+          "description": "Whether this was a 3DS transaction, downgraded to Non-3DS (when `attempt_n3d` is specified)",
+          "example": false
+        },
+        "source": {
+          "description": "The source of the payment",
+          "type": "object",
+          "allOf": [
+            {
+              "$ref": "#/definitions/PaymentSource"
+            }
+          ]
+        },
+        "customer": {
+          "type": "object",
+          "description": "The customer to which this payment is linked",
+          "allOf": [
+            {
+              "$ref": "#/definitions/PaymentResponseCustomer"
+            }
+          ]
+        },
+        "processed_on": {
+          "description": "The date/time the payment was processed",
+          "allOf": [
+            {
+              "$ref": "#/definitions/ServerTimestamp"
+            }
+          ]
+        },
+        "reference": {
+          "type": "string",
+          "description": "Your reference for the payment",
+          "example": "ORD-5023-4E89"
+        },
+        "_links": {
+          "type": "object",
+          "description": "The links related to the payment",
+          "minItems": 2,
+          "required": [
+            "self",
+            "actions"
+          ],
+          "properties": {
+            "self": {
+              "type": "object",
+              "allOf": [
+                {
+                  "$ref": "#/definitions/Link"
+                }
+              ],
+              "description": "The URI of the payment"
+            },
+            "actions": {
+              "type": "object",
+              "allOf": [
+                {
+                  "$ref": "#/definitions/Link"
+                }
+              ],
+              "description": "A link to the payment's associated actions"
+            },
+            "void": {
+              "type": "object",
+              "allOf": [
+                {
+                  "$ref": "#/definitions/Link"
+                }
+              ],
+              "description": "A link to void the payment, where applicable"
+            },
+            "capture": {
+              "type": "object",
+              "allOf": [
+                {
+                  "$ref": "#/definitions/Link"
+                }
+              ],
+              "description": "A link to capture the payment, where applicable"
+            },
+            "refund": {
+              "type": "object",
+              "allOf": [
+                {
+                  "$ref": "#/definitions/Link"
+                }
+              ],
+              "description": "A link to refund the payment, where applicable"
+            },
+            "response-code": {
+              "type": "object",
+              "allOf": [
+                {
+                  "$ref": "#/definitions/Link"
+                }
+              ],
+              "description": "A link to the full response code details"
+            }
+          },
+          "example": {
+            "self": {
+              "href": "https://api.checkout.com/payments/pay_y3oqhf46pyzuxjbcn2giaqnb44"
+            },
+            "actions": {
+              "href": "https://api.checkout.com/payments/pay_y3oqhf46pyzuxjbcn2giaqnb44/actions"
+            },
+            "void": {
+              "href": "https://api.checkout.com/payments/pay_y3oqhf46pyzuxjbcn2giaqnb44/voids"
+            },
+            "capture": {
+              "href": "https://api.checkout.com/payments/pay_y3oqhf46pyzuxjbcn2giaqnb44/capture"
+            },
+            "response-code": {
+              "href": "https://api.checkout.com/refs/response-codes/10000"
+            }
+          }
+        }
+      }
+    },
+    "PaymentResponseCustomer": {
+      "type": "object",
+      "description": "The customer to which this payment is linked",
+      "required": [
+        "id"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "The unique identifier of the customer. This can be passed as a source when making a payment",
+          "example": "cus_y3oqhf46pyzuxjbcn2giaqnb44"
+        },
+        "email": {
+          "type": "string",
+          "description": "The customer email address",
+          "example": "jokershere@gmail.com"
+        },
+        "name": {
+          "type": "string",
+          "description": "The customer name",
+          "example": "Jack Napier"
+        }
+      }
+    },
+    "PaymentSource": {
+      "type": "object",
+      "description": "Payment source",
+      "required": [
+        "id",
+        "type"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "The payment source identifier. Can be used for subsequent payments",
+          "example": "src_wmlfc3zyhqzehihu7giusaaawu"
+        },
+        "type": {
+          "type": "string",
+          "description": "The type of payment source",
+          "example": "card"
+        },
+        "billing_address": {
+          "description": "The payment source owner's billing address",
+          "allOf": [
+            {
+              "$ref": "#/definitions/Address"
+            }
+          ]
+        },
+        "phone": {
+          "description": "The payment source owner's phone number",
+          "allOf": [
+            {
+              "$ref": "#/definitions/PhoneNumber"
+            }
+          ]
+        },
+        "expiry_month": {
+          "type": "integer",
+          "description": "The two-digit expiry month",
+          "minimum": 1,
+          "example": 6
+        },
+        "expiry_year": {
+          "type": "integer",
+          "description": "The four-digit expiry year",
+          "example": 2025
+        },
+        "name": {
+          "type": "string",
+          "description": "The card-holder name",
+          "example": "Bruce Wayne"
+        },
+        "scheme": {
+          "type": "string",
+          "description": "The card scheme",
+          "example": "VISA"
+        },
+        "last_4": {
+          "type": "string",
+          "description": "The last four digits of the card number",
+          "example": "9996"
+        },
+        "fingerprint": {
+          "type": "string",
+          "description": "Uniquely identifies this particular card number. You can use this to compare cards across customers",
+          "example": "F639CAB2745BEE4140BF86DF6B6D6"
+        },
+        "bin": {
+          "type": "string",
+          "description": "The card issuer BIN",
+          "example": "454347"
+        },
+        "card_type": {
+          "type": "string",
+          "description": "The card type",
+          "enum": [
+            "Credit",
+            "Debit",
+            "Prepaid"
+          ],
+          "example": "Credit"
+        },
+        "card_category": {
+          "type": "string",
+          "description": "The card category",
+          "enum": [
+            "Consumer",
+            "Commercial"
+          ],
+          "example": "Consumer"
+        },
+        "issuer": {
+          "type": "string",
+          "description": "The name of the card issuer",
+          "example": "GOTHAM STATE BANK"
+        },
+        "issuer_country": {
+          "type": "string",
+          "maxLength": 2,
+          "minLength": 2,
+          "description": "The card issuer country ISO-2 code",
+          "example": "US"
+        },
+        "product_id": {
+          "type": "string",
+          "description": "The issuer/card scheme product identifier",
+          "example": "F"
+        },
+        "product_type": {
+          "type": "string",
+          "description": "The issuer/card scheme product type",
+          "example": "CLASSIC"
+        },
+        "avs_check": {
+          "type": "string",
+          "description": "The Address Verification System check result",
+          "example": "S"
+        },
+        "cvv_check": {
+          "type": "string",
+          "description": "The CVV check result",
+          "example": "Y"
+        }
+      }
+    },
+    "PaymentStatus": {
+      "type": "string",
+      "description": "The status of the payment",
+      "enum": [
+        "Pending",
+        "Authorised",
+        "Voided",
+        "Captured",
+        "Refunded",
+        "Declined",
+        "Cancelled"
+      ]
+    },
+    "RefundAcceptedResponse": {
+      "type": "object",
+      "description": "Refund response",
+      "required": [
+        "action_id"
+      ],
+      "properties": {
+        "action_id": {
+          "description": "The unique identifier for the refund action",
+          "allOf": [
+            {
+              "$ref": "#/definitions/ActionId"
+            }
+          ]
+        },
+        "reference": {
+          "type": "string",
+          "description": "Your reference for the refund request",
+          "example": "ORD-5023-4E89"
+        },
+        "_links": {
+          "type": "object",
+          "description": "Refund links",
+          "readOnly": true,
+          "minItems": 2,
+          "properties": {
+            "payment": {
+              "type": "object",
+              "allOf": [
+                {
+                  "$ref": "#/definitions/Link"
+                }
+              ],
+              "description": "The URI of the payment to be refund. Use this to check the status of the payment",
+              "example": {
+                "href": "https://api.checkout.com/payments/pay_y3oqhf46pyzuxjbcn2giaqnb44"
+              }
+            }
+          },
+          "required": [
+            "payment"
+          ]
+        }
+      }
+    },
+    "RefundRequest": {
+      "type": "object",
+      "properties": {
+        "amount": {
+          "type": "integer",
+          "description": "The amount to refund in the major currency. If not specified, the full payment amount will be refunded\n",
+          "minimum": 0,
+          "example": 6540
+        },
+        "reference": {
+          "type": "string",
+          "description": "A reference you can later use to identify this refund request",
+          "example": "ORD-5023-4E89"
+        },
+        "metadata": {
+          "type": "object",
+          "description": "Set of key/value pairs that you can attach to the refund request. It can be useful for storing additional information in a structured format",
+          "example": {
+            "coupon_code": "NY2018",
+            "partner_id": 123989
+          }
+        }
+      }
+    },
+    "VoidAcceptedResponse": {
+      "type": "object",
+      "description": "Void response",
+      "required": [
+        "action_id"
+      ],
+      "properties": {
+        "action_id": {
+          "description": "The unique identifier for the void action",
+          "allOf": [
+            {
+              "$ref": "#/definitions/ActionId"
+            }
+          ]
+        },
+        "reference": {
+          "type": "string",
+          "description": "Your reference for the void request",
+          "example": "ORD-5023-4E89"
+        },
+        "_links": {
+          "type": "object",
+          "description": "Void links",
+          "readOnly": true,
+          "minItems": 2,
+          "properties": {
+            "payment": {
+              "type": "object",
+              "allOf": [
+                {
+                  "$ref": "#/definitions/Link"
+                }
+              ],
+              "description": "The URI of the payment to be refund. Use this to check the status of the payment",
+              "example": {
+                "href": "https://api.checkout.com/payments/pay_y3oqhf46pyzuxjbcn2giaqnb44"
+              }
+            }
+          },
+          "required": [
+            "payment"
+          ]
+        }
+      }
+    },
+    "VoidRequest": {
+      "type": "object",
+      "properties": {
+        "reference": {
+          "type": "string",
+          "description": "A reference you can later use to identify this void request",
+          "example": "ORD-5023-4E89"
+        },
+        "metadata": {
+          "type": "object",
+          "description": "Set of key/value pairs that you can attach to the void request. It can be useful for storing additional information in a structured format",
+          "example": {
+            "coupon_code": "NY2018",
+            "partner_id": 123989
+          }
+        }
+      }
+    },
+    "VoidResponse": {
+      "type": "object",
+      "description": "Payment response",
+      "required": [
+        "id",
+        "action_id",
+        "amount",
+        "currency",
+        "status",
+        "response_code",
+        "processed_on",
+        "_links"
+      ],
+      "properties": {
+        "id": {
+          "description": "Payment unique identifier",
+          "allOf": [
+            {
+              "$ref": "#/definitions/PaymentId"
+            }
+          ]
+        },
+        "action_id": {
+          "description": "The unique identifier for the void action",
+          "allOf": [
+            {
+              "$ref": "#/definitions/ActionId"
+            }
+          ]
+        },
+        "amount": {
+          "type": "integer",
+          "description": "The void amount",
+          "example": 6540
+        },
+        "currency": {
+          "type": "string",
+          "description": "The three-letter ISO currency code of the payment",
+          "example": "USD",
+          "maxLength": 3,
+          "minLength": 3
+        },
+        "status": {
+          "type": "string",
+          "description": "The status of the payment",
+          "example": "Voided"
+        },
+        "response_code": {
+          "type": "string",
+          "description": "Gateway response code",
+          "example": "10000"
+        },
+        "response_summary": {
+          "type": "string",
+          "description": "The Gateway response summary",
+          "example": "Approved"
+        },
+        "processed_on": {
+          "description": "The date/time the void was processed",
+          "allOf": [
+            {
+              "$ref": "#/definitions/ServerTimestamp"
+            }
+          ]
+        },
+        "reference": {
+          "type": "string",
+          "description": "Your reference for the void request",
+          "example": "ORD-5023-4E89"
+        },
+        "_links": {
+          "type": "object",
+          "description": "The links related to the payment",
+          "minItems": 1,
+          "properties": {
+            "payment": {
+              "type": "object",
+              "allOf": [
+                {
+                  "$ref": "#/definitions/Link"
+                }
+              ],
+              "description": "The URI of the payment",
+              "example": {
+                "href": "https://api.checkout.com/payments/pay_y3oqhf46pyzuxjbcn2giaqnb44"
+              }
+            },
+            "response-code": {
+              "type": "object",
+              "allOf": [
+                {
+                  "$ref": "#/definitions/Link"
+                }
+              ],
+              "description": "A link to the full response code details",
+              "example": {
+                "href": "https://api.checkout.com/refs/response-codes/10000"
+              }
+            }
+          },
+          "required": [
+            "payment"
+          ]
+        }
+      }
+    },
+    "PhoneNumber": {
+      "type": "object",
+      "description": "A phone number",
+      "properties": {
+        "country_code": {
+          "type": "string",
+          "description": "The international country calling code. Required for some risk checks.",
+          "example": "+1"
+        },
+        "number": {
+          "type": "string",
+          "description": "The phone number",
+          "example": "415 555 2671"
+        }
+      }
+    },
+    "ResourceId": {
+      "type": "string",
+      "description": "The resource ID. Defaults to UUID v4",
+      "maxLength": 50,
+      "example": "4f6cf35x-2c4y-483z-a0a9-158621f77a21"
+    },
+    "ServerTimestamp": {
+      "type": "string",
+      "description": "Read-only UTC timestamp, automatically assigned by us.",
+      "format": "date-time",
+      "readOnly": true
+    },
+    "AddSourceResponse": {
+      "type": "object",
+      "x-extendedDiscriminator": "type",
+      "required": [
+        "id",
+        "type"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "The unique identifier of the payment source that can be later used for payments",
+          "example": "src_y3oqhf46pyzuxjbcn2giaqnb44"
+        },
+        "type": {
+          "type": "string",
+          "description": "The payment source type",
+          "example": "sepa"
+        },
+        "response_code": {
+          "type": "string",
+          "description": "Gateway response code",
+          "example": "10000"
+        },
+        "customer": {
+          "type": "object",
+          "description": "The customer to which the payment source is linked",
+          "allOf": [
+            {
+              "$ref": "#/definitions/SourceResponseCustomer"
+            }
+          ]
+        }
+      }
+    },
+    "SepaSource": {
+      "type": "object",
+      "description": "A SEPA payment source",
+      "allOf": [
+        {
+          "$ref": "#/definitions/SourceRequest"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "enum": [
+                "sepa"
+              ]
+            },
+            "source_data": {
+              "type": "object",
+              "description": "Additional data required to create SEPA payment sources",
+              "properties": {
+                "iban": {
+                  "type": "string",
+                  "description": "The owner's IBAN",
+                  "example": "GB29 RBOS 6016 1331 9268 19"
+                }
+              },
+              "required": [
+                "iban"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "SepaSourceResponse": {
+      "type": "object",
+      "description": "The SEPA mandate details",
+      "allOf": [
+        {
+          "$ref": "#/definitions/AddSourceResponse"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "enum": [
+                "sepa"
+              ]
+            },
+            "source_data": {
+              "type": "object",
+              "description": "SEPA direct debit details",
+              "properties": {
+                "mandate_reference": {
+                  "type": "string",
+                  "description": "The direct debit mandate reference",
+                  "example": "MANDXI9809809"
+                }
+              }
+            },
+            "_links": {
+              "type": "object",
+              "description": "The links related to the PayPal payment source",
+              "readOnly": true,
+              "minItems": 1,
+              "properties": {
+                "self": {
+                  "type": "object",
+                  "allOf": [
+                    {
+                      "$ref": "#/definitions/Link"
+                    }
+                  ],
+                  "description": "The URI of the payment source"
+                },
+                "cancel": {
+                  "type": "object",
+                  "allOf": [
+                    {
+                      "$ref": "#/definitions/Link"
+                    }
+                  ],
+                  "description": "A link to Cancel the SEPA direct debit mandate"
+                },
+                "response-code": {
+                  "type": "object",
+                  "allOf": [
+                    {
+                      "$ref": "#/definitions/Link"
+                    }
+                  ],
+                  "description": "A link to the full response code details",
+                  "example": {
+                    "href": "https://api.checkout.com/refs/response-codes/10000"
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "Source": {
+      "type": "object",
+      "required": [
+        "type"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "The unique identifier of the payment source that can be later used for payments",
+          "example": "src_y3oqhf46pyzuxjbcn2giaqnb44"
+        },
+        "type": {
+          "type": "string",
+          "description": "The payment source type",
+          "example": "sepa"
+        },
+        "_links": {
+          "type": "object",
+          "description": "The links related to the payment source",
+          "readOnly": true,
+          "minItems": 1,
+          "required": [
+            "self"
+          ],
+          "properties": {
+            "self": {
+              "type": "object",
+              "allOf": [
+                {
+                  "$ref": "#/definitions/Link"
+                }
+              ],
+              "description": "The URI of the payment source",
+              "example": {
+                "href": "https://api.checkout.com/sources/src_y3oqhf46pyzuxjbcn2giaqnb44"
+              }
+            }
+          },
+          "example": {
+            "self": {
+              "href": "https://api.checkout.com/sources/src_y3oqhf46pyzuxjbcn2giaqnb44"
+            },
+            "sepa:mandate": {
+              "href": "https://api.checkout.com/sepa/mandates/src_y3oqhf46pyzuxjbcn2giaqnb44"
+            }
+          }
+        }
+      }
+    },
+    "SourceRedirectResponse": {
+      "type": "object",
+      "description": "Source response with redirection",
+      "allOf": [
+        {
+          "$ref": "#/definitions/AddSourceResponse"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "_links": {
+              "type": "object",
+              "description": "Source links",
+              "readOnly": true,
+              "minItems": 2,
+              "properties": {
+                "self": {
+                  "type": "object",
+                  "allOf": [
+                    {
+                      "$ref": "#/definitions/Link"
+                    }
+                  ],
+                  "description": "The URI of the source",
+                  "example": {
+                    "href": "https://api.checkout.com/sources/src_y3oqhf46pyzuxjbcn2giaqnb44"
+                  }
+                },
+                "redirect": {
+                  "type": "object",
+                  "allOf": [
+                    {
+                      "$ref": "#/definitions/Link"
+                    }
+                  ],
+                  "description": "The URI that the customer should be redirected to, to complete the source creation",
+                  "example": {
+                    "href": "https://paypal.checkout.com/billing_agreement/src_y3oqhf46pyzuxjbcn2giaqnb44/manual-completion"
+                  }
+                },
+                "response-code": {
+                  "type": "object",
+                  "allOf": [
+                    {
+                      "$ref": "#/definitions/Link"
+                    }
+                  ],
+                  "description": "A link to the full response code details",
+                  "example": {
+                    "href": "https://api.checkout.com/refs/response-codes/10000"
+                  }
+                }
+              },
+              "required": [
+                "self",
+                "redirect"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "SourceRequest": {
+      "type": "object",
+      "required": [
+        "type"
+      ],
+      "x-extendedDiscriminator": "type",
+      "properties": {
+        "type": {
+          "type": "string",
+          "description": "The payment source type",
+          "example": "sepa"
+        },
+        "reference": {
+          "type": "string",
+          "description": "A reference you can later use to identify the source",
+          "example": "X-080957-N34"
+        },
+        "billing_address": {
+          "description": "The payment source owner's billing address",
+          "allOf": [
+            {
+              "$ref": "#/definitions/Address"
+            }
+          ]
+        },
+        "phone": {
+          "description": "The payment source owner's phone number",
+          "allOf": [
+            {
+              "$ref": "#/definitions/PhoneNumber"
+            }
+          ]
+        },
+        "customer": {
+          "type": "object",
+          "description": "Details of the customer to associate with the source",
+          "properties": {
+            "id": {
+              "type": "string",
+              "description": "The identifier of an existing customer. If neither customer `id` or `email` is provided\na new customer will be registered\n",
+              "example": "cus_y3oqhf46pyzuxjbcn2giaqnb44"
+            },
+            "email": {
+              "type": "string",
+              "format": "email",
+              "description": "An optional email address to associate with the customer",
+              "example": "jokershere@gmail.com"
+            },
+            "name": {
+              "type": "string",
+              "description": "The customer's name. This will only set the name for *new* customers",
+              "example": "Jack Napier"
+            }
+          }
+        }
+      }
+    },
+    "SourceResponseCustomer": {
+      "type": "object",
+      "description": "The customer to which the payment source is linked",
+      "required": [
+        "id"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "The unique identifier of the customer. This can be passed as a source when making a payment",
+          "example": "cus_y3oqhf46pyzuxjbcn2giaqnb44"
+        },
+        "email": {
+          "type": "string",
+          "description": "The customer email address",
+          "example": "jokershere@gmail.com"
+        },
+        "name": {
+          "type": "string",
+          "description": "The customer name",
+          "example": "Jack Napier"
+        }
+      }
+    },
+    "Timestamp": {
+      "type": "string",
+      "description": "ISO 8601 timestamp",
+      "format": "date-time"
+    },
+    "ApplePayTokenRequest": {
+      "type": "object",
+      "description": "Apple Pay Token Request",
+      "allOf": [
+        {
+          "$ref": "#/definitions/TokenRequest"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "enum": [
+                "applepay"
+              ]
+            },
+            "token_data": {
+              "type": "object",
+              "description": "The Apple Pay Payment Token",
+              "properties": {
+                "version": {
+                  "type": "string",
+                  "description": "Version information about the payment token. The token uses `EC_v1` for ECC-encrypted data, and `RSA_v1` for RSA-encrypted data."
+                },
+                "data": {
+                  "type": "string",
+                  "description": "Encrypted payment data. Base64 encoded as a string"
+                },
+                "signature": {
+                  "type": "string",
+                  "description": "Signature of the payment and header data. The signature includes the signing certificate, its intermediate CA certificate, and information about the signing algorithm."
+                },
+                "header": {
+                  "type": "object",
+                  "description": "Additional version-dependent information used to decrypt and verify the payment."
+                }
+              },
+              "example": {
+                "version": "EC_v1",
+                "data": "t7GeajLB9skXB6QSWfEpPA4WPhDqB7ekdd+F7588arLzvebKp3P0TekUslSQ8nkuacUgLdks2IKyCm7U3OL/PEYLXE7w60VkQ8WE6FXs/cqHkwtSW9vkzZNDxSLDg9slgLYxAH2/iztdipPpyIYKl0Kb6Rn9rboF+lwgRxM1B3n84miApwF5Pxl8ZOOXGY6F+3DsDo7sMCUTaJK74DUJJcjIXrigtINWKW6RFa/4qmPEC/Y+syg04x7B99mbLQQzWFm7z6HfRmynPM9/GA0kbsqd/Kn5Mkqssfhn/m6LuNKsqEmbKi85FF6kip+F17LRawG48bF/lT8wj/QEuDY0G7t/ryOnGLtKteXmAf0oJnwkelIyfyj2KI8GChBuTJonGlXKr5klPE89/ycmkgDl+T6Ms7PhiNZpuGEE2QE=",
+                "signature": "MIAGCSqGSIb3DQEHAqCAMIACAQExDzANBglghkgBZQMEAgEFADCABgkqhkiG9w0BBwEAAKCAMIID5jCCA4ugAwIBAgIIaGD2mdnMpw8wCgYIKoZIzj0EAwIwejEuMCwGA1UEAwwlQXBwbGUgQXBwbGljYXRpb24gSW50ZWdyYXRpb24gQ0EgLSBHMzEmMCQGA1UECwwdQXBwbGUgQ2VydGlmaWNhdGlvbiBBdXRob3JpdHkxEzARBgNVBAoMCkFwcGxlIEluYy4xCzAJBgNVBAYTAlVTMB4XDTE2MDYwMzE4MTY0MFoXDTIxMDYwMjE4MTY0MFowYjEoMCYGA1UEAwwfZWNjLXNtcC1icm9rZXItc2lnbl9VQzQtU0FOREJPWDEUMBIGA1UECwwLaU9TIFN5c3RlbXMxEzARBgNVBAoMCkFwcGxlIEluYy4xCzAJBgNVBAYTAlVTMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEgjD9q8Oc914gLFDZm0US5jfiqQHdbLPgsc1LUmeY+M9OvegaJajCHkwz3c6OKpbC9q+hkwNFxOh6RCbOlRsSlaOCAhEwggINMEUGCCsGAQUFBwEBBDkwNzA1BggrBgEFBQcwAYYpaHR0cDovL29jc3AuYXBwbGUuY29tL29jc3AwNC1hcHBsZWFpY2EzMDIwHQYDVR0OBBYEFAIkMAua7u1GMZekplopnkJxghxFMAwGA1UdEwEB/wQCMAAwHwYDVR0jBBgwFoAUI/JJxE+T5O8n5sT2KGw/orv9LkswggEdBgNVHSAEggEUMIIBEDCCAQwGCSqGSIb3Y2QFATCB/jCBwwYIKwYBBQUHAgIwgbYMgbNSZWxpYW5jZSBvbiB0aGlzIGNlcnRpZmljYXRlIGJ5IGFueSBwYXJ0eSBhc3N1bWVzIGFjY2VwdGFuY2Ugb2YgdGhlIHRoZW4gYXBwbGljYWJsZSBzdGFuZGFyZCB0ZXJtcyBhbmQgY29uZGl0aW9ucyBvZiB1c2UsIGNlcnRpZmljYXRlIHBvbGljeSBhbmQgY2VydGlmaWNhdGlvbiBwcmFjdGljZSBzdGF0ZW1lbnRzLjA2BggrBgEFBQcCARYqaHR0cDovL3d3dy5hcHBsZS5jb20vY2VydGlmaWNhdGVhdXRob3JpdHkvMDQGA1UdHwQtMCswKaAnoCWGI2h0dHA6Ly9jcmwuYXBwbGUuY29tL2FwcGxlYWljYTMuY3JsMA4GA1UdDwEB/wQEAwIHgDAPBgkqhkiG92NkBh0EAgUAMAoGCCqGSM49BAMCA0kAMEYCIQDaHGOui+X2T44R6GVpN7m2nEcr6T6sMjOhZ5NuSo1egwIhAL1a+/hp88DKJ0sv3eT3FxWcs71xmbLKD/QJ3mWagrJNMIIC7jCCAnWgAwIBAgIISW0vvzqY2pcwCgYIKoZIzj0EAwIwZzEbMBkGA1UEAwwSQXBwbGUgUm9vdCBDQSAtIEczMSYwJAYDVQQLDB1BcHBsZSBDZXJ0aWZpY2F0aW9uIEF1dGhvcml0eTETMBEGA1UECgwKQXBwbGUgSW5jLjELMAkGA1UEBhMCVVMwHhcNMTQwNTA2MjM0NjMwWhcNMjkwNTA2MjM0NjMwWjB6MS4wLAYDVQQDDCVBcHBsZSBBcHBsaWNhdGlvbiBJbnRlZ3JhdGlvbiBDQSAtIEczMSYwJAYDVQQLDB1BcHBsZSBDZXJ0aWZpY2F0aW9uIEF1dGhvcml0eTETMBEGA1UECgwKQXBwbGUgSW5jLjELMAkGA1UEBhMCVVMwWTATBgcqhkjOPQIBBggqhkjOPQMBBwNCAATwFxGEGddkhdUaXiWBB3bogKLv3nuuTeCN/EuT4TNW1WZbNa4i0Jd2DSJOe7oI/XYXzojLdrtmcL7I6CmE/1RFo4H3MIH0MEYGCCsGAQUFBwEBBDowODA2BggrBgEFBQcwAYYqaHR0cDovL29jc3AuYXBwbGUuY29tL29jc3AwNC1hcHBsZXJvb3RjYWczMB0GA1UdDgQWBBQj8knET5Pk7yfmxPYobD+iu/0uSzAPBgNVHRMBAf8EBTADAQH/MB8GA1UdIwQYMBaAFLuw3qFYM4iapIqZ3r6966/ayySrMDcGA1UdHwQwMC4wLKAqoCiGJmh0dHA6Ly9jcmwuYXBwbGUuY29tL2FwcGxlcm9vdGNhZzMuY3JsMA4GA1UdDwEB/wQEAwIBBjAQBgoqhkiG92NkBgIOBAIFADAKBggqhkjOPQQDAgNnADBkAjA6z3KDURaZsYb7NcNWymK/9Bft2Q91TaKOvvGcgV5Ct4n4mPebWZ+Y1UENj53pwv4CMDIt1UQhsKMFd2xd8zg7kGf9F3wsIW2WT8ZyaYISb1T4en0bmcubCYkhYQaZDwmSHQAAMYIBjTCCAYkCAQEwgYYwejEuMCwGA1UEAwwlQXBwbGUgQXBwbGljYXRpb24gSW50ZWdyYXRpb24gQ0EgLSBHMzEmMCQGA1UECwwdQXBwbGUgQ2VydGlmaWNhdGlvbiBBdXRob3JpdHkxEzARBgNVBAoMCkFwcGxlIEluYy4xCzAJBgNVBAYTAlVTAghoYPaZ2cynDzANBglghkgBZQMEAgEFAKCBlTAYBgkqhkiG9w0BCQMxCwYJKoZIhvcNAQcBMBwGCSqGSIb3DQEJBTEPFw0xNzA4MDIxNjA5NDZaMCoGCSqGSIb3DQEJNDEdMBswDQYJYIZIAWUDBAIBBQChCgYIKoZIzj0EAwIwLwYJKoZIhvcNAQkEMSIEIGEfVr+4x9RQXyfF8IYA0kraoK0pcZEaBlINo6EGrOReMAoGCCqGSM49BAMCBEgwRgIhAKunK47QEr/ZjxPlVl+etzVzbKA41xPLWtO01oUOlulmAiEAiaFH9F9LK6uqTFAUW/WIDkHWiFuSm5a3NVox7DlyIf0AAAAAAAA=",
+                "header": {
+                  "ephemeralPublicKey": "MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEX1ievoT8DRB8T5zGkhHZHeDr0oBmYEgsDSxyT0MD0IZ2Mpfjz2LdWq6LUwSH9EmxdPEzMunsZKWMyOr3K/zlsw==",
+                  "publicKeyHash": "tqYV+tmG9aMh+l/K6cicUnPqkb1gUiLjSTM9gEz6Nl0=",
+                  "transactionId": "3cee89679130a4b2617c76118a1c62fd400cd45b49dc0916d5b951b560cd17b4"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "ApplePayTokenResponse": {
+      "type": "object",
+      "description": "Apple Pay Token Response",
+      "allOf": [
+        {
+          "$ref": "#/definitions/TokenResponse"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "enum": [
+                "applepay"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "CardTokenRequest": {
+      "type": "object",
+      "description": "Card Token Request",
+      "allOf": [
+        {
+          "$ref": "#/definitions/TokenRequest"
+        },
+        {
+          "type": "object",
+          "required": [
+            "number",
+            "expiry_month",
+            "expiry_year"
+          ],
+          "properties": {
+            "type": {
+              "type": "string",
+              "enum": [
+                "card"
+              ]
+            },
+            "number": {
+              "type": "string",
+              "description": "The card number",
+              "example": "4543474002249996"
+            },
+            "expiry_month": {
+              "type": "integer",
+              "description": "The two-digit expiry month of the card",
+              "minimum": 1,
+              "example": 6
+            },
+            "expiry_year": {
+              "type": "integer",
+              "description": "The four-digit expiry year of the card",
+              "example": 2025
+            },
+            "name": {
+              "type": "string",
+              "description": "The card-holder name",
+              "example": "Bruce Wayne"
+            },
+            "cvv": {
+              "type": "string",
+              "description": "The card verification value/code. 3 digits, except for Amex (4 digits).",
+              "example": "956",
+              "minLength": 3,
+              "maxLength": 4
+            },
+            "billing_address": {
+              "description": "The payment source owner's billing address",
+              "allOf": [
+                {
+                  "$ref": "#/definitions/Address"
+                }
+              ]
+            },
+            "phone": {
+              "description": "The payment source owner's phone number",
+              "allOf": [
+                {
+                  "$ref": "#/definitions/PhoneNumber"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "CardTokenResponse": {
+      "type": "object",
+      "description": "Card Token Response",
+      "allOf": [
+        {
+          "$ref": "#/definitions/TokenResponse"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "enum": [
+                "card"
+              ]
+            },
+            "billing_address": {
+              "description": "The payment source owner's billing address",
+              "allOf": [
+                {
+                  "$ref": "#/definitions/Address"
+                }
+              ]
+            },
+            "phone": {
+              "description": "The payment source owner's phone number",
+              "allOf": [
+                {
+                  "$ref": "#/definitions/PhoneNumber"
+                }
+              ]
+            },
+            "expiry_month": {
+              "type": "integer",
+              "description": "The two-digit expiry month",
+              "minimum": 1,
+              "example": 6
+            },
+            "expiry_year": {
+              "type": "integer",
+              "description": "The four-digit expiry year",
+              "example": 2025
+            },
+            "name": {
+              "type": "string",
+              "description": "The card-holder name",
+              "example": "Bruce Wayne"
+            },
+            "scheme": {
+              "type": "string",
+              "description": "The card scheme",
+              "example": "VISA"
+            },
+            "last_4": {
+              "type": "string",
+              "description": "The last four digits of the card number",
+              "example": "9996"
+            },
+            "bin": {
+              "type": "string",
+              "description": "The card issuer BIN",
+              "example": "454347"
+            },
+            "card_type": {
+              "type": "string",
+              "description": "The card type",
+              "enum": [
+                "Credit",
+                "Debit",
+                "Prepaid"
+              ],
+              "example": "Credit"
+            },
+            "card_category": {
+              "type": "string",
+              "description": "The card category",
+              "enum": [
+                "Consumer",
+                "Commercial"
+              ],
+              "example": "Consumer"
+            },
+            "issuer": {
+              "type": "string",
+              "description": "The name of the card issuer",
+              "example": "GOTHAM STATE BANK"
+            },
+            "issuer_country": {
+              "type": "string",
+              "maxLength": 2,
+              "minLength": 2,
+              "description": "The card issuer country ISO-2 code",
+              "example": "US"
+            },
+            "product_id": {
+              "type": "string",
+              "description": "The issuer/card scheme product identifier",
+              "example": "F"
+            },
+            "product_type": {
+              "type": "string",
+              "description": "The issuer/card scheme product type",
+              "example": "CLASSIC"
+            }
+          }
+        }
+      ]
+    },
+    "GooglePayTokenRequest": {
+      "type": "object",
+      "description": "Apple Pay Token Request",
+      "allOf": [
+        {
+          "$ref": "#/definitions/TokenRequest"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "enum": [
+                "googlepay"
+              ]
+            },
+            "token_data": {
+              "type": "object",
+              "description": "The Google Pay Payment Token",
+              "properties": {
+                "signature": {
+                  "type": "string",
+                  "description": "Verifies the message came from Google. The signature is created using ECDSA."
+                },
+                "protocolVersion": {
+                  "type": "string",
+                  "description": "Identifies which encryption/signing scheme this message has been created. In this way, the protocol can evolve over time if needed. If it is not set, assume ECv0."
+                },
+                "signedMessage": {
+                  "type": "string",
+                  "description": "A serialized JSON string containing the encryptedMessage, ephemeralPublicKey and tag. To simplify the signature verification process, this value is serialized."
+                }
+              },
+              "example": {
+                "protocolVersion": "ECv1",
+                "signature": "TJVA95OrM7E2cBab30RMHrHDcEfxjoYZgeFONFh7HgQ",
+                "signedMessage": "{\"encryptedMessage\": \"ZW5jcnlwdGVkTWVzc2FnZQ==\", \"ephemeralPublicKey\": \"ZXBoZW1lcmFsUHVibGljS2V5\", \"tag\": \"c2lnbmF0dXJl\"}"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "GooglePayTokenResponse": {
+      "type": "object",
+      "description": "Apple Pay Token Response",
+      "allOf": [
+        {
+          "$ref": "#/definitions/TokenResponse"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "enum": [
+                "googlepay"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "TokenRequest": {
+      "type": "object",
+      "description": "The source of the payment",
+      "x-extendedDiscriminator": "type",
+      "required": [
+        "type"
+      ],
+      "properties": {
+        "type": {
+          "type": "string",
+          "description": "The type of card details to be tokenized",
+          "default": "card",
+          "example": "card"
+        }
+      }
+    },
+    "TokenResponse": {
+      "type": "object",
+      "description": "The source of the payment",
+      "x-extendedDiscriminator": "type",
+      "required": [
+        "type"
+      ],
+      "properties": {
+        "type": {
+          "type": "string",
+          "description": "The type of card details to be tokenized",
+          "default": "card",
+          "example": "card"
+        },
+        "token": {
+          "type": "string",
+          "description": "The reference token",
+          "example": "tok_ubfj2q76miwundwlk72vxt2i7q"
+        },
+        "expires_on": {
+          "description": "The date/time the token will expire",
+          "allOf": [
+            {
+              "$ref": "#/definitions/ServerTimestamp"
+            }
+          ]
+        }
+      }
+    },
+    "ValidationError": {
+      "type": "object",
+      "properties": {
+        "request_id": {
+          "type": "string",
+          "example": "0HL80RJLS76I7"
+        },
+        "error_type": {
+          "type": "string",
+          "example": "request_invalid"
+        },
+        "error_codes": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "example": "payment_source_required"
+          }
+        }
+      }
+    },
+    "Webhook": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "example": "wh_387ac7a83a054e37ae140105429d76b5"
+        },
+        "url": {
+          "type": "string",
+          "example": "https://example.com/webhooks"
+        },
+        "active": {
+          "type": "boolean",
+          "example": true
+        },
+        "headers": {
+          "type": "object",
+          "example": {
+            "authorization": "1234"
+          }
+        },
+        "content_type": {
+          "type": "string",
+          "enum": [
+            "json",
+            "xml"
+          ],
+          "example": "json"
+        },
+        "events": {
+          "$ref": "#/definitions/WebhookEvents"
+        },
+        "_links": {
+          "type": "object",
+          "properties": {
+            "self": {
+              "type": "object",
+              "allOf": [
+                {
+                  "$ref": "#/definitions/Link"
+                }
+              ],
+              "description": "The URI of the payment source"
+            }
+          }
+        }
+      }
+    },
+    "WebhookEvents": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": [
+          "charge.succeeded",
+          "charge.failed",
+          "charge.voided",
+          "charge.voided.failed",
+          "charge.captured",
+          "charge.captured.failed",
+          "charge.refunded",
+          "charge.refunded.failed"
+        ]
+      }
+    },
+    "WebhookRequest": {
+      "type": "object",
+      "required": [
+        "url"
+      ],
+      "properties": {
+        "url": {
+          "type": "string",
+          "description": "Your webhook endpoint",
+          "example": "https://example.com/webhooks",
+          "format": "url"
+        },
+        "active": {
+          "type": "boolean",
+          "description": "Whether the webhook is active",
+          "default": true,
+          "example": true
+        },
+        "headers": {
+          "type": "object",
+          "example": {
+            "authorization": "1234"
+          }
+        },
+        "content_type": {
+          "type": "string",
+          "description": "The content type to be sent to the webhook endpoint",
+          "enum": [
+            "json",
+            "xml"
+          ],
+          "default": "json",
+          "example": "json"
+        },
+        "events": {
+          "$ref": "#/definitions/WebhookEvents"
+        }
+      }
+    }
+  }
+}
